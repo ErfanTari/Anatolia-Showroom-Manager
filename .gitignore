@@ -1,0 +1,11 @@
+# macOS
+.DS_Store
+**/.DS_Store
+
+# Oversized / non-site working files
+Anatolia showroom manager.zip
+*.zip
+uploads/
+
+# Raw source superseded by assets/launch/
+Tuscano_rosso_product lunch/

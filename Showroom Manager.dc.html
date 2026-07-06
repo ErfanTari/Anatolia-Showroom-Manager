@@ -1,0 +1,1279 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
+<script src="./showroom-data.js"></script>
+<style>
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{background:#1A1A1C}
+  ::selection{background:#A07E5A;color:#FAF8F4}
+  .om-scroll::-webkit-scrollbar{width:10px;height:10px}
+  .om-scroll::-webkit-scrollbar-thumb{background:#cbc4b8;border:3px solid transparent;background-clip:content-box;border-radius:10px}
+  .om-scroll::-webkit-scrollbar-track{background:transparent}
+  @keyframes omFade{from{opacity:0}to{opacity:1}}
+  @keyframes omUp{from{opacity:0;transform:translateY(14px)}to{opacity:1;transform:translateY(0)}}
+  @keyframes omSlab{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+  @keyframes omKen{from{transform:scale(1.06)}to{transform:scale(1.14)}}
+  /* --- Sliding Panels section --- */
+  .sp-scope .sp-cap{display:flex;align-items:baseline;justify-content:space-between;gap:24px;flex-wrap:wrap;margin-bottom:18px;padding-bottom:14px;border-bottom:1px solid rgba(26,26,28,.10)}
+  .sp-scope .sp-cap .l{display:flex;align-items:baseline;gap:16px}
+  .sp-scope .sp-cap .fmt{font-family:'Cormorant Garamond',serif;font-size:30px;color:#1A1A1C;font-weight:500}
+  .sp-scope .sp-cap .tag{font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#A07E5A;font-weight:700}
+  .sp-scope .sp-cap .meta{font-size:11px;letter-spacing:.20em;text-transform:uppercase;color:#6E6A62}
+  .sp-scope .sp-block{margin-bottom:60px}
+  .sp-scope .sp-layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;gap:26px;align-items:start}
+  .sp-scope .sp-rack{background:#fff;border:1px solid rgba(26,26,28,.10);box-shadow:0 24px 60px rgba(26,26,28,.09);border-radius:4px;padding:22px 26px 14px;position:relative}
+  .sp-scope .sp-stage{position:relative;width:100%;border-radius:2px;overflow:hidden}
+  .sp-scope .sp-stage svg{display:block;width:100%;height:auto}
+  .sp-scope .sp-overlay{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;pointer-events:none;mix-blend-mode:multiply}
+  .sp-scope .sp-stage image{pointer-events:none}
+  .sp-scope .sp-wash{fill:#fff;opacity:0;transition:opacity .18s ease;pointer-events:none}
+  .sp-scope .sp-stage.has-active .sp-wash{opacity:.84}
+  .sp-scope .sp-wash.active{opacity:0 !important}
+  .sp-scope .sp-astroke{fill:none;stroke:#A07E5A;stroke-width:2.4;vector-effect:non-scaling-stroke;opacity:0;pointer-events:none;filter:drop-shadow(0 0 7px rgba(255,255,255,.7))}
+  .sp-scope .sp-stage.has-active .sp-astroke{opacity:1}
+  .sp-scope .sp-hit{fill:rgba(255,255,255,0);cursor:pointer}
+  .sp-scope .sp-rackcap{display:flex;justify-content:space-between;align-items:center;margin-top:12px;padding-top:11px;border-top:1px solid rgba(26,26,28,.10);font-size:10.5px;letter-spacing:.18em;text-transform:uppercase;color:#6E6A62}
+  .sp-scope .sp-rackcap b{color:#1A1A1C;font-weight:600}
+  .sp-scope .sp-rackcap .mid{color:#A07E5A}
+  .sp-scope .sp-detail{position:sticky;top:20px;background:#fff;border:1px solid rgba(26,26,28,.10);border-radius:4px;overflow:hidden;box-shadow:0 24px 60px rgba(26,26,28,.09)}
+  .sp-scope .sp-img{position:relative;width:100%;aspect-ratio:160/320;background:#e9e6e0 center/cover no-repeat}
+  .sp-scope .sp-img::after{content:"";position:absolute;inset:0;box-shadow:inset 0 0 0 1px rgba(26,26,28,.08)}
+  .sp-scope .sp-idx{position:absolute;top:12px;left:12px;background:rgba(26,26,28,.82);color:#FAF8F4;font-size:10px;letter-spacing:.18em;text-transform:uppercase;padding:5px 9px;border-radius:2px;z-index:2}
+  .sp-scope .sp-fam{position:absolute;top:12px;right:12px;width:16px;height:16px;border-radius:50%;box-shadow:0 0 0 3px rgba(255,255,255,.85);z-index:2}
+  .sp-scope .sp-body{padding:20px 22px 22px}
+  .sp-scope .sp-eyebrow{font-size:10.5px;letter-spacing:.24em;text-transform:uppercase;color:#A07E5A;font-weight:600}
+  .sp-scope .sp-detail h3{font-family:'Cormorant Garamond',serif;font-weight:500;font-size:27px;line-height:1.08;margin:6px 0 2px;color:#1A1A1C}
+  .sp-scope .sp-fname{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:#6E6A62}
+  .sp-scope .sp-grid{margin-top:18px;border-top:1px solid rgba(26,26,28,.10)}
+  .sp-scope .sp-row{display:grid;grid-template-columns:92px 1fr;gap:10px;padding:10px 0;border-bottom:1px solid rgba(26,26,28,.10);font-size:12.5px}
+  .sp-scope .sp-row span{color:#6E6A62;text-transform:uppercase;letter-spacing:.10em;font-size:10.5px;padding-top:1px}
+  .sp-scope .sp-row b{font-weight:600;color:#1A1A1C}
+  .sp-scope .sp-tip{margin-top:16px;font-size:11px;color:#6E6A62;line-height:1.55}
+  @media (max-width:1100px){ .sp-scope .sp-layout{grid-template-columns:1fr} .sp-scope .sp-detail{position:relative;top:auto;max-width:420px} }
+  .launch-amb{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;filter:blur(48px) brightness(.4) saturate(1.15);transform:scale(1.12)}
+  .launch-cell{position:absolute;inset:0;width:100%;height:100%;object-fit:contain;opacity:0;transition:opacity .9s ease}
+  .launch-cell.on{opacity:1}
+  .launch-dot{width:22px;height:2px;background:rgba(250,248,244,.28);transition:background .4s}
+  .launch-dot.on{background:#A07E5A}
+</style>
+</helmet>
+
+<div style="min-height:100vh;background:#F4F1EC;color:#1A1A1C;font-family:'Helvetica Neue',Helvetica,Arial,sans-serif;-webkit-font-smoothing:antialiased">
+
+  <sc-if value="{{ isHero }}" hint-placeholder-val="{{ true }}">
+    <div class="launch-hero" style="position:relative;height:100vh;width:100%;overflow:hidden;background:#0e0e0f">
+
+      <div id="launch-stage" style="position:absolute;inset:0;z-index:1"></div>
+      <div style="position:absolute;inset:0;z-index:2;background:linear-gradient(90deg,rgba(12,12,13,.94) 0%,rgba(12,12,13,.74) 32%,rgba(12,12,13,.28) 58%,rgba(12,12,13,.55) 100%);pointer-events:none"></div>
+
+      <div style="position:relative;z-index:3;height:100%;max-width:640px;display:flex;flex-direction:column;justify-content:center;padding:0 5vw 0 7vw;animation:omFade 1.4s ease both">
+        <div onClick="{{ goHome }}" style="cursor:pointer;font-family:'Cormorant Garamond',serif;font-weight:400;font-size:22px;letter-spacing:.34em;color:#FAF8F4;margin-bottom:42px;animation:omUp 1s .15s ease both">ANATOLIA</div>
+        <div style="display:flex;align-items:center;gap:14px;margin-bottom:26px;animation:omUp 1s .25s ease both">
+          <span style="display:inline-block;background:#6E1F2A;color:#F4E9DE;font-size:10px;letter-spacing:.24em;text-transform:uppercase;font-weight:700;padding:7px 14px">Coming Soon</span>
+          <span style="font-size:11px;letter-spacing:.36em;color:#A07E5A;text-transform:uppercase;font-weight:600">New Novelty</span>
+        </div>
+        <h1 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#FAF8F4;font-size:clamp(48px,6.6vw,108px);line-height:.94;letter-spacing:.03em;animation:omUp 1.1s .35s ease both">Tuscano<br><span style="font-style:italic;color:#C08A6A">Burgundy</span></h1>
+        <div style="height:1px;width:150px;background:rgba(250,248,244,.32);margin:34px 0 26px;animation:omFade 1.4s .8s ease both"></div>
+        <p style="font-family:'Cormorant Garamond',serif;font-weight:300;font-style:italic;color:#E8E3DA;font-size:clamp(19px,2.1vw,27px);max-width:520px;line-height:1.45;animation:omUp 1.1s .55s ease both">A deep, warm burgundy marble — the newest novelty from Anatolia. Veins of wine and rust drawn across a soft, luminous ground. Arriving to the showroom soon.</p>
+        <div style="margin-top:44px;display:flex;align-items:center;gap:28px;animation:omUp 1.1s .75s ease both">
+          <button onClick="{{ enter }}" style="cursor:pointer;background:#A07E5A;color:#161617;border:none;padding:18px 40px;font-size:12px;letter-spacing:.26em;text-transform:uppercase;font-weight:700;font-family:inherit;transition:background .4s,transform .4s" style-hover="background:#b08e68;transform:translateY(-1px)">Enter the Showroom</button>
+          <div style="color:rgba(250,248,244,.55);font-size:11px;letter-spacing:.2em;text-transform:uppercase">Anatolia · Aliağa · İzmir</div>
+        </div>
+      </div>
+
+      <div id="launch-dots" style="position:absolute;z-index:3;bottom:40px;right:7vw;display:flex;gap:9px;align-items:center;animation:omFade 1.4s 1.1s ease both"></div>
+
+      <div style="position:absolute;z-index:3;bottom:30px;left:7vw;color:rgba(250,248,244,.45);font-size:11px;letter-spacing:.2em;text-transform:uppercase;animation:omFade 1.4s 1.1s ease both">Product Launch · Tuscano Burgundy<br>anatolia.com</div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isApp }}" hint-placeholder-val="{{ false }}">
+    <div style="display:flex;height:100vh;overflow:hidden">
+
+      <aside style="width:230px;flex:none;background:#1A1A1C;color:#FAF8F4;display:flex;flex-direction:column;padding:34px 0;border-right:1px solid rgba(250,248,244,.07)">
+        <div onClick="{{ goHome }}" style="cursor:pointer;padding:0 30px 30px;border-bottom:1px solid rgba(250,248,244,.08)">
+          <div style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:25px;letter-spacing:.3em">ANATOLIA</div>
+          <div style="font-size:9.5px;letter-spacing:.34em;color:#A07E5A;text-transform:uppercase;margin-top:6px;font-weight:600">Showroom Manager</div>
+        </div>
+        <nav style="display:flex;flex-direction:column;padding:22px 0;flex:1">
+          <sc-for list="{{ navItems }}" as="nav" hint-placeholder-count="4">
+            <button onClick="{{ nav.onClick }}" style="{{ nav.style }}" style-hover="color:#FAF8F4">
+              <span style="{{ nav.bar }}"></span>
+              <span style="font-size:12.5px;letter-spacing:.2em;text-transform:uppercase">{{ nav.label }}</span>
+              <span style="margin-left:auto;font-size:10px;opacity:.5;font-variant-numeric:tabular-nums">{{ nav.count }}</span>
+            </button>
+          </sc-for>
+        </nav>
+        <div style="padding:24px 30px 0;border-top:1px solid rgba(250,248,244,.08)">
+          <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,248,244,.4);line-height:1.9">
+            Temporary Showroom<br>Aliağa · İzmir<br><span style="color:#A07E5A">380 m² · C + reverse-C</span>
+          </div>
+        </div>
+      </aside>
+
+      <main class="om-scroll" style="flex:1;overflow-y:auto;position:relative">
+
+        <!-- OVERVIEW -->
+        <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
+        <div style="animation:omFade .6s ease both">
+          <div style="position:relative;height:340px;overflow:hidden;background:#161617">
+            <div style="position:absolute;inset:0;background-image:url('assets/photos/onyx-hall.jpg');background-size:cover;background-position:center 40%"></div>
+            <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,15,16,.85),rgba(15,15,16,.25))"></div>
+            <div style="position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:46px 56px">
+              <div style="font-size:11px;letter-spacing:.34em;color:#A07E5A;text-transform:uppercase;font-weight:600;margin-bottom:14px">Merchandising Snapshot</div>
+              <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#FAF8F4;font-size:46px;line-height:1.04;max-width:620px">A complete reading of the floor — by surface, format and station.</h2>
+            </div>
+          </div>
+
+          <div style="padding:44px 56px 70px;max-width:1280px">
+            <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(26,26,28,.1);border:1px solid rgba(26,26,28,.1);margin-bottom:58px">
+              <sc-for list="{{ statCards }}" as="s" hint-placeholder-count="4">
+                <div style="background:#FAF8F4;padding:30px 30px 28px">
+                  <div style="font-family:'Cormorant Garamond',serif;font-weight:300;font-size:56px;line-height:1;color:#1A1A1C">{{ s.value }}</div>
+                  <div style="font-size:11px;letter-spacing:.22em;text-transform:uppercase;color:#6E6A62;margin-top:14px">{{ s.label }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+              <h3 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;color:#1A1A1C">Display Formats</h3>
+              <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#A07E5A">The taxonomy · select to explore</div>
+            </div>
+            <p style="font-size:13.5px;color:#6E6A62;max-width:560px;line-height:1.6;margin-bottom:26px">Each surface is presented through one of nine physical formats. Every format is colour-coded and carries through to the gallery and the floor plan.</p>
+            <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(26,26,28,.1);border:1px solid rgba(26,26,28,.1);margin-bottom:62px">
+              <sc-for list="{{ formatList }}" as="fmt" hint-placeholder-count="9">
+                <button onClick="{{ fmt.onGallery }}" style="text-align:left;cursor:pointer;background:#FAF8F4;border:none;font-family:inherit;padding:24px 26px;display:flex;flex-direction:column;gap:16px;transition:background .35s" style-hover="background:#fff">
+                  <div style="display:flex;align-items:center;gap:14px">
+                    <span style="{{ fmt.chip }}"><span style="display:block;width:21px;height:21px;color:#FAF8F4">{{ fmt.icon }}</span></span>
+                    <span style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;font-weight:700;color:#1A1A1C">{{ fmt.label }}</span>
+                    <span style="margin-left:auto;font-family:'Cormorant Garamond',serif;font-size:26px;color:{{ fmt.accent }};line-height:1">{{ fmt.count }}</span>
+                  </div>
+                  <div style="font-size:12.5px;color:#6E6A62;line-height:1.55">{{ fmt.desc }}</div>
+                </button>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
+              <h3 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;color:#1A1A1C">Booth Photography</h3>
+              <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#A07E5A">By room · scroll or use ← → · click a chip to locate it</div>
+            </div>
+            <p style="font-size:13.5px;color:#6E6A62;max-width:620px;line-height:1.6;margin-bottom:22px">Installed photography from the physical booth. Each room's stage shows what's actually visible in that shot — hover a chip to frame it, click to open the product (or jump to it on the Floor Plan). Lighting up a format above dims chips of other formats here too.</p>
+
+            <div class="om-scroll" style="display:flex;gap:2px;overflow-x:auto;border-bottom:1px solid rgba(26,26,28,.12);margin-bottom:2px">
+              <sc-for list="{{ galleryRooms }}" as="rg" hint-placeholder-count="8">
+                <button onClick="{{ rg.onTabClick }}" style="{{ rg.tabStyle }}">
+                  <span style="font-size:9px;letter-spacing:.14em;text-transform:uppercase;color:#A07E5A;font-weight:700">{{ rg.num }} · {{ rg.label }}</span>
+                  <span style="font-size:9.5px;color:#9a948a">{{ rg.count }} photos</span>
+                </button>
+              </sc-for>
+            </div>
+
+            <div id="gallery-track" class="om-scroll" style="display:flex;overflow-x:auto;scroll-snap-type:x mandatory;border:1px solid rgba(26,26,28,.1);border-top:none;background:#fff;margin-bottom:14px">
+              <sc-for list="{{ galleryRooms }}" as="rg" hint-placeholder-count="8">
+                <div id="{{ rg.domId }}" style="flex:0 0 100%;scroll-snap-align:start;padding:26px 28px;display:grid;grid-template-columns:1fr 300px;gap:28px;animation:omFade .5s ease both">
+                  <div style="min-width:0">
+                    <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:10px">
+                      <h4 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:20px;color:#1A1A1C">{{ rg.num }} · {{ rg.label }}</h4>
+                      <span style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#9a948a">{{ rg.progress }}</span>
+                    </div>
+                    <div onClick="{{ rg.stageOnClick }}" style="{{ rg.stageWrap }}" style-hover="filter:brightness(1.03)">
+                      <div style="{{ rg.stage }}"></div>
+                    </div>
+                    <div style="font-size:11.5px;color:#6E6A62;margin-top:9px">{{ rg.caption }}</div>
+                    <div class="om-scroll" style="display:flex;gap:8px;overflow-x:auto;margin-top:13px;padding-bottom:4px">
+                      <sc-for list="{{ rg.filmstrip }}" as="th" hint-placeholder-count="4">
+                        <div onClick="{{ th.onClick }}" title="{{ th.title }}" style="{{ th.thumb }}"></div>
+                      </sc-for>
+                    </div>
+                  </div>
+                  <div style="min-width:0;border-left:1px solid rgba(26,26,28,.1);padding-left:24px">
+                    <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#1A1A1C;font-weight:700;margin-bottom:12px">Visible in this shot</div>
+                    <div style="display:flex;flex-direction:column;gap:8px">
+                      <sc-for list="{{ rg.tags }}" as="tag" hint-placeholder-count="3">
+                        <button onClick="{{ tag.onClick }}" onMouseEnter="{{ tag.onEnter }}" onMouseLeave="{{ tag.onLeave }}" style="{{ tag.chipStyle }}">
+                          <span style="{{ tag.dot }}"></span>
+                          <span style="flex:1;min-width:0;text-align:left">
+                            <span style="display:block;font-family:'Cormorant Garamond',serif;font-size:14px;font-weight:500;line-height:1.15">{{ tag.label }}</span>
+                            <span style="display:block;font-size:9.5px;opacity:.75;margin-top:1px;white-space:normal">{{ tag.sub }}</span>
+                          </span>
+                        </button>
+                      </sc-for>
+                    </div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;align-items:center;justify-content:center;gap:20px">
+              <button onClick="{{ galleryPrev }}" style="cursor:pointer;background:none;border:1px solid rgba(26,26,28,.2);color:#1A1A1C;width:34px;height:34px;font-family:inherit;font-size:14px" style-hover="border-color:#A07E5A;color:#A07E5A">‹</button>
+              <span style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a948a">Scroll, use ← → , or click a room tab above</span>
+              <button onClick="{{ galleryNext }}" style="cursor:pointer;background:none;border:1px solid rgba(26,26,28,.2);color:#1A1A1C;width:34px;height:34px;font-family:inherit;font-size:14px" style-hover="border-color:#A07E5A;color:#A07E5A">›</button>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- GALLERY -->
+        <sc-if value="{{ isGallery }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;min-height:100vh;animation:omFade .6s ease both">
+          <div class="om-scroll" style="width:248px;flex:none;border-right:1px solid rgba(26,26,28,.1);padding:34px 26px;overflow-y:auto;height:100vh;position:sticky;top:0">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:24px">
+              <span style="font-size:11px;letter-spacing:.24em;text-transform:uppercase;color:#1A1A1C;font-weight:700">Filter</span>
+              <button onClick="{{ clearFilters }}" style="{{ clearStyle }}">Reset</button>
+            </div>
+            <sc-for list="{{ facets }}" as="facet" hint-placeholder-count="6">
+              <div style="margin-bottom:24px">
+                <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#A07E5A;font-weight:600;margin-bottom:11px">{{ facet.label }}</div>
+                <div style="display:flex;flex-wrap:wrap;gap:6px">
+                  <sc-for list="{{ facet.options }}" as="opt" hint-placeholder-count="5">
+                    <button onClick="{{ opt.onClick }}" style="{{ opt.style }}">{{ opt.label }}</button>
+                  </sc-for>
+                </div>
+              </div>
+            </sc-for>
+          </div>
+          <div style="flex:1;padding:34px 40px 60px">
+            <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:26px;border-bottom:1px solid rgba(26,26,28,.1);padding-bottom:18px">
+              <h2 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:32px;color:#1A1A1C;white-space:nowrap">Product Gallery</h2>
+              <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6E6A62"><span style="color:#1A1A1C;font-weight:700">{{ resultCount }}</span> surfaces</div>
+            </div>
+            <div style="display:grid;grid-template-columns:{{ gridCols }};gap:22px">
+              <sc-for list="{{ gallery }}" as="item" hint-placeholder-count="12">
+                <div onClick="{{ item.open }}" style="cursor:pointer;animation:omSlab .5s ease both;background:#fff">
+                  <div style="{{ item.tex }}">
+                    <div style="position:absolute;inset:0;background:linear-gradient(0deg,rgba(20,20,21,.5) 0%,transparent 42%);opacity:0;transition:opacity .4s" style-hover="opacity:1"></div>
+                    <span style="{{ item.fmtTag }}">{{ item.fmt }}</span>
+                  </div>
+                  <div style="padding:15px 4px 4px">
+                    <div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:21px;line-height:1.1;color:#1A1A1C">{{ item.n }}</div>
+                    <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:#A07E5A;margin-top:5px">{{ item.col }}</div>
+                    <div style="font-size:11.5px;color:#6E6A62;margin-top:9px;letter-spacing:.01em">{{ item.spec }}</div>
+                  </div>
+                </div>
+              </sc-for>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- FLOOR PLAN -->
+        <sc-if value="{{ isFloor }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:34px 40px 60px;animation:omFade .6s ease both">
+          <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px">
+            <h2 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:32px;color:#1A1A1C;white-space:nowrap">Showroom Floor Plan</h2>
+            <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6E6A62">Aliağa · İzmir · 380 m²</div>
+          </div>
+          <p style="font-size:13.5px;color:#6E6A62;max-width:660px;line-height:1.6;margin-bottom:24px">A schematic top-down of the booth — two facing <strong>C / reverse-C</strong> wings of stations around a central island. Click a sliding bank or waterfall to read its product run; hover a centre panel for its front &amp; back faces; click a station for its walls, floor and furniture. Use the legend to illuminate one format.</p>
+
+          <div style="display:flex;gap:28px;align-items:flex-start">
+            <div style="flex:1;min-width:0">
+              <div style="position:relative;width:100%;padding-bottom:46.3%;background:#EDE9E2;border:1px solid rgba(26,26,28,.18)">
+                <div style="position:absolute;inset:16px">
+
+                  <!-- corridor walls -->
+                  <div style="position:absolute;left:46.4%;top:0;width:0.5%;height:100%;background:rgba(26,26,28,.22);z-index:2;pointer-events:none"></div>
+                  <div style="position:absolute;left:53.1%;top:0;width:0.5%;height:100%;background:rgba(26,26,28,.22);z-index:2;pointer-events:none"></div>
+
+                  <div onClick="{{ floor.onClick }}" style="{{ floor.style }}" style-hover="filter:brightness(.99)">
+                    <span style="position:absolute;left:12px;bottom:9px;font-size:8px;letter-spacing:.22em;text-transform:uppercase;color:{{ floor.txt }};pointer-events:none">Main Floors · Porcelain</span>
+                  </div>
+
+                  <sc-for list="{{ banks }}" as="b" hint-placeholder-count="2">
+                    <div onClick="{{ b.onClick }}" style="{{ b.wrap }}" style-hover="filter:brightness(1.08)">
+                      <div style="{{ b.slatL }}"></div>
+                      <div style="{{ b.slatR }}"></div>
+                      <span style="{{ b.lab }}">{{ b.label }}</span>
+                    </div>
+                  </sc-for>
+
+                  <div onClick="{{ waterfall.onClick }}" style="{{ waterfall.wrap }}" style-hover="filter:brightness(1.08)">
+                    <span style="{{ waterfall.lab }}">Waterfall</span>
+                  </div>
+
+                  <div onClick="{{ rotating.onClick }}" style="{{ rotating.wrap }}" style-hover="filter:brightness(1.05)">
+                    <sc-for list="{{ rotating.discs }}" as="d" hint-placeholder-count="2">
+                      <span style="{{ d }}"></span>
+                    </sc-for>
+                    <span style="{{ rotating.lab }}">Rotating</span>
+                  </div>
+
+                  <div style="{{ fixed.wrap }}">
+                    <sc-for list="{{ fixed.lines }}" as="ln" hint-placeholder-count="24">
+                      <span onClick="{{ ln.onClick }}" title="{{ ln.title }}" style="{{ ln.style }}" style-hover="filter:brightness(1.6)"></span>
+                    </sc-for>
+                  </div>
+                  <span style="{{ fixed.lab }}">{{ fixed.label }}</span>
+
+                  <sc-for list="{{ stations }}" as="s" hint-placeholder-count="8">
+                    <div onClick="{{ s.onClick }}" style="{{ s.style }}" style-hover="filter:brightness(.97)">
+                      <span style="font-size:9.5px;letter-spacing:.04em;color:{{ s.txt }};font-weight:700;text-transform:uppercase;line-height:1.15">{{ s.num }} · {{ s.label }}</span>
+                      <span style="font-size:8.5px;color:{{ s.txt2 }};margin-top:3px;letter-spacing:.03em;line-height:1.3">{{ s.sub }}</span>
+                      <span style="{{ s.dot }}"></span>
+                    </div>
+                  </sc-for>
+
+                  <!-- Furniture pins removed for now (placement was ad-hoc pending real icons) — the
+                       furniture items themselves still surface in each room's Furniture group, below. -->
+
+                  <div style="position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:#9a948a;z-index:2">Entrance</div>
+                </div>
+              </div>
+              <div style="text-align:center;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#9a948a;margin-top:11px">380 m² · Temporary Showroom · Aliağa</div>
+            </div>
+
+            <div style="width:320px;flex:none">
+              <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:14px">
+                <span style="font-size:10px;letter-spacing:.22em;text-transform:uppercase;color:#1A1A1C;font-weight:700">Format Legend</span>
+                <button onClick="{{ clearHi }}" style="{{ clearHiStyle }}">Clear</button>
+              </div>
+              <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(26,26,28,.1);border:1px solid rgba(26,26,28,.1);margin-bottom:22px">
+                <sc-for list="{{ formatList }}" as="fmt" hint-placeholder-count="9">
+                  <button onClick="{{ fmt.onHi }}" style="{{ fmt.legendStyle2 }}">
+                    <span style="display:flex;align-items:center;gap:7px;width:100%">
+                      <span style="{{ fmt.chipSm }}"><span style="display:block;width:14px;height:14px;color:#FAF8F4">{{ fmt.icon }}</span></span>
+                      <span style="margin-left:auto;font-size:15px;font-family:'Cormorant Garamond',serif;line-height:1">{{ fmt.count }}</span>
+                    </span>
+                    <span style="font-size:8.5px;letter-spacing:.07em;text-transform:uppercase;line-height:1.25;text-align:left">{{ fmt.label }}</span>
+                  </button>
+                </sc-for>
+              </div>
+
+              <div style="background:#F4F1EC;border:1px solid rgba(26,26,28,.12);padding:20px 18px;min-height:210px">
+                <sc-if value="{{ ctx.isList }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px">
+                    <span style="{{ ctx.chip }}"><span style="display:block;width:18px;height:18px;color:#FAF8F4">{{ ctx.icon }}</span></span>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#1A1A1C;line-height:1.05">{{ ctx.title }}</div>
+                      <div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#A07E5A;margin-top:5px">{{ ctx.sub }}</div>
+                    </div>
+                    <button onClick="{{ deselect }}" style="cursor:pointer;background:none;border:none;font-family:inherit;font-size:15px;color:#9a948a;line-height:1;padding:2px">✕</button>
+                  </div>
+                  <div class="om-scroll" style="max-height:330px;overflow-y:auto;display:flex;flex-direction:column;gap:1px;background:rgba(26,26,28,.07)">
+                    <sc-for list="{{ ctx.items }}" as="it" hint-placeholder-count="6">
+                      <button onClick="{{ it.open }}" style="text-align:left;cursor:pointer;background:#FAF8F4;border:none;font-family:inherit;padding:9px 12px;display:flex;align-items:center;gap:11px;transition:background .25s" style-hover="background:#fff">
+                        <span style="{{ it.idx }}">{{ it.n0 }}</span>
+                        <span style="{{ it.thumb }}"></span>
+                        <span style="flex:1;min-width:0">
+                          <span style="display:block;font-size:13px;color:#1A1A1C;font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.1">{{ it.n }}</span>
+                          <span style="display:block;font-size:9.5px;color:#6E6A62;margin-top:2px">{{ it.sub }}</span>
+                        </span>
+                        <span style="font-size:14px;color:#A07E5A;line-height:1">›</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+
+                <sc-if value="{{ ctx.isGrouped }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px">
+                    <span style="{{ ctx.chip }}"><span style="display:block;width:18px;height:18px;color:#FAF8F4">{{ ctx.icon }}</span></span>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#1A1A1C;line-height:1.05">{{ ctx.title }}</div>
+                      <div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#A07E5A;margin-top:5px">{{ ctx.sub }}</div>
+                    </div>
+                    <button onClick="{{ deselect }}" style="cursor:pointer;background:none;border:none;font-family:inherit;font-size:15px;color:#9a948a;line-height:1;padding:2px">✕</button>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:8px">
+                    <sc-for list="{{ ctx.groups }}" as="grp" hint-placeholder-count="4">
+                      <div style="background:#FAF8F4;border:1px solid rgba(26,26,28,.12)">
+                        <button onClick="{{ grp.onToggle }}" style="width:100%;text-align:left;cursor:pointer;background:none;border:none;font-family:inherit;padding:10px 12px;display:flex;align-items:center;gap:10px" style-hover="background:rgba(26,26,28,.03)">
+                          <span style="{{ grp.chip }}"><span style="display:block;width:14px;height:14px;color:#FAF8F4">{{ grp.icon }}</span></span>
+                          <span style="flex:1;min-width:0;font-size:11.5px;letter-spacing:.1em;text-transform:uppercase;color:#1A1A1C;font-weight:700">{{ grp.label }}</span>
+                          <span style="font-size:10.5px;color:#9a948a;font-variant-numeric:tabular-nums">{{ grp.count }}</span>
+                          <span style="font-size:13px;color:#A07E5A;width:14px;text-align:center;font-weight:700">{{ grp.caret }}</span>
+                        </button>
+                        <sc-if value="{{ grp.open }}" hint-placeholder-val="{{ false }}">
+                          <div class="om-scroll" style="max-height:280px;overflow-y:auto;display:flex;flex-direction:column;gap:1px;background:rgba(26,26,28,.07);border-top:1px solid rgba(26,26,28,.1)">
+                            <sc-for list="{{ grp.items }}" as="it" hint-placeholder-count="6">
+                              <button onClick="{{ it.open }}" style="text-align:left;cursor:pointer;background:#FAF8F4;border:none;font-family:inherit;padding:9px 12px 9px 20px;display:flex;align-items:center;gap:11px;transition:background .25s" style-hover="background:#fff">
+                                <span style="{{ it.idx }}">{{ it.n0 }}</span>
+                                <span style="{{ it.thumb }}"></span>
+                                <span style="flex:1;min-width:0">
+                                  <span style="display:block;font-size:13px;color:#1A1A1C;font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.1">{{ it.n }}</span>
+                                  <span style="display:block;font-size:9.5px;color:#6E6A62;margin-top:2px">{{ it.sub }}</span>
+                                </span>
+                                <span style="font-size:14px;color:#A07E5A;line-height:1">›</span>
+                              </button>
+                            </sc-for>
+                          </div>
+                        </sc-if>
+                      </div>
+                    </sc-for>
+                  </div>
+                </sc-if>
+
+                <sc-if value="{{ ctx.isPanel }}" hint-placeholder-val="{{ false }}">
+                  <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:16px">
+                    <span style="{{ ctx.chip }}"><span style="display:block;width:18px;height:18px;color:#FAF8F4">{{ ctx.icon }}</span></span>
+                    <div style="flex:1;min-width:0">
+                      <div style="font-family:'Cormorant Garamond',serif;font-size:22px;color:#1A1A1C;line-height:1.05">{{ ctx.title }}</div>
+                      <div style="font-size:9.5px;letter-spacing:.12em;text-transform:uppercase;color:#A07E5A;margin-top:5px">{{ ctx.sub }}</div>
+                    </div>
+                    <button onClick="{{ deselect }}" style="cursor:pointer;background:none;border:none;font-family:inherit;font-size:15px;color:#9a948a;line-height:1;padding:2px">✕</button>
+                  </div>
+                  <div style="display:flex;flex-direction:column;gap:1px;background:rgba(26,26,28,.08)">
+                    <sc-for list="{{ ctx.faces }}" as="fc" hint-placeholder-count="2">
+                      <button onClick="{{ fc.open }}" style="text-align:left;cursor:pointer;background:#FAF8F4;border:none;font-family:inherit;padding:14px 14px;display:flex;align-items:center;gap:12px;transition:background .25s" style-hover="background:#fff">
+                        <span style="{{ fc.thumb }}"></span>
+                        <span style="flex:1;min-width:0">
+                          <span style="display:block;font-size:9px;letter-spacing:.16em;text-transform:uppercase;color:#A07E5A;font-weight:700">{{ fc.face }}</span>
+                          <span style="display:block;font-size:15px;color:#1A1A1C;font-family:'Cormorant Garamond',serif;font-weight:500;line-height:1.1;margin-top:3px">{{ fc.n }}</span>
+                          <span style="display:block;font-size:10px;color:#6E6A62;margin-top:2px">{{ fc.sub }}</span>
+                        </span>
+                        <span style="font-size:14px;color:#A07E5A;line-height:1">›</span>
+                      </button>
+                    </sc-for>
+                  </div>
+                </sc-if>
+
+                <sc-if value="{{ ctx.isEmpty }}" hint-placeholder-val="{{ true }}">
+                  <div style="padding:34px 6px;text-align:center;color:#9a948a;font-size:12.5px;line-height:1.8;font-style:italic;font-family:'Cormorant Garamond',serif">Click a sliding bank or the waterfall<br>to read its product run.<br>Hover a centre panel for its two faces.<br>Click a station for its setting.</div>
+                </sc-if>
+              </div>
+            </div>
+          </div>
+        </div>
+        </sc-if>
+
+        <!-- BEYOND -->
+        <sc-if value="{{ isBeyond }}" hint-placeholder-val="{{ false }}">
+        <div style="padding:34px 56px 70px;max-width:1200px;animation:omFade .6s ease both">
+          <h2 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:32px;color:#1A1A1C;margin-bottom:8px">Beyond</h2>
+          <p style="font-size:13.5px;color:#6E6A62;max-width:600px;line-height:1.6;margin-bottom:34px">The runway past Phase 1. These capabilities extend the manager from a single concept template into a connected merchandising platform.</p>
+          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(26,26,28,.1);border:1px solid rgba(26,26,28,.1)">
+            <sc-for list="{{ beyondCards }}" as="b" hint-placeholder-count="4">
+              <div style="background:#FAF8F4;padding:34px 32px;position:relative;min-height:170px">
+                <div style="position:absolute;top:30px;right:30px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#b8b2a8;border:1px solid rgba(26,26,28,.16);padding:4px 9px">{{ b.tag }}</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:24px;color:#1A1A1C;max-width:240px;line-height:1.1">{{ b.title }}</div>
+                <div style="font-size:13px;color:#6E6A62;line-height:1.6;margin-top:14px;max-width:320px">{{ b.desc }}</div>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ isSliding }}" hint-placeholder-val="{{ false }}">
+        <div style="animation:omFade .6s ease both">
+          <div style="position:relative;height:300px;overflow:hidden;background:#161617">
+            <div style="position:absolute;inset:0;background:radial-gradient(120% 140% at 85% 0%,rgba(160,126,90,.20),transparent 55%)"></div>
+            <div style="position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:46px 56px">
+              <div style="font-size:11px;letter-spacing:.34em;color:#A07E5A;text-transform:uppercase;font-weight:600;margin-bottom:14px">Merchandising · Format</div>
+              <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#FAF8F4;font-size:54px;line-height:1;letter-spacing:.01em">Sliding Panels</h2>
+              <p style="margin-top:16px;max-width:660px;font-size:14px;line-height:1.7;color:rgba(250,248,244,.74)">Full slabs on rolling rails, pulled out to view. Panels sit close on a reverse-C track, showing only their spine until you draw one forward — hover any panel to reveal its complete slab face and specification, click to lock it. Presented in both the full and mini formats.</p>
+            </div>
+          </div>
+          <div id="sliding-panels-root" class="sp-scope" style="padding:46px 56px 90px;max-width:1360px"></div>
+        </div>
+        </sc-if>
+
+      </main>
+    </div>
+
+    <!-- DETAIL MODAL -->
+    <sc-if value="{{ selOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeDetail }}" style="position:fixed;inset:0;z-index:60;background:rgba(16,16,17,.62);display:flex;align-items:stretch;justify-content:flex-end;animation:omFade .3s ease both">
+        <div onClick="{{ stop }}" class="om-scroll" style="width:min(680px,94vw);background:#FAF8F4;overflow-y:auto;animation:omSlab .45s cubic-bezier(.2,.7,.2,1) both;box-shadow:-30px 0 80px rgba(0,0,0,.4)">
+          <div style="position:relative;height:380px;overflow:hidden">
+            <div style="{{ sel.hero }}"></div>
+            <button onClick="{{ closeDetail }}" style="position:absolute;top:22px;right:22px;width:40px;height:40px;border-radius:50%;border:none;background:rgba(20,20,21,.5);color:#FAF8F4;font-size:18px;cursor:pointer;backdrop-filter:blur(6px)">✕</button>
+            <span style="{{ sel.heroTag }}">{{ sel.fmt }}</span>
+          </div>
+          <div style="padding:38px 44px 50px">
+            <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#A07E5A;font-weight:600">{{ sel.col }}</div>
+            <h2 style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:46px;line-height:1.02;color:#1A1A1C;margin:8px 0 4px">{{ sel.n }}</h2>
+            <div style="color:#6E6A62;font-style:italic;font-family:'Cormorant Garamond',serif;font-size:18px;margin-bottom:30px">{{ sel.material }}</div>
+
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(26,26,28,.1);border:1px solid rgba(26,26,28,.1);margin-bottom:30px">
+              <sc-for list="{{ sel.specs }}" as="sp" hint-placeholder-count="8">
+                <div style="background:#FAF8F4;padding:16px 18px">
+                  <div style="font-size:9.5px;letter-spacing:.16em;text-transform:uppercase;color:#9a948a">{{ sp.k }}</div>
+                  <div style="font-size:14.5px;color:#1A1A1C;margin-top:5px">{{ sp.v }}</div>
+                </div>
+              </sc-for>
+            </div>
+
+            <div style="display:flex;align-items:center;gap:16px;padding:20px 22px;background:#1A1A1C;color:#FAF8F4;margin-bottom:26px">
+              <span style="{{ sel.chip }}"><span style="display:block;width:22px;height:22px;color:#FAF8F4">{{ sel.icon }}</span></span>
+              <div style="flex:1">
+                <div style="font-size:10px;letter-spacing:.18em;text-transform:uppercase;color:#A07E5A;font-weight:600">Display Format</div>
+                <div style="font-family:'Cormorant Garamond',serif;font-size:22px;margin-top:2px">{{ sel.fmt }}</div>
+              </div>
+              <div style="text-align:right">
+                <div style="font-size:10px;letter-spacing:.14em;text-transform:uppercase;color:rgba(250,248,244,.5)">Location</div>
+                <div style="font-size:14px;margin-top:3px">{{ sel.room }}</div>
+                <div style="font-size:11px;color:rgba(250,248,244,.55);margin-top:1px">{{ sel.loc }}</div>
+              </div>
+            </div>
+            <button onClick="{{ viewSelOnPlan }}" style="cursor:pointer;width:100%;background:none;border:1px solid #A07E5A;color:#A07E5A;padding:15px;font-size:11px;letter-spacing:.22em;text-transform:uppercase;font-weight:700;font-family:inherit;transition:background .35s,color .35s" style-hover="background:#A07E5A;color:#161617">Locate on Floor Plan →</button>
+          </div>
+        </div>
+      </div>
+    </sc-if>
+
+    <!-- PHOTO LIGHTBOX -->
+    <sc-if value="{{ lightboxOpen }}" hint-placeholder-val="{{ false }}">
+      <div onClick="{{ closeLightbox }}" style="position:fixed;inset:0;z-index:70;background:rgba(12,12,13,.9);display:flex;flex-direction:column;align-items:center;justify-content:center;padding:40px;animation:omFade .25s ease both">
+        <button onClick="{{ closeLightbox }}" style="position:absolute;top:22px;right:22px;width:40px;height:40px;border-radius:50%;border:none;background:rgba(250,248,244,.12);color:#FAF8F4;font-size:18px;cursor:pointer;backdrop-filter:blur(6px)">✕</button>
+        <div onClick="{{ stop }}" style="{{ lightbox.bg }}"></div>
+        <div style="color:#FAF8F4;font-size:12.5px;letter-spacing:.04em;margin-top:18px;text-align:center;max-width:640px">{{ lightbox.caption }}</div>
+      </div>
+    </sc-if>
+
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#A07E5A&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Comfortable&quot;,&quot;Compact&quot;],&quot;default&quot;:&quot;Comfortable&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showTextures&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
+class Component extends DCLogic {
+  state = {
+    view: 'hero', section: 'overview',
+    filters: { collection:'All', format:'All', colour:'All', finish:'All', size:'All', room:'All' },
+    selected: null, hiFormat: null, dataReady:false, sel: null, openGroups: {}, lightbox: null,
+    galleryRoom: 1, galleryPhoto: {}, galleryHover: null
+  };
+
+  componentDidMount(){
+    const check=()=>{ if(window.ANATOLIA_DATA){ this.setState({dataReady:true}); } else setTimeout(check,40); };
+    check();
+    this._galleryKey=(e)=>{
+      if(this.state.section!=='overview') return;
+      if(e.key==='ArrowRight'){ e.preventDefault(); this.galleryNav(1); }
+      else if(e.key==='ArrowLeft'){ e.preventDefault(); this.galleryNav(-1); }
+    };
+    window.addEventListener('keydown', this._galleryKey);
+    requestAnimationFrame(()=>this._maybeLaunch());
+  }
+
+  get SLIDING_DATA(){ return {"A":{"label":"Sliding Bank A","format":"160 × 320 cm","unit":"Slab","count":24,"slabs":[{"id":1,"name":"Onyx Halo","finish":"Honed","thickness":"12 mm","sku":"8000-0467-1","family":"onyx","size":"160 × 320 cm","texture":"assets/sliding/texture_01_onyx_halo.jpg","points":[[104,113.0],[159,116.6],[159,756.5],[104,760.0]]},{"id":2,"name":"Monoforma Silhouette","finish":"Polished","thickness":"12 mm","sku":"8000-0521-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_02_monoforma_silhouette.jpg","points":[[159,116.6],[213,119.5],[213,755.0],[159,756.5]]},{"id":3,"name":"Armani Noir","finish":"Honed","thickness":"6 mm","sku":"8000-0186-0","family":"noir","size":"160 × 320 cm","texture":"assets/sliding/texture_03_armani_noir.jpg","points":[[213,119.5],[267,122.5],[267,753.0],[213,755.0]]},{"id":4,"name":"Calacatta Carrara","finish":"Honed","thickness":"6 mm","sku":"8000-0046-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_04_calacatta_carrara.jpg","points":[[267,122.5],[321,126.0],[321,751.5],[267,753.0]]},{"id":5,"name":"Fusion White","finish":"Honed","thickness":"6 mm","sku":"8000-0246-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_05_fusion_white.jpg","points":[[321,126.0],[374,129.0],[374,750.0],[321,751.5]]},{"id":6,"name":"Publica Thunder","finish":"Organic Matte","thickness":"6 mm","sku":"8000-0565-0","family":"terrazzo","size":"160 × 320 cm","texture":"assets/sliding/texture_06_publica_thunder.jpg","points":[[374,129.0],[426,131.5],[426,748.5],[374,750.0]]},{"id":7,"name":"Nero Marquina","finish":"Polished","thickness":"6 mm","sku":"8000-0268-1","family":"noir","size":"160 × 320 cm","texture":"assets/sliding/texture_07_nero_marquina.jpg","points":[[426,131.5],[478,134.5],[478,747.0],[426,748.5]]},{"id":8,"name":"Montagna Jade","finish":"Honed","thickness":"6 mm","sku":"8000-0262-0","family":"green","size":"160 × 320 cm","texture":"assets/sliding/texture_08_montagna_jade.jpg","points":[[478,134.5],[529,137.0],[529,746.0],[478,747.0]]},{"id":9,"name":"Serena Flint","finish":"Honed","thickness":"6 mm","sku":"8000-0543-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_09_serena_flint.jpg","points":[[529,137.0],[579,139.0],[579,745.0],[529,746.0]]},{"id":10,"name":"Travertino Titanium","finish":"Grained","thickness":"6 mm","sku":"8000-0538-0","family":"travertine","size":"160 × 320 cm","texture":"assets/sliding/texture_10_travertino_titanium.jpg","points":[[579,139.0],[630,141.4],[630,742.1],[579,745.0]]},{"id":11,"name":"Super White","finish":"Honed","thickness":"6 mm","sku":"8000-0294-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_11_super_white.jpg","points":[[630,141.4],[775,145.0],[775,736.6],[630,742.1]]},{"id":12,"name":"Publica Terrain","finish":"Patinated","thickness":"6 mm","sku":"8000-0562-0","family":"terrazzo","size":"160 × 320 cm","texture":"assets/sliding/texture_12_publica_terrain.jpg","points":[[775,726],[810,724],[810,782],[775,784]]},{"id":13,"name":"Cristallo","finish":"Polished","thickness":"6 mm","sku":"8000-0232-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_13_cristallo.jpg","points":[[810,724],[839,726],[839,784],[810,782]]},{"id":14,"name":"Calacatta Viola","finish":"Polished","thickness":"6 mm","sku":"8000-0048-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_14_calacatta_viola.jpg","points":[[839,145.0],[985,141.3],[985,741.9],[839,736.3]]},{"id":15,"name":"Publica Horizon","finish":"Patinated","thickness":"6 mm","sku":"8000-0560-0","family":"terrazzo","size":"160 × 320 cm","texture":"assets/sliding/texture_15_publica_horizon.jpg","points":[[985,141.3],[1038,139.0],[1038,745.0],[985,741.9]]},{"id":16,"name":"French Vanilla","finish":"Polished","thickness":"6 mm","sku":"8000-0529-0","family":"gold","size":"160 × 320 cm","texture":"assets/sliding/texture_16_french_vanilla.jpg","points":[[1038,139.0],[1089,137.0],[1089,746.0],[1038,745.0]]},{"id":17,"name":"Serena Crater","finish":"Honed","thickness":"6 mm","sku":"8000-0541-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_17_serena_crater.jpg","points":[[1089,137.0],[1141,135.0],[1141,746.5],[1089,746.0]]},{"id":18,"name":"Marina White","finish":"Polished","thickness":"6 mm","sku":"8000-0256-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_18_marina_white.jpg","points":[[1141,135.0],[1194,133.0],[1194,747.0],[1141,746.5]]},{"id":19,"name":"Lithoform Crosscut Dunes","finish":"Vintage","thickness":"6 mm","sku":"8000-0549-0","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_19_lithoform_crosscut_dunes.jpg","points":[[1194,133.0],[1246,130.5],[1246,747.5],[1194,747.0]]},{"id":20,"name":"Travertino Classico","finish":"Grained","thickness":"6 mm","sku":"8000-0577-0","family":"travertine","size":"160 × 320 cm","texture":"assets/sliding/texture_20_travertino_classico.jpg","points":[[1246,130.5],[1299,128.0],[1299,749.0],[1246,747.5]]},{"id":21,"name":"Taj Mahal","finish":"Honed","thickness":"6 mm","sku":"8000-0599-0","family":"gold","size":"160 × 320 cm","texture":"assets/sliding/texture_21_taj_mahal.jpg","points":[[1299,128.0],[1352,125.5],[1352,750.5],[1299,749.0]]},{"id":22,"name":"Monoforma Storm","finish":"Polished","thickness":"12 mm","sku":"8000-0519-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_22_monoforma_storm.jpg","points":[[1352,125.5],[1405,122.5],[1405,751.5],[1352,750.5]]},{"id":23,"name":"Colorado Lincoln","finish":"Polished","thickness":"12 mm","sku":"8000-0463-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_23_colorado_lincoln.jpg","points":[[1405,122.5],[1460,119.5],[1460,753.5],[1405,751.5]]},{"id":24,"name":"Calacatta Noir","finish":"Satin","thickness":"12 mm","sku":"8000-0476-1","family":"noir","size":"160 × 320 cm","texture":"assets/sliding/texture_24_calacatta_noir.jpg","points":[[1460,119.5],[1515,116.0],[1515,756.0],[1460,753.5]]}]},"B":{"label":"Sliding Bank B","format":"120 × 280 cm","unit":"Mini Slab","count":24,"slabs":[{"id":1,"name":"Lithoform Crosscut Twilight","finish":"Honed","thickness":"6 mm","sku":"8500-0089-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_01.jpg","points":[[104,113.0],[159,116.6],[159,756.5],[104,760.0]]},{"id":2,"name":"Lithoform Veincut Twilight","finish":"Honed","thickness":"6 mm","sku":"8500-0101-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_02.jpg","points":[[159,116.6],[213,119.5],[213,755.0],[159,756.5]]},{"id":3,"name":"Lustra Onyx Feather","finish":"Polished","thickness":"6 mm","sku":"8500-0686-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_03.jpg","points":[[213,119.5],[267,122.5],[267,753.0],[213,755.0]]},{"id":4,"name":"Majesto Arabescato Corchia","finish":"Honed","thickness":"6 mm","sku":"8500-0013-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_04.jpg","points":[[267,122.5],[321,126.0],[321,751.5],[267,753.0]]},{"id":5,"name":"Majesto Atlantic Ocean","finish":"Polished","thickness":"6 mm","sku":"8500-0053-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_05.jpg","points":[[321,126.0],[374,129.0],[374,750.0],[321,751.5]]},{"id":6,"name":"Majesto Bianco Dior","finish":"Polished","thickness":"6 mm","sku":"8500-0046-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_06.jpg","points":[[374,129.0],[426,131.5],[426,748.5],[374,750.0]]},{"id":7,"name":"Majesto Calacatta Borghini","finish":"Honed","thickness":"6 mm","sku":"8500-0033-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_07.jpg","points":[[426,131.5],[478,134.5],[478,747.0],[426,748.5]]},{"id":8,"name":"Majesto Calacatta Corchia","finish":"Polished","thickness":"6 mm","sku":"8500-0018-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_08.jpg","points":[[478,134.5],[529,137.0],[529,746.0],[478,747.0]]},{"id":9,"name":"Serena Pewter","finish":"Honed","thickness":"6 mm","sku":"8500-0074-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_09.jpg","points":[[529,137.0],[579,139.0],[579,745.0],[529,746.0]]},{"id":10,"name":"Majesto Verdi Alpi","finish":"Honed","thickness":"6 mm","sku":"8500-0041-1","family":"green","size":"120 × 280 cm","texture":"assets/sliding/mini_10.jpg","points":[[579,139.0],[630,141.4],[630,742.1],[579,745.0]]},{"id":11,"name":"Majesto Crystal Bianco","finish":"Honed","thickness":"6 mm","sku":"8500-0057-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_11.jpg","points":[[630,141.4],[775,145.0],[775,736.6],[630,742.1]]},{"id":12,"name":"Lustra Onyx Sage","finish":"Polished","thickness":"6 mm","sku":"8500-0064-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_12.jpg","points":[[775,726],[810,724],[810,782],[775,784]]},{"id":13,"name":"Majesto Forge Eleganza","finish":"Honed","thickness":"6 mm","sku":"8500-0039-0","family":"gold","size":"120 × 280 cm","texture":"assets/sliding/mini_13.jpg","points":[[810,724],[839,726],[839,784],[810,782]]},{"id":14,"name":"Majesto Statuario","finish":"Polished","thickness":"6 mm","sku":"8500-0014-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_14.jpg","points":[[839,145.0],[985,141.3],[985,741.9],[839,736.3]]},{"id":15,"name":"Monoforma Moonlight","finish":"Silk","thickness":"6 mm","sku":"8500-0111-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_15.jpg","points":[[985,141.3],[1038,139.0],[1038,745.0],[985,741.9]]},{"id":16,"name":"Serena Valley","finish":"Honed","thickness":"6 mm","sku":"8500-0078-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_16.jpg","points":[[1038,139.0],[1089,137.0],[1089,746.0],[1038,745.0]]},{"id":17,"name":"Lustra Onyx Hazel","finish":"Honed","thickness":"6 mm","sku":"8500-0067-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_17.jpg","points":[[1089,137.0],[1141,135.0],[1141,746.5],[1089,746.0]]},{"id":18,"name":"Lithoform Crosscut Dunes","finish":"Honed","thickness":"6 mm","sku":"8500-0080-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_18.jpg","points":[[1141,135.0],[1194,133.0],[1194,747.0],[1141,746.5]]},{"id":19,"name":"Lithoform Veincut Dunes","finish":"Honed","thickness":"6 mm","sku":"8500-0092-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_19.jpg","points":[[1194,133.0],[1246,130.5],[1246,747.5],[1194,747.0]]},{"id":20,"name":"Majesto Macchia Vecchia","finish":"Polished","thickness":"6 mm","sku":"8500-0042-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_20.jpg","points":[[1246,130.5],[1299,128.0],[1299,749.0],[1246,747.5]]},{"id":21,"name":"Majesto Calacatta Cremo","finish":"Honed","thickness":"6 mm","sku":"8500-0027-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_21.jpg","points":[[1299,128.0],[1352,125.5],[1352,750.5],[1299,749.0]]},{"id":22,"name":"Majesto Oro Noir","finish":"Honed","thickness":"6 mm","sku":"8500-0045-0","family":"noir","size":"120 × 280 cm","texture":"assets/sliding/mini_22.jpg","points":[[1352,125.5],[1405,122.5],[1405,751.5],[1352,750.5]]},{"id":23,"name":"Lustra Onyx Crema","finish":"Honed","thickness":"6 mm","sku":"8500-0063-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_23.jpg","points":[[1405,122.5],[1460,119.5],[1460,753.5],[1405,751.5]]},{"id":24,"name":"Majesto Sahara Noir","finish":"Honed","thickness":"6 mm","sku":"8500-0049-0","family":"noir","size":"120 × 280 cm","texture":"assets/sliding/mini_24.jpg","points":[[1460,119.5],[1515,116.0],[1515,756.0],[1460,753.5]]}]}}; }
+  componentDidUpdate(prev){ this._maybeBuildSliding(); this._maybeLaunch(); }
+  _maybeLaunch(){
+    if(this.state.view!=='hero'){ if(this._launchTimer){ clearTimeout(this._launchTimer); this._launchTimer=null; } return; }
+    const stage=document.getElementById('launch-stage');
+    if(!stage || stage.childElementCount) return;
+    this._buildLaunch(stage);
+  }
+  _buildLaunch(stage){
+    stage.innerHTML='';
+    const IMG='assets/launch/tuscano_rosso.jpg';
+    const vids=['assets/launch/launch_rotate.mp4','assets/launch/launch_zoom.mp4','assets/launch/launch_walk.mp4'];
+    const amb=document.createElement('img'); amb.className='launch-amb'; amb.src=IMG; amb.alt=''; stage.appendChild(amb);
+    const cells=[];
+    vids.forEach(src=>{
+      const v=document.createElement('video');
+      v.className='launch-cell'; v.src=src; v.muted=true; v.defaultMuted=true; v.playsInline=true;
+      v.setAttribute('playsinline',''); v.setAttribute('muted',''); v.preload='auto'; v.loop=false;
+      stage.appendChild(v); cells.push(v);
+    });
+    const im=document.createElement('img'); im.className='launch-cell'; im.src=IMG; im.alt='Tuscano Burgundy bookmatch'; stage.appendChild(im); cells.push(im);
+    const dotsWrap=document.getElementById('launch-dots'); const dots=[];
+    if(dotsWrap){ dotsWrap.innerHTML=''; cells.forEach(()=>{ const d=document.createElement('span'); d.className='launch-dot'; dotsWrap.appendChild(d); dots.push(d); }); }
+    let idx=-1;
+    const show=(n)=>{
+      if(!document.contains(stage)){ if(this._launchTimer){ clearTimeout(this._launchTimer); this._launchTimer=null; } return; }
+      idx=n;
+      cells.forEach((c,i)=>{
+        c.classList.toggle('on', i===n);
+        if(dots[i]) dots[i].classList.toggle('on', i===n);
+        if(c.tagName==='VIDEO' && i!==n){ try{ c.pause(); }catch(e){} }
+      });
+      const cur=cells[n];
+      if(cur.tagName==='VIDEO'){ try{ cur.currentTime=0; }catch(e){} const pr=cur.play(); if(pr&&pr.catch) pr.catch(()=>{}); }
+    };
+    const next=()=>{
+      if(idx < vids.length-1){ show(idx+1); }
+      else { show(cells.length-1); if(this._launchTimer) clearTimeout(this._launchTimer); this._launchTimer=setTimeout(()=>show(0), 5200); }
+    };
+    cells.forEach(c=>{ if(c.tagName==='VIDEO') c.addEventListener('ended', next); });
+    show(0);
+  }
+  _maybeBuildSliding(){
+    if(this.state.section!=='sliding') return;
+    const root=document.getElementById('sliding-panels-root');
+    if(!root || root.querySelector('svg')) return;
+    this._buildSliding(root);
+  }
+  _buildSliding(root){
+    root.innerHTML='';
+    const NS='http://www.w3.org/2000/svg';
+    const FAMILY={onyx:'#7a6f63',grey:'#8b8b8f',noir:'#2b2b2e',calacatta:'#c9c2b6',terrazzo:'#9a8f7d',green:'#5e6f5c',travertine:'#b6a488',gold:'#b79256'};
+    const VBW=1619,VBH=971,MOCKUP='assets/sliding/panel_mockup.png';
+    const DATA=this.SLIDING_DATA;
+    const pts=p=>p.map(a=>a[0]+','+a[1]).join(' ');
+    const bbox=p=>{const xs=p.map(a=>a[0]),ys=p.map(a=>a[1]);const x=Math.min.apply(0,xs),y=Math.min.apply(0,ys);return{x,y,w:Math.max.apply(0,xs)-x,h:Math.max.apply(0,ys)-y};};
+    const inPoly=(pt,poly)=>{let inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){const xi=poly[i][0],yi=poly[i][1],xj=poly[j][0],yj=poly[j][1];const hit=((yi>pt[1])!==(yj>pt[1]))&&(pt[0]<(xj-xi)*(pt[1]-yi)/((yj-yi)||1e-9)+xi);if(hit)inside=!inside;}return inside;};
+    Object.keys(DATA).forEach(key=>{
+      const bank=DATA[key];
+      const kind=bank.unit==='Slab'?'Full slab':'Mini slab';
+      const sec=document.createElement('section');sec.className='sp-block';
+      sec.innerHTML=
+        '<div class=\'sp-cap\'><div class=\'l\'><div class=\'fmt\'>'+kind+'</div><div class=\'tag\'>'+bank.format+'</div></div>'+
+        '<div class=\'meta\'>'+bank.count+' panels · two books</div></div>'+
+        '<div class=\'sp-layout\'>'+
+          '<div class=\'sp-rack\'><div class=\'sp-stage\'>'+
+            '<svg viewBox=\'0 0 '+VBW+' '+VBH+'\' aria-label=\''+kind+' sliding rack\'><defs></defs><g class=\'tex\'></g><g class=\'washL\'></g><polygon class=\'sp-astroke\' points=\'\'></polygon><g class=\'hitL\'></g></svg>'+
+            '<img class=\'sp-overlay\' src=\''+MOCKUP+'\' alt=\'\'></div>'+
+            '<div class=\'sp-rackcap\'><b>Book I</b><div class=\'mid\'>hover a panel to reveal its slab · click to lock</div><b>Book II</b></div></div>'+
+          '<div class=\'sp-detail\'><div class=\'sp-img\'><div class=\'sp-idx\'></div><div class=\'sp-fam\'></div></div>'+
+            '<div class=\'sp-body\'><div class=\'sp-eyebrow\'></div><h3></h3><div class=\'sp-fname\'></div>'+
+              '<div class=\'sp-grid\'>'+
+                '<div class=\'sp-row\'><span>Format</span><b class=\'d-size\'></b></div>'+
+                '<div class=\'sp-row\'><span>Finish</span><b class=\'d-fin\'></b></div>'+
+                '<div class=\'sp-row\'><span>Thickness</span><b class=\'d-thk\'></b></div>'+
+                '<div class=\'sp-row\'><span>SKU</span><b class=\'d-sku\'></b></div></div>'+
+              '<div class=\'sp-tip\'>Showing the complete slab face — not only the visible spine in the rack.</div></div></div></div>';
+      root.appendChild(sec);
+      const svg=sec.querySelector('svg'),defs=svg.querySelector('defs'),tex=svg.querySelector('.tex'),washL=svg.querySelector('.washL'),hitL=svg.querySelector('.hitL'),stage=sec.querySelector('.sp-stage'),astroke=sec.querySelector('.sp-astroke');
+      const d=sec.querySelector('.sp-detail'),img0=d.querySelector('.sp-img'),idx=d.querySelector('.sp-idx'),fam=d.querySelector('.sp-fam');
+      const fmt=bank.format.match(/(\d+)\D+(\d+)/); if(fmt) img0.style.aspectRatio=fmt[1]+'/'+fmt[2];
+      const eby=d.querySelector('.sp-eyebrow'),h3=d.querySelector('h3'),fname=d.querySelector('.sp-fname');
+      const dsize=d.querySelector('.d-size'),dfin=d.querySelector('.d-fin'),dthk=d.querySelector('.d-thk'),dsku=d.querySelector('.d-sku');
+      bank.slabs.forEach(s=>{
+        const cp=document.createElementNS(NS,'clipPath');cp.id='cl-'+key+'-'+s.id;
+        const cpoly=document.createElementNS(NS,'polygon');cpoly.setAttribute('points',pts(s.points));cp.appendChild(cpoly);defs.appendChild(cp);
+        const b=bbox(s.points);
+        const im=document.createElementNS(NS,'image');im.setAttribute('href',s.texture);im.setAttribute('x',b.x);im.setAttribute('y',b.y);im.setAttribute('width',b.w);im.setAttribute('height',b.h);im.setAttribute('preserveAspectRatio','xMidYMid slice');im.setAttribute('clip-path','url(#cl-'+key+'-'+s.id+')');tex.appendChild(im);
+        const w=document.createElementNS(NS,'polygon');w.setAttribute('points',pts(s.points));w.setAttribute('class','sp-wash');w.dataset.id=s.id;washL.appendChild(w);
+        const h=document.createElementNS(NS,'polygon');h.setAttribute('points',pts(s.points));h.setAttribute('class','sp-hit');h.dataset.id=s.id;hitL.appendChild(h);
+      });
+      let locked=false;
+      const setActive=(id,on)=>{
+        const s=bank.slabs.find(x=>x.id===Number(id))||bank.slabs[0];
+        img0.style.backgroundImage='url(\''+s.texture+'\')';
+        idx.textContent=bank.unit+' '+String(s.id).padStart(2,'0');
+        fam.style.background=FAMILY[s.family]||'#999';
+        eby.textContent=kind+' · '+s.family; h3.textContent=s.name; fname.textContent=s.finish+' finish';
+        dsize.textContent=s.size; dfin.textContent=s.finish; dthk.textContent=s.thickness; dsku.textContent=s.sku;
+        astroke.setAttribute('points',on?pts(s.points):'');
+        stage.classList.toggle('has-active',on);
+        washL.querySelectorAll('.sp-wash').forEach(el=>el.classList.toggle('active',on&&Number(el.dataset.id)===s.id));
+      };
+      const toPt=e=>{const p=svg.createSVGPoint();p.x=e.clientX;p.y=e.clientY;const l=p.matrixTransform(svg.getScreenCTM().inverse());return[l.x,l.y];};
+      const findAt=pt=>bank.slabs.find(s=>inPoly(pt,s.points))||null;
+      const clear=()=>{if(locked)return;astroke.setAttribute('points','');stage.classList.remove('has-active');washL.querySelectorAll('.sp-wash').forEach(el=>el.classList.remove('active'));};
+      svg.addEventListener('mousemove',e=>{const s=findAt(toPt(e));if(s&&!locked)setActive(s.id,true);else if(!s&&!locked)clear();});
+      svg.addEventListener('mouseleave',clear);
+      svg.addEventListener('click',e=>{const s=findAt(toPt(e));if(s){locked=true;setActive(s.id,true);}});
+      svg.addEventListener('dblclick',()=>{locked=false;clear();});
+      setActive(1,false);
+    });
+  }
+
+  get FMT(){ return ['Waterfall','Sliding Panel','Pre-fixed Panel','Floor','Tower','Rotating Panel','In Furniture','Room Setting','On Wall']; }
+  get ACC(){ return {
+    'Waterfall':'#8C7B6A','Sliding Panel':'#A07E5A','Pre-fixed Panel':'#6E6A60','Floor':'#7C8576',
+    'Tower':'#9A8C76','Rotating Panel':'#87796E','In Furniture':'#5E5648','Room Setting':'#B0A188','On Wall':'#76706A'
+  }; }
+  get DESC(){ return {
+    'Waterfall':'Slab cascading over an edge, counter to floor.',
+    'Sliding Panel':'Full slabs on rolling rails, pulled out to view.',
+    'Pre-fixed Panel':'Fixed double-sided panels mounted like a wall.',
+    'Floor':'Installed underfoot as flooring.',
+    'Tower':'Vertical stacked sample column.',
+    'Rotating Panel':'Rotating 120×120 tile display that swivels.',
+    'In Furniture':'Integrated into vanities, tables and benches.',
+    'Room Setting':'Staged in a living, bath or meeting vignette.',
+    'On Wall':'Applied as a wall surface within a setting.'
+  }; }
+  flatCol(cat){ return ({noir:'#26252a',calacatta:'#ebe5da',grey:'#c4beb3',green:'#37433c',travertine:'#c2ad8c',onyx:'#d6cfc2',terrazzo:'#cbc6bc',gold:'#ddd0b6'})[cat]||'#c4beb3'; }
+  colourFam(cat){ return ({noir:'Black & Noir',calacatta:'White & Cream',grey:'Grey & Silver',green:'Green',travertine:'Warm & Bronze',onyx:'Onyx',terrazzo:'Speckled',gold:'Warm & Bronze'})[cat]; }
+  collection(n){ const s=n.toLowerCase();
+    if(/^majesto/.test(s))return'Majesto';
+    if(/lithoform/.test(s))return'Lithoform';
+    if(/lustra onyx/.test(s))return'Lustra Onyx';
+    if(/serena/.test(s))return'Serena';
+    if(/monoforma/.test(s))return'Monoforma';
+    if(/publica/.test(s))return'Publica';
+    if(/travertino/.test(s))return'Travertino';
+    if(/aeterna|finishes/.test(s))return'Aeterna';
+    return'Sintered Slab'; }
+  pad(n){ return String(n).padStart(2,'0'); }
+
+  // real product photos from From_website/. longest keys first so specific wins.
+  get IMGMAP(){ return [
+    // Lithoform — crosscut & veincut (specific variants; twilight/dunes-veincut not available)
+    ['lithoform crosscut coast','Lithoform_Crosscut_Coast_Slab_6-12mm_R_1'],
+    ['lithoform crosscut dunes','Lithoform_Crosscut_Dunes_Slab_6-12mm_R_1'],
+    ['lithoform crosscut vista','Lithoform_Crosscut_Vista_Slab_6-12mm_R_1'],
+    ['lithoform crosscut coas','Lithoform_Crosscut_Coast_Slab_6-12mm_R_1'], // typo in BOM data ("Coas" vs "Coast")
+    ['lithoform veincut coast','Lithoform_Veincut_Coast_Slab_6-12mm_R_1'],
+    ['lithoform veincut vista','Lithoform_Veincut_Vista_Slab_6-12mm_R_1'],
+    // Travertino
+    ['travertino titanium','Travertino_Titanium_39_Slab_6mm_R_1'],
+    ['travertino classico','Travertino_Classico_55_Slab_6mm_R_1'],
+    // Calacatta family — specific variants first
+    ['calacatta borghini','Calacatta_Borghini_48_Slab_6mm_R_1'],
+    ['calacatta carrara','Calacatta_Carrara_23_Slab_6-12mm_B_1'],
+    ['calacatta corchia','Calacatta_Corchia_43_Slab_6mm_R_1'],
+    ['calacatta cremo','Calacatta_Cremo_12_Slab_6mm_R_1'],
+    ['calacatta noir','Calacatta_Noir-_34_Slab_6mm_R_1_2025-10-29-154742_iwgl'],
+    ['calacatta oro','Calacatta_Oro_12_Slab_6mm_R_1'],
+    ['calacatta picasso','Calacatta_Picasso_32_Slab_6-12mm_B_1'],
+    ['calacatta viola','Calacatta_Viola_41_Slab_6-12mm_B_1_2025-10-29-154722_cseg'],
+    // Bianco family
+    ['bianco dior','Bianco_Dior_38_Slab_6-12mm_B_1'],
+    ['bianco gioia','Bianco_Gioia_19_Slab_6mm_R_1'],
+    ['bianco stratura','Bianco_Stratura_18_Slab_6mm_R_1'],
+    ['crystal bianco','Crystal_Bianco_50_Slab_6mm_R_1'],
+    // Arabescato family
+    ['arabescato corchia','Arabescato_Corchia_59_Slab_6mm_R_1'],
+    ['arabescato vagli','Arabescato_Vagli_34_Slab_6-12mm_B_1'],
+    // Ariel / Armani / Atlantic
+    ['ariel bianco','Ariel_Bianco_33_Slab_6mm_R_1'],
+    ['armani noir','Armani_Noir_17_Slab_6-12mm_B_1'],
+    ['atlantic ocean','Atlantic_Ocean_24_Slab_6mm_R_1'],
+    // Other named stones
+    ['colorado lincoln','Colorado_Lincoln_81_Slab_6-12mm_B_1'],
+    ['cristallo','Cristallo_13_Slab_6-12mm_B_1'],
+    ['forge eleganza','Forge_Eleganza_20_Slab_6mm_R_1'],
+    ['french vanilla','French_Vanilla_35_Slab_6mm_R_1'],
+    ['fusion white','Fusion_White_27_Slab_6-12mm_B_1'],
+    ['gemma bronze','Gemma_Bronze_45_Slab_6-12mm_B_1'],
+    ['grigio quarzo','Grigio_Quarzo_21_Slab_6-12mm_B_1'],
+    ['macchia vecchia','Macchia_Vecchia_42_Slab_6-12mm_B_1'],
+    ['marina white','Marina_White_46_Slab_6-12mm_B_1'],
+    // Monoforma family
+    ['monoforma moonlight','Monoforma_Moonlight_Slab_6-12mm_M_1_Polished'],
+    ['monoforma oasis','Monoforma_Oasis_Slab_6-12mm_M_1_Polished'],
+    ['monoforma silhouette','Monoforma_Silhouette_Slab_6-12mm_M_1_Silk'],
+    ['monoforma storm','Monoforma_Storm_Slab_6-12mm_M_1_Polished'],
+    // Montagna family
+    ['montagna grey','Montagna_Grey_11_Slab_6-12mm_B_1'],
+    ['montagna jade','Montagna_Jade_14_Slab_6-12mm_B_1'],
+    // Nero / Onyx
+    ['nero marquina','Nero_Marquina_26_Slab_6-12mm_B_1'],
+    ['onyx halo','Onyx_Halo_44_Slab_6mm_R_1_2025-10-29-175738_xtpa'],
+    // Oro / Panda / Pietra
+    ['oro noir','Oro_Noir_25_Slab_6-12mm_B_1'],
+    ['panda','Panda_22_Slab_6-12mm_B_1'],
+    ['pietra imperiale','Pietra_Imperiale_30_Slab_6-12mm_B_1'],
+    // Sahara / Serena (specific variants before catch-all)
+    ['sahara noir','Sahara_Noir_15_Slab_6mm_R_1'],
+    ['serena crater','Serena_Crater_Slab_6-12mm_R_1'],
+    ['serena flint','Serena_Flint_Slab_6-12mm_R_1_2025-10-29-161428_msrp'],
+    ['serena shale','Serena_Shale_Slab_6-12mm_R_1'],
+    // Other
+    ['statuario','Statuario_16_Slab_6-12mm_C_1'],
+    ['super white','Super_White_28_Slab_6-12mm_B_1'],
+    ['taj mahal','Taj_Mahal_36_Slab_6mm_R_1'],
+    ['verdi alpi','Verdi_Alpi_57_Slab_6mm_R_1'],
+    ['foresta','Foresta_56_Slab_6mm_R_1'],
+  ]; }
+  imgFile(name){ const s=name.toLowerCase().replace(/^majesto\s+/,''); for(const [k,f] of this.IMGMAP){ if(s.indexOf(k)>-1) return f; } return null; }
+  bg(p){ const useImg=this.props.showTextures!==false; if(useImg){ const f=this.imgFile(p.n); if(f) return `url('From_website/${f}.jpg') center/cover`; } return this.flatCol(p.cat); }
+
+  get EXTRAS(){ return [
+    // Reconciled 2026-07-06 against APS_TemporaryShowroom_BOM_20260609 (sheet APS_Tempry = Floor & Walls).
+    // Station numbers below are the room numbers used throughout the BOM (W##/F## codes) and STN ids —
+    // previously several rows here were mistagged against an older area numbering (bathroom/meeting-room
+    // items were sitting on stations 3/4 instead of 1/3) and a few product numbers were copy-pasted from
+    // unrelated BOM rows. Fixed in place; see Showroom Data.md / the BOM CSV for the source rows.
+    // Room 1 — Bathroom (W1A–W1D)
+    ['Pietra Imperiale','160 × 320 cm','Honed','6 mm','8000-0282-0','grey','On Wall',1,'1A·1C Walls'],
+    ['Arabescato Corchia','160 × 320 cm','Polished','6 mm','8000-0036-0','calacatta','On Wall',1,'1B·1D Walls'],
+    ['Pietra Imperiale','162 × 322 cm','Satin','12 mm','8000-0493-1','grey','In Furniture',1,'Vanity Top (W1A)'],
+    // Room 2 — Living / Fireplace (W2A–W2D)
+    ['Lithoform Veincut Vista','160 × 320 cm','Honed','6 mm','8000-0558-0','grey','On Wall',2,'2A·2B·2D Walls'],
+    ['Travertino Titanium','160 × 320 cm','Honed','6 mm','8000-0574-0','travertine','In Furniture',2,'Fireplace Face (FRP)'],
+    ['Travertino Titanium','162 × 322 cm','Grained','12 mm','8000-0500-1','travertine','In Furniture',2,'Fireplace Hearth (FRP-3/4)'],
+    ['Majesto Calacatta Noir','120 × 280 cm','Polished','6 mm','8500-0050-1','noir','Waterfall',2,'2C Waterfall-on-wall'],
+    // Room 3 — Meeting / Library (W3A–W3D)
+    ['Oro Noir','125 × 280 cm','Polished','12 mm','8000-0140-1','gold','In Furniture',3,'Middle Meeting Table Top'],
+    ['Lithoform Crosscut Vista','160 × 320 cm','Honed','6 mm','8000-0551-0','grey','On Wall',3,'3A·3B·3C Walls'],
+    ['Statuario Block 16','160 × 320 cm','Honed','6 mm','8000-0290-0','calacatta','On Wall',3,'3D Wall'],
+    ['Statuario Block 17 (B-Grade)','160 × 320 cm','Honed','6 mm','8000-0306-9','calacatta','On Wall',3,'3D Wall'],
+    // Room 4 — Sliding Bank A (160 × 320 slabs handled via room field; W4C is the one fixed wall)
+    ['Foresta','160 × 320 cm','Polished','6 mm','8000-0236-0','green','On Wall',4,'4C Wall'],
+    // Room 5 — Sliding Bank B (120 × 280 slabs handled via room field; W5C sizes-at-a-glance wall)
+    ['Majesto Taj Mahal','Multi-size + Hex','Polished · Honed','6–9 mm','8500-0034-1','gold','On Wall',5,'5C Sizes at a Glance'],
+    // Room 6 — Waterfall (21 cascade slabs handled via room field; W6A wall)
+    ['Majesto Calacatta Corchia','120 × 280 cm','Honed','6 mm','8500-0019-1','calacatta','Waterfall',6,'6A Waterfall-on-wall'],
+    // Room 7 — Kitchen / Travertino Wall (W7C)
+    ['Majesto Travertino Classico','120 × 280 cm','Honed','6 mm','8500-0052-0','travertine','Waterfall',7,'7C Waterfall-on-wall'],
+    // Room 8 — Rotating (20 tiles handled via room field; W8A–W8D walls)
+    ['Gemma Bronze','160 × 320 cm','Honed','6 mm','8000-0210-0','gold','On Wall',8,'8A Wall'],
+    ['Lithoform Crosscut Vista','120 × 120 cm','Honed','9 mm','8500-0176-0','grey','On Wall',8,'8B Wall'],
+    ['Lithoform Crosscut Twilight','120 × 120 cm','Honed','9 mm','8500-0179-0','grey','On Wall',8,'8B Wall'],
+    ['Lithoform Crosscut Coast','120 × 120 cm','Honed','9 mm','8500-0173-0','grey','On Wall',8,'8C Wall'],
+    ['Lithoform Crosscut Dunes','120 × 120 cm','Honed','9 mm','8500-0170-0','grey','On Wall',8,'8C Wall'],
+    ['Lithoform Veincut Coast','60 × 120 cm','Honed','9 mm','8500-0462-0','grey','On Wall',8,'8C Wall'],
+    ['Lithoform Veincut Dunes','60 × 120 cm','Honed','9 mm','8500-0468-0','grey','On Wall',8,'8C Wall'],
+    ['Lithoform Veincut Vista','60 × 120 cm','Honed','9 mm','8500-0480-0','grey','On Wall',8,'8C Wall'],
+    ['Lithoform Veincut Twilight','60 × 120 cm','Honed','9 mm','8500-0474-0','grey','On Wall',8,'8C Wall'],
+    ['Serena Shale','120 × 120 cm','Honed','9 mm','8500-0162-0','grey','On Wall',8,'8C Wall'],
+    ['Serena Valley','120 × 120 cm','Honed','9 mm','8500-0168-0','grey','On Wall',8,'8C Wall'],
+    ['Serena Crater','120 × 120 cm','Honed','9 mm','8500-0160-0','grey','On Wall',8,'8C Wall'],
+    ['Serena Dusk','120 × 120 cm','Honed','9 mm','8500-0166-0','grey','On Wall',8,'8C Wall'],
+    ['Serena Pewter','120 × 120 cm','Honed','9 mm','8500-0164-0','grey','On Wall',8,'8D Wall'],
+    ['Serena Flint','120 × 120 cm','Honed','9 mm','8500-0158-0','grey','On Wall',8,'8D Wall'],
+    // Floors — tagged per room (station) so they also show up in that room's click list, in addition to
+    // the aggregate "Main Floors" view. Rooms 4/5/6/8 share one purchase order (Serena Crater).
+    ['Arabescato Corchia','120 × 120 cm','Honed','9 mm','8500-0119-0','calacatta','Floor',1,'F01 Floor'],
+    ['Calacatta Noir','120 × 120 cm','Honed','9 mm','8500-0145-0','noir','Floor',2,'F02 Floor'],
+    ['Majesto Ceppo di Gre','120 × 120 cm','Honed','9 mm','8500-0148-0','terrazzo','Floor',3,'F03 Floor'],
+    ['Serena Crater','120 × 120 cm','Honed','9 mm','8500-0160-0','grey','Floor',4,'Main Floor (shared F04·F05·F06·F08)'],
+    ['Serena Crater','120 × 120 cm','Honed','9 mm','8500-0160-0','grey','Floor',5,'Main Floor (shared F04·F05·F06·F08)'],
+    ['Serena Crater','120 × 120 cm','Honed','9 mm','8500-0160-0','grey','Floor',6,'Main Floor (shared F04·F05·F06·F08)'],
+    ['Lithoform Crosscut Dunes','120 × 120 cm','Honed','9 mm','8500-0170-0','grey','Floor',7,'F07 Floor'],
+    ['Serena Crater','120 × 120 cm','Honed','9 mm','8500-0160-0','grey','Floor',8,'Main Floor (shared F04·F05·F06·F08)'],
+    ['Taj Mahal Finishes Board','9.5 × 13.4 cm','Polished · Honed · Satin','6 mm','9902-2325-0','gold','Tower','tower','Finishes Board']
+  ]; }
+
+  // On-site booth photography, shot 2026-06-16 (JPGs) / 2026-05-06 (HEIC, converted). Filenames carry
+  // the room number the camera was standing in (per the source folder Showroom_photoes).
+  get ROOM_PHOTOS(){ return {
+    1: [['room1-1c.jpg','1C — Arabescato Corchia bookmatch'],['room1-1c-2.jpg','1C — detail angle'],
+        ['room1-prefix-panels.jpg','1A — pre-fix panel combination view'],['room1-corridor.jpg','Corridor view from 1A']],
+    2: [['room2-2a.jpg','2A — Lithoform Veincut Vista wall'],['room2-2c.jpg','2C — Calacatta Noir waterfall-on-wall']],
+    3: [['room3-3a.jpg','3A — Lithoform Crosscut Vista wall'],['room3-3b-to-3d.jpg','3B to 3D — meeting room view'],
+        ['room3-oro-noir-table.jpg','Oro Noir meeting table'],['room3-perspective.jpg','Room 3 perspective'],
+        ['room3-sample-chips.jpg','Sample chip display']],
+    4: [['room4-sliding-panel-a.jpg','Sliding Bank A'],['room4-sliding-panel-a-4.jpg','Sliding Bank A — detail'],
+        ['room4-tower.jpg','Sample tower'],['room4-tower-2.jpg','Sample tower — detail'],['room4-corridor.jpg','Corridor toward Sliding Bank B']],
+    5: [['room5-5c.jpg','5C — sizes at a glance wall'],['room5-sliding-panel-b-3.jpg','Sliding Bank B — detail'],
+        ['room5-sliding-panel-b-4.jpg','Sliding Bank B — detail'],['room5-sliding-panel-b-5.jpg','Sliding Bank B']],
+    6: [['room6-6b-waterfall-wall.jpg','6B — waterfall wall'],['room6-6d-waterfall.jpg','6D — waterfall cascade'],
+        ['room6-6d-to-6a.jpg','6D to 6A — Calacatta Borghini wall']],
+    7: [['room7-furniture.jpg','Kitchen furniture']],
+    8: [['room8-overview.jpg','Room 8 overview'],['room8-8a.jpg','8A — Gemma Bronze wall'],['room8-rotating-panels.jpg','Rotating tile displays']]
+  }; }
+
+  // Furniture/props called out on the LAY + RCP sheets that aren't Anatolia tile/slab products, so they
+  // never appear in the BOM — positioned as small pins on the floor plan (dx/dy = fraction across that
+  // station's box). `real:true` entries mirror an actual EXTRAS product (vanity/fireplace/table) so the
+  // pin doubles as a locator for something already in `products`; `real:false` entries are shown only
+  // here and in the room's Furniture group, tagged clearly as non-Anatolia.
+  // Source: APS_TemporaryShowroomProject_20251121 PDF (LAY furniture layer + RCP sheet), 2026-07-06 read.
+  get FURNITURE_PINS(){ return {
+    1: [ {label:'Vanity Wash Basin · Pietra Imperiale', dx:0.25, dy:0.48, real:true},
+         {label:'Bathtub', dx:0.75, dy:0.52, real:false, note:'Showroom fixture — not an Anatolia product (per APS layout plan, 1C zone)'},
+         {label:'Armchair', dx:0.5, dy:0.78, real:false, note:'Showroom furniture — not an Anatolia product (per APS layout plan, 1C/1D zone)'} ],
+    2: [ {label:'Fireplace · Travertino Titanium', dx:0.5, dy:0.36, real:true},
+         {label:'Chaise Lounge', dx:0.5, dy:0.6, real:false, note:'Showroom furniture — not an Anatolia product (per APS layout plan, 2D)'},
+         {label:'Decorative Cube · 90×90×35 cm', dx:0.5, dy:0.84, real:false, note:'Showroom prop — not an Anatolia product (per APS layout plan)'} ],
+    3: [ {label:'Meeting Table · Oro Noir', dx:0.5, dy:0.45, real:true},
+         {label:'TV', dx:0.5, dy:0.75, real:false, note:'Showroom fixture — not an Anatolia product (per APS RCP sheet — wall outlet for TV)'} ],
+    7: [ {label:'Kitchen Counter & Hood', dx:0.5, dy:0.55, real:false, note:'Material not confirmed in the BOM — "Verdi Alpi" appears only as a Room 5 sliding panel and a Hall fixture, not a dedicated counter line item. Confirm against fabrication drawings.'} ],
+    8: [ {label:'Decorative Cube A · 40×80×80 cm', dx:0.22, dy:0.26, real:false, note:'Showroom prop — not an Anatolia product (per APS RCP sheet, near the kitchen hood)'},
+         {label:'Decorative Cube B · 40×80×80 cm', dx:0.78, dy:0.26, real:false, note:'Showroom prop — not an Anatolia product (per APS RCP sheet, near the kitchen hood)'} ]
+  }; }
+
+  // What's identifiable in each booth photo, keyed by ROOM_PHOTOS filename. Declarative rather than
+  // hardcoded product ids, so it stays correct if the BOM data is regenerated:
+  //   {kind:'product', room, match, fmt?} — resolved by finding a product in that room whose name
+  //     contains `match` (and matching `fmt` when two products share a name, e.g. Calacatta Noir).
+  //   {kind:'furniture', room, match} — resolved against FURNITURE_PINS[room] by label substring.
+  //   {kind:'system', key, label} — one of the display systems (s160/s120/wf/rot); jumps to the Floor
+  //     Plan and selects it.
+  //   {kind:'note', label} — plain caption chip, not clickable (e.g. sample chips, tower).
+  // To tag a new photo: add an entry here keyed by its filename; unresolved matches are dropped silently
+  // (see resolveTag), so a typo just means the chip doesn't appear rather than a crash.
+  get PHOTO_TAGS(){ return {
+    'room1-1c.jpg': [ {kind:'product', room:1, match:'Arabescato Corchia'} ],
+    'room1-1c-2.jpg': [ {kind:'product', room:1, match:'Arabescato Corchia'} ],
+    'room1-prefix-panels.jpg': [ {kind:'product', room:1, match:'Pietra Imperiale', fmt:'On Wall'}, {kind:'product', room:1, match:'Pietra Imperiale', fmt:'In Furniture'}, {kind:'furniture', room:1, match:'Bathtub'} ],
+    'room1-corridor.jpg': [ {kind:'product', room:1, match:'Arabescato Corchia'}, {kind:'product', room:1, match:'Pietra Imperiale', fmt:'On Wall'} ],
+    'room2-2a.jpg': [ {kind:'product', room:2, match:'Lithoform Veincut Vista'}, {kind:'product', room:2, match:'Travertino Titanium', fmt:'In Furniture'}, {kind:'furniture', room:2, match:'Chaise Lounge'} ],
+    'room2-2c.jpg': [ {kind:'product', room:2, match:'Calacatta Noir', fmt:'Waterfall'} ],
+    'room3-3a.jpg': [ {kind:'product', room:3, match:'Lithoform Crosscut Vista'} ],
+    'room3-3b-to-3d.jpg': [ {kind:'product', room:3, match:'Lithoform Crosscut Vista'}, {kind:'product', room:3, match:'Statuario Block 16'} ],
+    'room3-oro-noir-table.jpg': [ {kind:'product', room:3, match:'Oro Noir'}, {kind:'furniture', room:3, match:'TV'}, {kind:'product', room:3, match:'Lithoform Crosscut Vista'} ],
+    'room3-perspective.jpg': [ {kind:'product', room:3, match:'Oro Noir'}, {kind:'product', room:3, match:'Lithoform Crosscut Vista'} ],
+    'room3-sample-chips.jpg': [ {kind:'note', label:'Aeterna finish sample chips'} ],
+    'room4-sliding-panel-a.jpg': [ {kind:'system', key:'s160', label:'Sliding Bank A'} ],
+    'room4-sliding-panel-a-4.jpg': [ {kind:'system', key:'s160', label:'Sliding Bank A'} ],
+    'room4-tower.jpg': [ {kind:'note', label:'Aeterna sample tower'} ],
+    'room4-tower-2.jpg': [ {kind:'note', label:'Aeterna sample tower'} ],
+    'room4-corridor.jpg': [ {kind:'system', key:'s120', label:'Sliding Bank B'} ],
+    'room5-5c.jpg': [ {kind:'product', room:5, match:'Taj Mahal', fmt:'On Wall'} ],
+    'room5-sliding-panel-b-3.jpg': [ {kind:'system', key:'s120', label:'Sliding Bank B'} ],
+    'room5-sliding-panel-b-4.jpg': [ {kind:'system', key:'s120', label:'Sliding Bank B'} ],
+    'room5-sliding-panel-b-5.jpg': [ {kind:'system', key:'s120', label:'Sliding Bank B'} ],
+    'room6-6b-waterfall-wall.jpg': [ {kind:'product', room:6, match:'Calacatta Corchia', fmt:'Waterfall'} ],
+    'room6-6d-waterfall.jpg': [ {kind:'system', key:'wf', label:'Waterfall Cascade'} ],
+    'room6-6d-to-6a.jpg': [ {kind:'product', room:6, match:'Calacatta Corchia', fmt:'Waterfall'}, {kind:'system', key:'wf', label:'Waterfall Cascade'} ],
+    'room7-furniture.jpg': [ {kind:'furniture', room:7, match:'Kitchen Counter'} ],
+    'room8-overview.jpg': [ {kind:'furniture', room:8, match:'Decorative Cube A'}, {kind:'system', key:'rot', label:'Rotating Units'} ],
+    'room8-8a.jpg': [ {kind:'product', room:8, match:'Gemma Bronze'} ],
+    'room8-rotating-panels.jpg': [ {kind:'system', key:'rot', label:'Rotating Units'} ]
+  }; }
+
+  // Resolves one PHOTO_TAGS descriptor into a clickable/hoverable chip. Returns null for an unresolved
+  // match (dropped from the list) so a bad `match` string fails soft instead of throwing.
+  resolveTag(tag, photoKey, idx, hoverKey, hi){
+    const key=photoKey+'#'+idx;
+    let label, sub, fmt=null, onClick=()=>{};
+    if(tag.kind==='product'){
+      const roomLabel='Room '+tag.room;
+      const p=this.products.find(x=>(x.station===tag.room||x.room===roomLabel) && x.n.toLowerCase().indexOf(tag.match.toLowerCase())>-1 && (!tag.fmt||x.fmt===tag.fmt));
+      if(!p) return null;
+      label=p.n; sub=p.spec; fmt=p.fmt; onClick=()=>this.openDetail(p.id);
+    } else if(tag.kind==='furniture'){
+      const fp=(this.FURNITURE_PINS[tag.room]||[]).find(f=>f.label.toLowerCase().indexOf(tag.match.toLowerCase())>-1);
+      if(!fp) return null;
+      label=fp.label; sub=fp.real?'Anatolia product — see Furniture group on the Floor Plan':(fp.note||'Showroom prop — not an Anatolia product'); fmt='In Furniture';
+    } else if(tag.kind==='system'){
+      const FMT_OF={s160:'Sliding Panel',s120:'Sliding Panel',wf:'Waterfall',rot:'Rotating Panel'};
+      label=tag.label; sub='Display system · click to locate on the Floor Plan'; fmt=FMT_OF[tag.key]||'Sliding Panel';
+      onClick=()=>{ this.setState({section:'floorplan', sel:{type:'system',key:tag.key}}); setTimeout(()=>document.querySelector('main')?.scrollTo(0,0),0); };
+    } else { label=tag.label; sub='Not an Anatolia product'; }
+    const acc=fmt?this.ACC[fmt]:'#9a948a';
+    const hovered=hoverKey===key, dim=!!(hi && fmt && fmt!==hi);
+    return { key, label, sub, accentRaw:acc, fmt,
+      chipStyle:`display:inline-flex;align-items:center;gap:7px;padding:7px 12px;border:1px solid ${hovered?acc:'rgba(26,26,28,.16)'};background:${hovered?acc:'#FAF8F4'};color:${hovered?'#FAF8F4':'#1A1A1C'};cursor:pointer;font-family:inherit;font-size:10.5px;letter-spacing:.02em;white-space:nowrap;opacity:${dim?.35:1};transition:all .22s`,
+      dot:`width:6px;height:6px;flex:none;border-radius:50%;background:${hovered?'#FAF8F4':acc}`,
+      onClick, onEnter:()=>this.galleryHoverSet(key), onLeave:()=>this.galleryHoverSet(null) };
+  }
+
+  get products(){
+    if(this._p && this._dataAt===this.state.dataReady) return this._p;
+    const D=window.ANATOLIA_DATA; const out=[]; let i=0;
+    const matOf=(sz)=> sz.indexOf('120 × 120')>-1 ? 'Rectified Colorsync porcelain tile.' : 'Rectified Colorsync sintered slab.';
+    const push=(o)=>{ out.push(Object.assign({id:'p'+(i++)},o)); };
+    if(D){
+      const mk=(r,fmt,room,size,loc,face)=>{ const [n,f,th,no,cat]=r; push({n,f,th,no,cat,fmt,room,sz:size,loc,face:face||'—',col:this.collection(n),colour:this.colourFam(cat),material:matOf(size),spec:`${size} · ${f} · ${th}`}); };
+      D.sliding160.forEach((r,k)=>mk(r,'Sliding Panel','Room 4','160 × 320 cm','Slab '+(k+1)));
+      D.sliding120.forEach((r,k)=>mk(r,'Sliding Panel','Room 5','120 × 280 cm', r[5]||('Mini Slab '+this.pad(k+1))));
+      D.waterfall.forEach((r,k)=>mk(r,'Waterfall','Room 6','60 × 280 cm', r[5]||('Waterfall Display '+this.pad(k+1))));
+      D.fixed.forEach((r,k)=>{ const panel=Math.floor(k/2)+1; const face=k%2===0?'A (front)':'B (back)'; const size=r[2]==='12 mm'?'162 × 322 cm':'160 × 320 cm'; mk(r,'Pre-fixed Panel','Hall',size,'Panel P'+this.pad(panel)+' · '+face, face); });
+      D.rotating.forEach((r,k)=>mk(r,'Rotating Panel','Room 8','120 × 120 cm', k<10?'Right Unit · '+(k+1):'Left Unit · '+(k-9)));
+    }
+    this.EXTRAS.forEach(e=>{ const [n,size,f,th,no,cat,fmt,station,loc]=e;
+      push({n,f,th,no,cat,fmt,room:(fmt==='Floor'?'Main Floors':fmt==='Tower'?'Sample Tower':'Station '+station),sz:size,loc,face:'—',station,col:this.collection(n),colour:this.colourFam(cat),material:matOf(size),spec:`${size} · ${f} · ${th}`}); });
+    this._p=out; this._dataAt=this.state.dataReady; return out;
+  }
+  byRoom(room){ return this.products.filter(p=>p.room===room); }
+  fixedPanels(){
+    const hall=this.products.filter(p=>p.fmt==='Pre-fixed Panel');
+    // Spatial layout read straight from the architectural PDF (page 2, LAY). Each entry is
+    // [frontBomIndex, backBomIndex] into the BOM 'fixed' list (= hall order). The BOM is authored in
+    // a serpentine that walks each wing's grid, so front/back are the two labels the PDF stacks in one
+    // column, NOT the raw sequential BOM pairs. When the two indices match, the panel is a single-slab
+    // feature shown the same on both faces (22 two-sided + 2 single = 46 faces = 24 panels).
+    // Order matches the render grid below: LW top c0-5, LW bottom c0-5, RW top c0-5, RW bottom c0-5.
+    const LAYOUT=[
+      [0,22],[1,21],[2,20],[3,19],[4,18],[5,17],       // left wing · top row
+      [23,45],[24,44],[25,43],[26,42],[27,41],[28,40], // left wing · bottom row
+      [6,16],[15,15],[7,14],[8,13],[9,12],[10,11],     // right wing · top row (c1 = single slab)
+      [29,39],[30,30],[31,38],[32,37],[33,36],[34,35]  // right wing · bottom row (c1 = single slab)
+    ];
+    const out=LAYOUT.map(([f,b])=>{
+      const front=hall[f]||null;
+      return f===b ? {front, back:front, bookmatch:true} : {front, back:hall[b]||null};
+    });
+    out.forEach((p,k)=>p.code='P'+this.pad(k+1));
+    return out;
+  }
+
+  icon(fmt){
+    const e=React.createElement, S={fill:'none',stroke:'currentColor',strokeWidth:1.4,strokeLinecap:'round',strokeLinejoin:'round'};
+    const wrap=(...ch)=>e('svg',{viewBox:'0 0 24 24',width:'100%',height:'100%',...S},ch);
+    switch(fmt){
+      case 'Waterfall': return wrap(e('path',{key:1,d:'M7 4v8a4 4 0 0 0 4 4h7'}),e('path',{key:2,d:'M11 4v8'}));
+      case 'Sliding Panel': return wrap(e('rect',{key:1,x:4,y:5,width:16,height:14}),e('path',{key:2,d:'M11 12H7m1.6-1.8L6.8 12l1.8 1.8M13 12h4m-1.6-1.8L17.2 12l-1.8 1.8'}));
+      case 'Pre-fixed Panel': return wrap(e('rect',{key:1,x:4,y:4,width:16,height:16}),e('rect',{key:2,x:7.5,y:7.5,width:9,height:9}));
+      case 'Floor': return wrap(e('rect',{key:1,x:4,y:4,width:16,height:16}),e('path',{key:2,d:'M4 10h16M4 15h16M10 4v16M15 4v16'}));
+      case 'Tower': return wrap(e('path',{key:1,d:'M7 5h10M7 9.3h10M7 13.6h10M7 18h10'}));
+      case 'Rotating Panel': return wrap(e('circle',{key:1,cx:12,cy:12,r:7.5}),e('path',{key:2,d:'M12 4.5a7.5 7.5 0 0 1 6.4 3.6'}),e('path',{key:3,d:'M18.6 5.2v3h-3'}));
+      case 'In Furniture': return wrap(e('rect',{key:1,x:4,y:8,width:16,height:7}),e('path',{key:2,d:'M6.5 15v4M17.5 15v4'}));
+      case 'Room Setting': return wrap(e('path',{key:1,d:'M4 11 12 4l8 7v9H4z'}),e('path',{key:2,d:'M9 20v-5h6v5'}));
+      case 'On Wall': return wrap(e('rect',{key:1,x:3,y:4,width:18,height:16}),e('rect',{key:2,x:13,y:8,width:5,height:6}));
+      default: return wrap(e('rect',{key:1,x:5,y:5,width:14,height:14}));
+    }
+  }
+
+  get SYS(){ return [
+    // Sliding banks sit INSIDE their area (4 & 5), drawn as angled V-slats hanging from the top.
+    {id:'s160', label:'Sliding Bank A', sub:'160 × 320 · Area 4', fmt:'Sliding Panel', room:'Room 4', x:16, y:5, w:26, h:14},
+    {id:'s120', label:'Sliding Bank B', sub:'120 × 280 · Area 5', fmt:'Sliding Panel', room:'Room 5', x:58, y:5, w:26, h:14}
+  ]; }
+  get STN(){ return [
+    // Real space 2900 × 1343.8 cm (46.3% aspect). Each wing = OUTER column (445 cm = 15.3%) + INNER column.
+    // Horizontal: L-out 0–15.3 | L-in 15.3–43.1 | corridor 43.1–56.9 | R-in 56.9–84.7 | R-out 84.7–100.
+    // Vertical bands: top 0–27.4 | middle 27.4–72.6 | bottom 72.6–100. Inner columns' middle = pre-fix panels.
+    // Areas wrap the perimeter; display objects (sliding/waterfall/rotating) are drawn inside their area.
+    {id:3, num:'03', label:'Meeting Room', sub:'Dining · TV',          fmt:'Room Setting', x:0,    y:0,    w:15.3, h:40},
+    {id:2, num:'02', label:'Lounge',       sub:'Chaise · Armchair',    fmt:'In Furniture', x:0,    y:40,   w:15.3, h:60},
+    {id:4, num:'04', label:'Sliding Bank A', sub:'160 × 320 slabs',    fmt:'Sliding Panel', x:15.3, y:0,   w:27.8, h:27.4},
+    {id:1, num:'01', label:'Bathroom',     sub:'Bathtub · Walls',      fmt:'Room Setting', x:15.3, y:72.6, w:27.8, h:27.4},
+    {id:5, num:'05', label:'Sliding Bank B', sub:'120 × 280 slabs',    fmt:'Sliding Panel', x:56.9, y:0,   w:27.8, h:27.4},
+    {id:8, num:'08', label:'Rotating',     sub:'Tile displays',        fmt:'Rotating Panel', x:56.9, y:72.6, w:27.8, h:27.4},
+    {id:6, num:'06', label:'Waterfall',    sub:'On-wall cascade',      fmt:'Waterfall',    x:84.7, y:0,    w:15.3, h:40},
+    {id:7, num:'07', label:'Kitchen',      sub:'Counter · Hood',       fmt:'In Furniture', x:84.7, y:40,   w:15.3, h:60}
+  ]; }
+
+  enter(){ this.setState({view:'app'}); }
+  goHome(){ this.setState({view:'hero'}); }
+  go(section){ this.setState({section, selected:null}); document.querySelector('main')?.scrollTo(0,0); }
+  setFilter(k,v){ this.setState(s=>({filters:{...s.filters,[k]:v}})); }
+  clearFilters(){ this.setState({filters:{collection:'All',format:'All',colour:'All',finish:'All',size:'All',room:'All'}}); }
+  openDetail(id){ this.setState({selected:id}); }
+  closeDetail(){ this.setState({selected:null}); }
+  toggleHi(fmt){ this.setState(s=>({hiFormat: s.hiFormat===fmt?null:fmt})); }
+  clearHi(){ this.setState({hiFormat:null}); }
+  pick(type,key){ this.setState({sel:{type,key}, openGroups:{}}); }
+  deselect(){ this.setState({sel:null}); }
+  toggleGroup(key){ this.setState(s=>({openGroups:{...s.openGroups,[key]:!s.openGroups[key]}})); }
+  openLightbox(photo){ this.setState({lightbox:photo}); }
+  closeLightbox(){ this.setState({lightbox:null}); }
+  galleryGo(room){ this.setState({galleryRoom:room, galleryHover:null});
+    setTimeout(()=>document.getElementById('room-panel-'+room)?.scrollIntoView({behavior:'smooth',inline:'start',block:'nearest'}),0); }
+  galleryNav(dir){ const rooms=Object.keys(this.ROOM_PHOTOS).map(Number).sort((a,b)=>a-b);
+    const i=rooms.indexOf(this.state.galleryRoom); const next=rooms[Math.min(rooms.length-1,Math.max(0,i+dir))];
+    this.galleryGo(next); }
+  gallerySetPhoto(room,file){ this.setState(s=>({galleryPhoto:{...s.galleryPhoto,[room]:file}, galleryHover:null})); }
+  galleryHoverSet(key){ this.setState({galleryHover:key}); }
+  viewSelOnPlan(){
+    const p=this.products.find(x=>x.id===this.state.selected); if(!p) return;
+    let sel=null;
+    if(p.fmt==='Pre-fixed Panel'){ const fp=this.fixedPanels().findIndex(pl=>(pl.front&&pl.front.id===p.id)||(pl.back&&pl.back.id===p.id)); if(fp>=0) sel={type:'panel',key:fp}; }
+    else if(p.room==='Room 4') sel={type:'system',key:'s160'};
+    else if(p.room==='Room 5') sel={type:'system',key:'s120'};
+    else if(p.room==='Room 6') sel={type:'system',key:'wf'};
+    else if(p.room==='Room 8') sel={type:'system',key:'rot'};
+    else if(p.room==='Sample Tower') sel={type:'system',key:'tower'};
+    else if(p.fmt==='Floor') sel={type:'floor',key:'floor'};
+    else if(p.station) sel={type:'station',key:p.station};
+    this.setState({section:'floorplan', selected:null, hiFormat:p.fmt, sel, openGroups:{}});
+    setTimeout(()=>document.querySelector('main')?.scrollTo(0,0),0);
+  }
+
+  renderVals(){
+    const st=this.state, accent=this.props.accent||'#A07E5A';
+    const P=this.products, FMT=this.FMT, ACC=this.ACC, hi=st.hiFormat;
+    const bg=(p)=>this.bg(p);
+    const v={};
+    v.isHero=st.view==='hero'; v.isApp=st.view==='app';
+    v.isOverview=st.section==='overview'; v.isGallery=st.section==='gallery'; v.isFloor=st.section==='floorplan'; v.isBeyond=st.section==='beyond'; v.isSliding=st.section==='sliding';
+    v.enter=()=>this.enter(); v.goHome=()=>this.goHome(); v.stop=(e)=>e.stopPropagation();
+    v.closeDetail=()=>this.closeDetail(); v.clearFilters=()=>this.clearFilters(); v.viewSelOnPlan=()=>this.viewSelOnPlan();
+    v.deselect=()=>this.deselect();
+    v.gridCols=this.props.density==='Compact'?'repeat(auto-fill,minmax(180px,1fr))':'repeat(auto-fill,minmax(232px,1fr))';
+
+    const navDef=[['overview','Overview',P.length],['gallery','Gallery',P.length],['floorplan','Floor Plan',this.STN.length],['sliding','Sliding Panels',48],['beyond','Beyond','']];
+    v.navItems=navDef.map(([id,label,count])=>{ const active=st.section===id; return { label,count,onClick:()=>this.go(id),
+      style:`position:relative;display:flex;align-items:center;gap:14px;background:none;border:none;cursor:pointer;font-family:inherit;padding:13px 30px;color:${active?'#FAF8F4':'rgba(250,248,244,.5)'};transition:color .3s`,
+      bar:`position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:${active?'20px':'0px'};background:${accent};transition:height .3s` }; });
+
+    v.formatList=FMT.map(f=>{ const count=P.filter(p=>p.fmt===f).length; const acc=ACC[f]; const on=hi===f;
+      return { id:f,label:f,accent:acc,desc:this.DESC[f],count,icon:this.icon(f),
+        chip:`flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:${acc};padding:7px`,
+        chipSm:`flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:${acc};padding:6px`,
+        onGallery:()=>{ this.clearFilters(); this.setFilter('format',f); this.go('gallery'); },
+        onHi:()=>this.toggleHi(f),
+        legendStyle2:`display:flex;flex-direction:column;align-items:flex-start;gap:7px;background:${on?'#1A1A1C':'#FAF8F4'};color:${on?'#FAF8F4':'#1A1A1C'};border:none;cursor:pointer;font-family:inherit;padding:10px 10px;transition:background .3s,color .3s` }; });
+
+    v.statCards=[ {value:P.length,label:'Surfaces catalogued'},{value:FMT.length,label:'Display formats'},{value:this.STN.length,label:'Booth stations'},{value:new Set(P.map(p=>p.col)).size,label:'Collections'} ];
+
+    // Booth photography, grouped by the room the camera was standing in — an interactive room-by-room
+    // gallery: a room rail + one scroll-snapped panel per room, each with a stage image, a filmstrip of
+    // that room's other shots, and "visible in this shot" chips (from PHOTO_TAGS) that hover-highlight
+    // and click through to the product detail / floor plan, exactly like the Floor Plan's own format
+    // legend (reuses the same `hiFormat` state, so lighting up a format above dims non-matching chips).
+    const RP=this.ROOM_PHOTOS, PT=this.PHOTO_TAGS;
+    const galleryRoomList=Object.keys(RP).map(Number).sort((a,b)=>a-b);
+    v.galleryRooms=galleryRoomList.map((id,i)=>{
+      const s=this.STN.find(x=>x.id===id); const photos=RP[id];
+      const activeFile=(st.galleryPhoto&&st.galleryPhoto[id])||photos[0][0];
+      const activeEntry=photos.find(([f])=>f===activeFile)||photos[0];
+      const active=st.galleryRoom===id;
+      const tags=(PT[activeFile]||[]).map((t,idx)=>this.resolveTag(t,activeFile,idx,st.galleryHover,hi)).filter(Boolean);
+      const hoveredTag=tags.find(t=>t.key===st.galleryHover);
+      return {
+        id, domId:'room-panel-'+id, num:s.num, label:s.label, sub:s.sub, count:photos.length,
+        progress:this.pad(i+1)+' / '+this.pad(galleryRoomList.length),
+        tabStyle:`flex:none;display:flex;flex-direction:column;align-items:flex-start;gap:3px;padding:9px 14px;border:none;border-bottom:2px solid ${active?accent:'transparent'};background:${active?'#FAF8F4':'transparent'};cursor:pointer;font-family:inherit;text-align:left;transition:all .25s`,
+        onTabClick:()=>this.galleryGo(id),
+        stageWrap:`position:relative;cursor:pointer;height:380px;overflow:hidden;border:2px solid ${hoveredTag?hoveredTag.accentRaw:'transparent'};transition:border-color .25s`,
+        stage:`width:100%;height:100%;background:url('assets/room-photos/${activeFile}') center/cover`,
+        stageOnClick:()=>this.openLightbox({ bg:`width:min(1200px,90vw);height:min(78vh,800px);background:url('assets/room-photos/${activeFile}') center/contain no-repeat`,
+          caption:s.num+' · '+s.label+' — '+activeEntry[1] }),
+        caption:activeEntry[1],
+        filmstrip:photos.map(([file,cap])=>({ file, active:file===activeFile, title:cap,
+          thumb:`flex:none;width:74px;height:56px;cursor:pointer;background:url('assets/room-photos/${file}') center/cover;border:2px solid ${file===activeFile?accent:'transparent'};opacity:${file===activeFile?1:.6};transition:all .2s`,
+          onClick:()=>this.gallerySetPhoto(id,file) })),
+        tags
+      };
+    });
+    v.galleryPrev=()=>this.galleryNav(-1); v.galleryNext=()=>this.galleryNav(1);
+    v.lightboxOpen=!!st.lightbox; v.lightbox=st.lightbox||{}; v.closeLightbox=()=>this.closeLightbox();
+
+    const facetDefs=[['collection','Collection','col'],['format','Format','fmt'],['colour','Colour','colour'],['finish','Finish','f'],['size','Size','sz'],['room','Location','room']];
+    v.facets=facetDefs.map(([key,label,field])=>{ const vals=['All',...Array.from(new Set(P.map(p=>p[field])))];
+      return { key,label, options:vals.map(val=>{ const active=st.filters[key]===val; const count=val==='All'?P.length:P.filter(p=>p[field]===val).length;
+        return { val,label:val==='All'?`All (${count})`:val,active,onClick:()=>this.setFilter(key,val),
+          style:`cursor:pointer;font-family:inherit;font-size:11px;letter-spacing:.04em;padding:6px 11px;border:1px solid ${active?accent:'rgba(26,26,28,.16)'};background:${active?accent:'transparent'};color:${active?'#161617':'#3a382f'};transition:all .25s` }; }) }; });
+    v.clearStyle=`cursor:pointer;background:none;border:none;font-family:inherit;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:${accent}`;
+
+    const fl=st.filters;
+    const filtered=P.filter(p=>(fl.collection==='All'||p.col===fl.collection)&&(fl.format==='All'||p.fmt===fl.format)&&(fl.colour==='All'||p.colour===fl.colour)&&(fl.finish==='All'||p.f===fl.finish)&&(fl.size==='All'||p.sz===fl.size)&&(fl.room==='All'||p.room===fl.room));
+    v.resultCount=filtered.length;
+    const tileH=this.props.density==='Compact'?210:268;
+    v.gallery=filtered.map(p=>({ id:p.id,n:p.n,col:p.col,spec:p.spec,fmt:p.fmt,
+      tex:`background:${bg(p)};position:relative;overflow:hidden;width:100%;height:${tileH}px`,
+      fmtTag:`position:absolute;left:0;bottom:0;background:${ACC[p.fmt]};color:#FAF8F4;font-size:8.5px;letter-spacing:.14em;text-transform:uppercase;font-weight:700;padding:5px 9px`,
+      open:()=>this.openDetail(p.id) }));
+
+    // ===== FLOOR PLAN =====
+    const litFmt=(f)=> !hi || f===hi;
+    const fAct=st.sel&&st.sel.type==='floor';
+    v.floor={ txt:fAct?'#3f463a':'#9a948a',
+      // Central corridor pass-through = the porcelain walkway. Narrow aisle so the panel banks
+      // spread through the middle with just a bit of space between them, matching the PDF.
+      style:`position:absolute;left:46.9%;top:1%;width:6.2%;height:98%;background:${fAct?'rgba(124,133,118,.16)':'rgba(255,255,255,.28)'};border:${fAct?`1.5px solid ${ACC.Floor}`:'1px dashed rgba(26,26,28,.14)'};opacity:${litFmt('Floor')?1:.4};cursor:pointer;z-index:1;background-image:repeating-linear-gradient(0deg,transparent 0,transparent 11%,rgba(26,26,28,.04) 11%,rgba(26,26,28,.04) calc(11% + 1px)),repeating-linear-gradient(90deg,transparent 0,transparent 30%,rgba(26,26,28,.04) 30%,rgba(26,26,28,.04) calc(30% + 1px));transition:all .4s`,
+      onClick:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); this.pick('floor','floor'); } };
+
+    // Sliding banks: angled V-slats (left half leans \, right half leans /) inside areas 4 & 5.
+    v.banks=this.SYS.map(sys=>{ const lit=litFmt('Sliding Panel'); const active=st.sel&&st.sel.type==='system'&&st.sel.key===sys.id;
+      return { label:sys.label.replace('Sliding ',''),
+        onClick:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); this.pick('system',sys.id); },
+        wrap:`position:absolute;left:${sys.x}%;top:${sys.y}%;width:${sys.w}%;height:${sys.h}%;cursor:pointer;z-index:5;display:flex;background:#1A1A1C;padding:2px;gap:2px;opacity:${lit?1:.28};box-shadow:${active?`0 0 0 2px ${accent}`:'0 1px 3px rgba(0,0,0,.18)'};transition:opacity .4s,box-shadow .3s`,
+        slatL:`flex:1;background:repeating-linear-gradient(65deg,#cbc4b8 0 3px,#1A1A1C 3px 5px)`,
+        slatR:`flex:1;background:repeating-linear-gradient(115deg,#cbc4b8 0 3px,#1A1A1C 3px 5px)`,
+        lab:`position:absolute;left:0;bottom:-15px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#9a948a;white-space:nowrap` }; });
+
+    // Waterfall: angled rack on the right wall, inside area 6 (top-right corner).
+    { const active=st.sel&&st.sel.type==='system'&&st.sel.key==='wf'; const lit=litFmt('Waterfall');
+      v.waterfall={ onClick:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); this.pick('system','wf'); },
+        wrap:`position:absolute;left:94%;top:5%;width:5%;height:30%;cursor:pointer;z-index:5;background:repeating-linear-gradient(125deg,#c2ad8c 0 3px,#1A1A1C 3px 5px);border:1px solid #1A1A1C;opacity:${lit?1:.28};box-shadow:${active?`0 0 0 2px ${accent}`:'0 1px 3px rgba(0,0,0,.2)'};transition:opacity .4s,box-shadow .3s`,
+        lab:`position:absolute;right:0;bottom:-15px;font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#9a948a;white-space:nowrap` }; }
+
+    // Rotating: two rectangular tile-display panels inside area 8 (bottom-center-right).
+    { const active=st.sel&&st.sel.type==='system'&&st.sel.key==='rot'; const lit=litFmt('Rotating Panel');
+      v.rotating={ onClick:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); this.pick('system','rot'); },
+        wrap:`position:absolute;left:60%;top:81%;width:24%;height:11%;cursor:pointer;z-index:6;display:flex;align-items:center;justify-content:center;gap:14%;opacity:${lit?1:.28};transition:opacity .4s`,
+        discs:[0,1].map(()=>`flex:1;height:100%;background:${this.flatCol('green')};border:2px solid #1A1A1C;box-shadow:${active?`0 0 0 2px ${accent}`:'0 1px 3px rgba(0,0,0,.25)'}`),
+        lab:`position:absolute;left:50%;bottom:-13px;transform:translateX(-50%);font-size:8px;letter-spacing:.12em;text-transform:uppercase;color:#9a948a` }; }
+
+    { const panels=this.fixedPanels(); const lit=litFmt('Pre-fixed Panel');
+      // Pre-fix panels: 24 panels in a 12-left + 12-right grid (6 cols × 2 rows each). 22 are two-sided;
+      // 2 are bookmatch (same slab both faces). Groups sit in each wing's INNER column with a margin from
+      // the corridor so the centre stays open, matching the PDF.
+      const groups=[{x0:15.5,y0:32,w:30.5,h:36},{x0:54,y0:32,w:30.5,h:36}];
+      const cells=[]; const COLS=6, ROWS=2;
+      for(let k=0;k<24;k++){ const g=groups[k<12?0:1]; const idx=k%12; const c=idx%COLS, r=Math.floor(idx/COLS);
+        const cw=g.w/COLS, ch=g.h/ROWS; const x=g.x0+c*cw, y=g.y0+r*ch;
+        const pl=panels[k]||null; const active=st.sel&&st.sel.type==='panel'&&st.sel.key===k;
+        // Diagonal orientation matches the PDF: top rows run bottom-left → top-right on even columns.
+        const dir=((r+c)%2===0)?'to top left':'to top right';
+        const baseCol=pl?(pl.bookmatch?'#7C6A48':'#2A2A2C'):'rgba(42,42,44,.32)';
+        const col=active?accent:baseCol; const a=active?'42%':'45%'; const b=active?'58%':'55%';
+        cells.push({ title:pl?(pl.code+(pl.bookmatch?' (bookmatch — same slab both faces): '+(pl.front?pl.front.n:'—'):' — Front: '+(pl.front?pl.front.n:'—')+'  ·  Back: '+(pl.back?pl.back.n:'—'))):'Panel slot (unassigned)',
+          onClick:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); if(pl) this.pick('panel',k); },
+          style:`position:absolute;left:${x}%;top:${y}%;width:${cw-0.3}%;height:${ch-0.3}%;${pl?'cursor:pointer;':''}background:linear-gradient(${dir},transparent ${a},${col} ${a},${col} ${b},transparent ${b});transition:opacity .2s` }); }
+      v.fixed={ label:'Pre-fix Panels · 24 diagonal walls (2 bookmatch)',
+        wrap:`position:absolute;inset:0;z-index:3;opacity:${lit?1:.3};transition:opacity .4s`,
+        lab:`position:absolute;left:50%;top:26%;transform:translateX(-50%);font-size:8px;letter-spacing:.16em;text-transform:uppercase;color:#9a948a;white-space:nowrap;z-index:3`,
+        lines:cells }; }
+
+    v.stations=this.STN.map(s=>{ const acc=ACC[s.fmt]; const lit=litFmt(s.fmt); const active=st.sel&&st.sel.type==='station'&&st.sel.key===s.id;
+      const bgc=active?acc:(lit?'rgba(250,248,244,.95)':'rgba(244,241,236,.5)');
+      const txt=active?'#FAF8F4':(lit?'#1A1A1C':'#b3ada3'); const txt2=active?'rgba(250,248,244,.72)':(lit?'#6E6A62':'#bdb7ad');
+      return { num:s.num, label:s.label, sub:s.sub, txt, txt2,
+        style:`position:absolute;left:${s.x}%;top:${s.y}%;width:${s.w}%;height:${s.h}%;border:${active?`2px solid ${acc}`:`1px solid ${lit?'rgba(26,26,28,.28)':'rgba(26,26,28,.12)'}`};background:${bgc};opacity:${lit?1:.4};cursor:pointer;padding:9px 10px;display:flex;flex-direction:column;transition:all .4s;overflow:hidden;z-index:4`,
+        dot:`position:absolute;right:8px;bottom:8px;width:8px;height:8px;background:${acc};opacity:${active?0:1}`,
+        onClick:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); this.pick('station',s.id); } }; });
+
+    // Furniture pins on the plan itself are paused until we have proper per-object icons — placement
+    // felt arbitrary with a generic glyph. The data (FURNITURE_PINS) stays wired into each room's
+    // Furniture group in the side panel below; only the on-plan markers are switched off.
+
+    v.clearHiStyle=`cursor:pointer;background:none;border:none;font-family:inherit;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:${hi?accent:'rgba(26,26,28,.3)'}`;
+
+    // contextual panel
+    const sel=st.sel; const ctx={isList:false,isPanel:false,isGrouped:false,isEmpty:!sel};
+    const listItem=(p,n0)=>({ n:p.n, sub:`${p.col} · ${p.f} · ${p.th}`, n0:(n0||''), open:()=>this.openDetail(p.id),
+      idx:`flex:none;width:18px;text-align:right;font-size:9px;color:#9a948a;font-variant-numeric:tabular-nums`,
+      thumb:`flex:none;width:30px;height:30px;background:${bg(p)}` });
+    if(sel){
+      if(sel.type==='panel'){
+        const pl=this.fixedPanels()[sel.key]||{}; ctx.isPanel=true;
+        ctx.chip=`flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:${ACC['Pre-fixed Panel']};padding:7px`;
+        ctx.icon=this.icon('Pre-fixed Panel'); ctx.title='Fixed Panel '+(pl.code||''); ctx.sub='Pre-fixed · double-sided';
+        ctx.faces=[];
+        if(pl.front) ctx.faces.push({face:'A · Front',n:pl.front.n,sub:`${pl.front.col} · ${pl.front.sz}`,thumb:`flex:none;width:42px;height:42px;background:${bg(pl.front)}`,open:()=>this.openDetail(pl.front.id)});
+        if(pl.back) ctx.faces.push({face:'B · Back',n:pl.back.n,sub:`${pl.back.col} · ${pl.back.sz}`,thumb:`flex:none;width:42px;height:42px;background:${bg(pl.back)}`,open:()=>this.openDetail(pl.back.id)});
+      } else if(sel.type==='station'){
+        // A room's click list combines everything staged there: the display system physically inside
+        // that room (sliding bank / waterfall / rotating units, tagged via `room`) plus wall/floor/
+        // furniture (tagged via EXTRAS `station`). Shown as separate expandable sub-groups rather than
+        // one flat sequence, so e.g. "Waterfall" / "Walls" / "Floor" / "Furniture" open independently.
+        const s=this.STN.find(x=>x.id===sel.key); const roomLabel='Room '+sel.key;
+        const items=this.products.filter(p=>p.station===sel.key || p.room===roomLabel);
+        ctx.isGrouped=true;
+        ctx.chip=`flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:${ACC[s.fmt]};padding:7px`;
+        ctx.icon=this.icon(s.fmt); ctx.title=s.num+' · '+s.label; ctx.sub=s.sub+' · '+items.length+' surfaces';
+        const SYS_NAME={4:'Sliding Bank A',5:'Sliding Bank B',6:'Waterfall Cascade',8:'Rotating Units'};
+        const GROUP_FMT={wall:'On Wall',floor:'Floor',furniture:'In Furniture'};
+        const groupOf=(p)=> p.room===roomLabel ? 'system' : p.fmt==='Floor' ? 'floor' : p.fmt==='In Furniture' ? 'furniture' : 'wall';
+        const buckets={};
+        items.forEach(p=>{ const g=groupOf(p); (buckets[g]=buckets[g]||[]).push(p); });
+        // Furniture props (bathtub, armchair, decorative cubes, TV, kitchen counter...) aren't Anatolia
+        // products so they never enter `this.products` — fold them into the Furniture bucket here.
+        (this.FURNITURE_PINS[sel.key]||[]).filter(fp=>!fp.real).forEach(fp=>{
+          (buckets.furniture=buckets.furniture||[]).push({__prop:true, label:fp.label, note:fp.note});
+        });
+        const numbered=(sel.key===4||sel.key===5||sel.key===6);
+        const propItem=(fp)=>({ n:fp.label, sub:fp.note, n0:'', open:()=>{},
+          idx:`flex:none;width:18px;text-align:right;font-size:9px;color:#9a948a;font-variant-numeric:tabular-nums`,
+          thumb:`flex:none;width:30px;height:30px;background:${ACC['In Furniture']}` });
+        ctx.groups=['system','wall','floor','furniture'].filter(g=>buckets[g]&&buckets[g].length).map(g=>{
+          const gk='r'+sel.key+'-'+g; const open=!!st.openGroups[gk];
+          const gfmt=g==='system'?buckets[g][0].fmt:GROUP_FMT[g];
+          const label=g==='system'?(SYS_NAME[sel.key]||'Display System'):g==='wall'?'Walls':g==='floor'?'Floor':'Furniture';
+          return { key:gk, label, count:buckets[g].length, open, onToggle:()=>this.toggleGroup(gk),
+            caret: open?'−':'+',
+            chip:`flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:${ACC[gfmt]};padding:5px`,
+            icon:this.icon(gfmt),
+            items: buckets[g].map((p,k)=>p.__prop?propItem(p):listItem(p, (g==='system'&&numbered)?this.pad(k+1):'')) };
+        });
+      } else {
+        let items=[], title='', sub='', fmt='Floor', numbered=false;
+        if(sel.type==='system'){
+          const map={s160:['Room 4','Sliding Bank A','160 × 320 cm · pull-out rail','Sliding Panel'],s120:['Room 5','Sliding Bank B','120 × 280 cm · pull-out rail','Sliding Panel'],wf:['Room 6','Waterfall','60 × 280 cm · cascade · front & back','Waterfall'],rot:['Room 8','Rotating Units','120 × 120 cm · swivel','Rotating Panel'],tower:['Sample Tower','Sample Tower','Finishes board','Tower']};
+          const m=map[sel.key]; title=m[1]; sub=m[2]; fmt=m[3];
+          items=this.byRoom(m[0]); numbered=(sel.key==='s160'||sel.key==='s120'||sel.key==='wf');
+        } else if(sel.type==='floor'){ items=this.products.filter(p=>p.fmt==='Floor'); title='Main Floors'; sub='120 × 120 cm porcelain'; fmt='Floor'; }
+        ctx.isList=true;
+        ctx.chip=`flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:${ACC[fmt]};padding:7px`;
+        ctx.icon=this.icon(fmt); ctx.title=title; ctx.sub=sub+' · '+items.length+' surfaces';
+        ctx.items=items.map((p,k)=>listItem(p, numbered?this.pad(k+1):''));
+      }
+    }
+    v.ctx=ctx;
+
+    const dsel=P.find(p=>p.id===st.selected);
+    v.selOpen=!!dsel;
+    if(dsel){
+      v.sel={ n:dsel.n, col:dsel.col, fmt:dsel.fmt, room:dsel.room, loc:dsel.loc, material:dsel.material,
+        icon:this.icon(dsel.fmt),
+        hero:`width:100%;height:100%;background:${bg(dsel)}`,
+        heroTag:`position:absolute;left:0;bottom:0;background:${ACC[dsel.fmt]};color:#FAF8F4;font-size:10px;letter-spacing:.18em;text-transform:uppercase;font-weight:700;padding:9px 16px`,
+        chip:`flex:none;width:38px;height:38px;display:flex;align-items:center;justify-content:center;background:${ACC[dsel.fmt]};padding:8px`,
+        specs:[
+          {k:'Colour Family',v:dsel.colour},{k:'Finish',v:dsel.f},
+          {k:'Size',v:dsel.sz},{k:'Thickness',v:dsel.th},
+          {k:'Face / Cut',v:dsel.face},{k:'Collection',v:dsel.col},
+          {k:'Product No.',v:dsel.no},{k:'Material',v:dsel.sz.indexOf('120 × 120')>-1?'Porcelain':'Sintered Slab'}
+        ] };
+    } else v.sel={specs:[]};
+
+    v.beyondCards=[
+      {tag:'Locked',title:'Live Inventory Sync',desc:'Bind each surface to real-time stock and block availability across the network.'},
+      {tag:'Locked',title:'Sample Request Tracking',desc:'Let specifiers request chips from the gallery and follow fulfilment end to end.'},
+      {tag:'Locked',title:'Multi-Showroom Switching',desc:'One manager, many floors — compare how a collection merchandises city to city.'},
+      {tag:'Locked',title:'A/B Merchandising Tests',desc:'Trial alternate placements and formats, then measure dwell and request lift.'}
+    ];
+    return v;
+  }
+}
+</script>
+</body>
+</html>
