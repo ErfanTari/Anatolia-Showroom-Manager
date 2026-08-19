@@ -12,6 +12,11 @@
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="">
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&amp;display=swap" rel="stylesheet">
 <script src="./showroom-data.js"></script>
+<script src="./data/showroom-manisa.js"></script>
+<script src="./data/showroom-ekinox.js"></script>
+<script src="./data/showroom-ankara.js"></script>
+<script src="./data/showroom-turkuaz.js"></script>
+<script src="./showrooms.js"></script>
 <style>
   *{box-sizing:border-box;margin:0;padding:0}
   html,body{background:#1A1A1C}
@@ -105,7 +110,17 @@
           <div style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:25px;letter-spacing:.3em">ANATOLIA</div>
           <div style="font-size:9.5px;letter-spacing:.34em;color:#A07E5A;text-transform:uppercase;margin-top:6px;font-weight:600">Showroom Manager</div>
         </div>
-        <nav style="display:flex;flex-direction:column;padding:22px 0;flex:1">
+        <div style="padding:18px 0 16px;border-bottom:1px solid rgba(250,248,244,.08)">
+          <div style="font-size:9px;letter-spacing:.24em;text-transform:uppercase;color:rgba(250,248,244,.3);padding:0 30px 9px">Showroom</div>
+          <sc-for list="{{ showroomList }}" as="sr" hint-placeholder-count="5">
+            <button onClick="{{ sr.onClick }}" style="{{ sr.style }}" style-hover="color:#FAF8F4">
+              <span style="{{ sr.bar }}"></span>
+              <span style="{{ sr.nameStyle }}">{{ sr.name }}</span>
+              <span style="{{ sr.cityStyle }}">{{ sr.city }}</span>
+            </button>
+          </sc-for>
+        </div>
+        <nav class="om-scroll" style="display:flex;flex-direction:column;padding:16px 0;flex:1;overflow-y:auto">
           <sc-for list="{{ navItems }}" as="nav" hint-placeholder-count="4">
             <button onClick="{{ nav.onClick }}" style="{{ nav.style }}" style-hover="color:#FAF8F4">
               <span style="{{ nav.bar }}"></span>
@@ -114,9 +129,9 @@
             </button>
           </sc-for>
         </nav>
-        <div style="padding:24px 30px 0;border-top:1px solid rgba(250,248,244,.08)">
+        <div style="padding:20px 30px 0;border-top:1px solid rgba(250,248,244,.08)">
           <div style="font-size:10px;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,248,244,.4);line-height:1.9">
-            Temporary Showroom<br>Aliağa · İzmir<br><span style="color:#A07E5A">380 m² · C + reverse-C</span>
+            {{ sidebarNote }}<br>{{ sidebarPlace }}<br><span style="color:#A07E5A">{{ sidebarAccent }}</span>
           </div>
         </div>
       </aside>
@@ -127,11 +142,12 @@
         <sc-if value="{{ isOverview }}" hint-placeholder-val="{{ true }}">
         <div style="animation:omFade .6s ease both">
           <div style="position:relative;height:340px;overflow:hidden;background:#161617">
-            <div style="position:absolute;inset:0;background-image:url('assets/photos/onyx-hall.jpg');background-size:cover;background-position:center 40%"></div>
+            <div style="{{ heroStyle }}"></div>
             <div style="position:absolute;inset:0;background:linear-gradient(90deg,rgba(15,15,16,.85),rgba(15,15,16,.25))"></div>
             <div style="position:relative;height:100%;display:flex;flex-direction:column;justify-content:flex-end;padding:46px 56px">
-              <div style="font-size:11px;letter-spacing:.34em;color:#A07E5A;text-transform:uppercase;font-weight:600;margin-bottom:14px">Merchandising Snapshot</div>
-              <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#FAF8F4;font-size:46px;line-height:1.04;max-width:620px">A complete reading of the floor — by surface, format and station.</h2>
+              <div style="font-size:11px;letter-spacing:.34em;color:#A07E5A;text-transform:uppercase;font-weight:600;margin-bottom:14px">Merchandising Snapshot · {{ metaName }}</div>
+              <h2 style="font-family:'Cormorant Garamond',serif;font-weight:300;color:#FAF8F4;font-size:46px;line-height:1.04;max-width:620px">{{ metaTagline }}</h2>
+              <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:rgba(250,248,244,.5);margin-top:16px">{{ metaPlaceArea }}</div>
             </div>
           </div>
 
@@ -149,7 +165,7 @@
               <h3 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;color:#1A1A1C">Display Formats</h3>
               <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#A07E5A">The taxonomy · select to explore</div>
             </div>
-            <p style="font-size:13.5px;color:#6E6A62;max-width:560px;line-height:1.6;margin-bottom:26px">Each surface is presented through one of nine physical formats. Every format is colour-coded and carries through to the gallery and the floor plan.</p>
+            <p style="font-size:13.5px;color:#6E6A62;max-width:560px;line-height:1.6;margin-bottom:26px">Each surface is presented through one of nine physical formats — {{ metaName }} uses {{ formatsUsed }} of them. Every format is colour-coded and carries through to the gallery and the floor plan.</p>
             <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(26,26,28,.1);border:1px solid rgba(26,26,28,.1);margin-bottom:62px">
               <sc-for list="{{ formatList }}" as="fmt" hint-placeholder-count="9">
                 <button onClick="{{ fmt.onGallery }}" style="text-align:left;cursor:pointer;background:#FAF8F4;border:none;font-family:inherit;padding:24px 26px;display:flex;flex-direction:column;gap:16px;transition:background .35s" style-hover="background:#fff">
@@ -163,6 +179,7 @@
               </sc-for>
             </div>
 
+            <sc-if value="{{ hasGallery }}" hint-placeholder-val="{{ true }}">
             <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:6px">
               <h3 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:30px;color:#1A1A1C">Booth Photography</h3>
               <div style="font-size:11px;letter-spacing:.2em;text-transform:uppercase;color:#A07E5A">By room · scroll or use ← → · click a chip to locate it</div>
@@ -219,6 +236,20 @@
               <span style="font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:#9a948a">Scroll, use ← → , or click a room tab above</span>
               <button onClick="{{ galleryNext }}" style="cursor:pointer;background:none;border:1px solid rgba(26,26,28,.2);color:#1A1A1C;width:34px;height:34px;font-family:inherit;font-size:14px" style-hover="border-color:#A07E5A;color:#A07E5A">›</button>
             </div>
+            </sc-if>
+
+            <sc-if value="{{ noGallery }}" hint-placeholder-val="{{ false }}">
+              <div style="border:1px dashed rgba(26,26,28,.2);background:#FAF8F4;padding:34px 32px;display:flex;gap:26px;align-items:flex-start">
+                <div style="flex:1;min-width:0">
+                  <h3 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:26px;color:#1A1A1C">Booth Photography</h3>
+                  <p style="font-size:13px;color:#6E6A62;line-height:1.65;margin-top:10px;max-width:560px">No installed photography has been shot at {{ metaName }} yet. Once room photos land in <code>assets/room-photos/</code>, add them to <code>ROOM_PHOTOS</code> and this room-by-room gallery turns on for this showroom too.</p>
+                </div>
+                <div style="width:230px;flex:none;border-left:1px solid rgba(26,26,28,.1);padding-left:22px">
+                  <div style="font-size:9.5px;letter-spacing:.18em;text-transform:uppercase;color:#A07E5A;font-weight:700;margin-bottom:8px">Source</div>
+                  <div style="font-size:11.5px;color:#6E6A62;line-height:1.6">{{ metaSource }}</div>
+                </div>
+              </div>
+            </sc-if>
           </div>
         </div>
         </sc-if>
@@ -271,12 +302,35 @@
         <div style="padding:34px 40px 60px;animation:omFade .6s ease both">
           <div style="display:flex;align-items:baseline;justify-content:space-between;margin-bottom:8px">
             <h2 style="font-family:'Cormorant Garamond',serif;font-weight:400;font-size:32px;color:#1A1A1C;white-space:nowrap">Showroom Floor Plan</h2>
-            <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6E6A62">Aliağa · İzmir · 380 m²</div>
+            <div style="font-size:11px;letter-spacing:.16em;text-transform:uppercase;color:#6E6A62">{{ metaPlaceArea }}</div>
           </div>
-          <p style="font-size:13.5px;color:#6E6A62;max-width:660px;line-height:1.6;margin-bottom:24px">A schematic top-down of the booth — two facing <strong>C / reverse-C</strong> wings of stations around a central island. Click a sliding bank or waterfall to read its product run; hover a centre panel for its front &amp; back faces; click a station for its walls, floor and furniture. Use the legend to illuminate one format.</p>
+          <p style="font-size:13.5px;color:#6E6A62;max-width:660px;line-height:1.6;margin-bottom:24px">{{ planBlurb }}</p>
 
           <div style="display:flex;gap:28px;align-items:flex-start">
             <div style="flex:1;min-width:0">
+
+              <sc-if value="{{ isFloorGeneric }}" hint-placeholder-val="{{ false }}">
+              <div style="{{ planAspect }}">
+                <div style="position:absolute;inset:16px">
+                  <sc-for list="{{ planBands }}" as="bd" hint-placeholder-count="2">
+                    <div style="{{ bd.style }}">{{ bd.label }}</div>
+                  </sc-for>
+                  <sc-for list="{{ zones }}" as="z" hint-placeholder-count="9">
+                    <div onClick="{{ z.onClick }}" style="{{ z.style }}" style-hover="filter:brightness(.97)">
+                      <span style="{{ z.capStyle }}">
+                        <span style="display:block;font-size:9.5px;letter-spacing:.04em;color:{{ z.txt }};font-weight:700;text-transform:uppercase;line-height:1.15">{{ z.label }}</span>
+                        <span style="display:block;font-size:8.5px;color:{{ z.txt2 }};margin-top:3px;letter-spacing:.03em;line-height:1.3">{{ z.sub }}</span>
+                      </span>
+                      <span style="{{ z.dot }}"></span>
+                    </div>
+                  </sc-for>
+                  <div style="{{ planEntrance }}">Entrance</div>
+                </div>
+              </div>
+              <div style="text-align:center;font-size:10px;letter-spacing:.24em;text-transform:uppercase;color:#9a948a;margin-top:11px">{{ planCaption }}</div>
+              </sc-if>
+
+              <sc-if value="{{ isFloorAps }}" hint-placeholder-val="{{ true }}">
               <div style="position:relative;width:100%;padding-bottom:46.3%;background:#EDE9E2;border:1px solid rgba(26,26,28,.18)">
                 <div style="position:absolute;inset:16px">
 
@@ -328,7 +382,8 @@
                   <div style="position:absolute;left:50%;bottom:-2px;transform:translateX(-50%);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:#9a948a;z-index:2">Entrance</div>
                 </div>
               </div>
-              <div style="text-align:center;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#9a948a;margin-top:11px">380 m² · Temporary Showroom · Aliağa</div>
+              <div style="text-align:center;font-size:10px;letter-spacing:.3em;text-transform:uppercase;color:#9a948a;margin-top:11px">{{ planCaption }}</div>
+              </sc-if>
             </div>
 
             <div style="width:320px;flex:none">
@@ -436,7 +491,7 @@
                 </sc-if>
 
                 <sc-if value="{{ ctx.isEmpty }}" hint-placeholder-val="{{ true }}">
-                  <div style="padding:34px 6px;text-align:center;color:#9a948a;font-size:12.5px;line-height:1.8;font-style:italic;font-family:'Cormorant Garamond',serif">Click a sliding bank or the waterfall<br>to read its product run.<br>Hover a centre panel for its two faces.<br>Click a station for its setting.</div>
+                  <div style="padding:34px 6px;text-align:center;color:#9a948a;font-size:12.5px;line-height:1.8;font-style:italic;font-family:'Cormorant Garamond',serif">{{ ctxHint }}</div>
                 </sc-if>
               </div>
             </div>
@@ -452,7 +507,7 @@
           <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:1px;background:rgba(26,26,28,.1);border:1px solid rgba(26,26,28,.1)">
             <sc-for list="{{ beyondCards }}" as="b" hint-placeholder-count="4">
               <div style="background:#FAF8F4;padding:34px 32px;position:relative;min-height:170px">
-                <div style="position:absolute;top:30px;right:30px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;color:#b8b2a8;border:1px solid rgba(26,26,28,.16);padding:4px 9px">{{ b.tag }}</div>
+                <div style="{{ b.tagStyle }}">{{ b.tag }}</div>
                 <div style="font-family:'Cormorant Garamond',serif;font-weight:500;font-size:24px;color:#1A1A1C;max-width:240px;line-height:1.1">{{ b.title }}</div>
                 <div style="font-size:13px;color:#6E6A62;line-height:1.6;margin-top:14px;max-width:320px">{{ b.desc }}</div>
               </div>
@@ -534,25 +589,79 @@
 <script type="text/x-dc" data-dc-script data-props="{&quot;$preview&quot;:{&quot;width&quot;:&quot;100%&quot;,&quot;height&quot;:&quot;100%&quot;},&quot;accent&quot;:{&quot;editor&quot;:&quot;color&quot;,&quot;default&quot;:&quot;#A07E5A&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;density&quot;:{&quot;editor&quot;:&quot;enum&quot;,&quot;options&quot;:[&quot;Comfortable&quot;,&quot;Compact&quot;],&quot;default&quot;:&quot;Comfortable&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showTextures&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;}}">
 class Component extends DCLogic {
   state = {
-    view: 'hero', section: 'overview',
+    view: 'hero', section: 'overview', showroomId: 'aps',
     filters: { collection:'All', format:'All', colour:'All', finish:'All', size:'All', room:'All' },
     selected: null, hiFormat: null, dataReady:false, sel: null, openGroups: {}, lightbox: null,
     galleryRoom: 1, galleryPhoto: {}, galleryHover: null
   };
 
   componentDidMount(){
-    const check=()=>{ if(window.ANATOLIA_DATA){ this.setState({dataReady:true}); } else setTimeout(check,40); };
+    // The data files are appended to <head> by the helmet, so they land async and
+    // out of order — wait until the registry and every showroom it names have
+    // arrived before flipping `dataReady` (which is also the products cache key).
+    let tries=0;
+    const ready=()=>{
+      if(!window.ANATOLIA_DATA || !Array.isArray(window.SHOWROOMS)) return false;
+      const D=window.SHOWROOM_DATA||{};
+      return window.SHOWROOMS.every(s=>s.bespokePlan || D[s.id]);
+    };
+    const check=()=>{ if(ready() || ++tries>200){ this.setState({dataReady:true}); } else setTimeout(check,40); };
     check();
     this._galleryKey=(e)=>{
-      if(this.state.section!=='overview') return;
+      if(this.state.section!=='overview' || !this.hasGallery) return;
       if(e.key==='ArrowRight'){ e.preventDefault(); this.galleryNav(1); }
       else if(e.key==='ArrowLeft'){ e.preventDefault(); this.galleryNav(-1); }
     };
     window.addEventListener('keydown', this._galleryKey);
     requestAnimationFrame(()=>this._maybeLaunch());
   }
+  componentWillUnmount(){
+    if(this._galleryKey) window.removeEventListener('keydown', this._galleryKey);
+    if(this._launchTimer){ clearTimeout(this._launchTimer); this._launchTimer=null; }
+  }
 
-  get SLIDING_DATA(){ return {"A":{"label":"Sliding Bank A","format":"160 × 320 cm","unit":"Slab","count":24,"slabs":[{"id":1,"name":"Onyx Halo","finish":"Honed","thickness":"12 mm","sku":"8000-0467-1","family":"onyx","size":"160 × 320 cm","texture":"assets/sliding/texture_01_onyx_halo.jpg","points":[[104,113.0],[159,116.6],[159,756.5],[104,760.0]]},{"id":2,"name":"Monoforma Silhouette","finish":"Polished","thickness":"12 mm","sku":"8000-0521-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_02_monoforma_silhouette.jpg","points":[[159,116.6],[213,119.5],[213,755.0],[159,756.5]]},{"id":3,"name":"Armani Noir","finish":"Honed","thickness":"6 mm","sku":"8000-0186-0","family":"noir","size":"160 × 320 cm","texture":"assets/sliding/texture_03_armani_noir.jpg","points":[[213,119.5],[267,122.5],[267,753.0],[213,755.0]]},{"id":4,"name":"Calacatta Carrara","finish":"Honed","thickness":"6 mm","sku":"8000-0046-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_04_calacatta_carrara.jpg","points":[[267,122.5],[321,126.0],[321,751.5],[267,753.0]]},{"id":5,"name":"Fusion White","finish":"Honed","thickness":"6 mm","sku":"8000-0246-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_05_fusion_white.jpg","points":[[321,126.0],[374,129.0],[374,750.0],[321,751.5]]},{"id":6,"name":"Publica Thunder","finish":"Organic Matte","thickness":"6 mm","sku":"8000-0565-0","family":"terrazzo","size":"160 × 320 cm","texture":"assets/sliding/texture_06_publica_thunder.jpg","points":[[374,129.0],[426,131.5],[426,748.5],[374,750.0]]},{"id":7,"name":"Nero Marquina","finish":"Polished","thickness":"6 mm","sku":"8000-0268-1","family":"noir","size":"160 × 320 cm","texture":"assets/sliding/texture_07_nero_marquina.jpg","points":[[426,131.5],[478,134.5],[478,747.0],[426,748.5]]},{"id":8,"name":"Montagna Jade","finish":"Honed","thickness":"6 mm","sku":"8000-0262-0","family":"green","size":"160 × 320 cm","texture":"assets/sliding/texture_08_montagna_jade.jpg","points":[[478,134.5],[529,137.0],[529,746.0],[478,747.0]]},{"id":9,"name":"Serena Flint","finish":"Honed","thickness":"6 mm","sku":"8000-0543-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_09_serena_flint.jpg","points":[[529,137.0],[579,139.0],[579,745.0],[529,746.0]]},{"id":10,"name":"Travertino Titanium","finish":"Grained","thickness":"6 mm","sku":"8000-0538-0","family":"travertine","size":"160 × 320 cm","texture":"assets/sliding/texture_10_travertino_titanium.jpg","points":[[579,139.0],[630,141.4],[630,742.1],[579,745.0]]},{"id":11,"name":"Super White","finish":"Honed","thickness":"6 mm","sku":"8000-0294-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_11_super_white.jpg","points":[[630,141.4],[775,145.0],[775,736.6],[630,742.1]]},{"id":12,"name":"Publica Terrain","finish":"Patinated","thickness":"6 mm","sku":"8000-0562-0","family":"terrazzo","size":"160 × 320 cm","texture":"assets/sliding/texture_12_publica_terrain.jpg","points":[[775,726],[810,724],[810,782],[775,784]]},{"id":13,"name":"Cristallo","finish":"Polished","thickness":"6 mm","sku":"8000-0232-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_13_cristallo.jpg","points":[[810,724],[839,726],[839,784],[810,782]]},{"id":14,"name":"Calacatta Viola","finish":"Polished","thickness":"6 mm","sku":"8000-0048-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_14_calacatta_viola.jpg","points":[[839,145.0],[985,141.3],[985,741.9],[839,736.3]]},{"id":15,"name":"Publica Horizon","finish":"Patinated","thickness":"6 mm","sku":"8000-0560-0","family":"terrazzo","size":"160 × 320 cm","texture":"assets/sliding/texture_15_publica_horizon.jpg","points":[[985,141.3],[1038,139.0],[1038,745.0],[985,741.9]]},{"id":16,"name":"French Vanilla","finish":"Polished","thickness":"6 mm","sku":"8000-0529-0","family":"gold","size":"160 × 320 cm","texture":"assets/sliding/texture_16_french_vanilla.jpg","points":[[1038,139.0],[1089,137.0],[1089,746.0],[1038,745.0]]},{"id":17,"name":"Serena Crater","finish":"Honed","thickness":"6 mm","sku":"8000-0541-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_17_serena_crater.jpg","points":[[1089,137.0],[1141,135.0],[1141,746.5],[1089,746.0]]},{"id":18,"name":"Marina White","finish":"Polished","thickness":"6 mm","sku":"8000-0256-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_18_marina_white.jpg","points":[[1141,135.0],[1194,133.0],[1194,747.0],[1141,746.5]]},{"id":19,"name":"Lithoform Crosscut Dunes","finish":"Vintage","thickness":"6 mm","sku":"8000-0549-0","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_19_lithoform_crosscut_dunes.jpg","points":[[1194,133.0],[1246,130.5],[1246,747.5],[1194,747.0]]},{"id":20,"name":"Travertino Classico","finish":"Grained","thickness":"6 mm","sku":"8000-0577-0","family":"travertine","size":"160 × 320 cm","texture":"assets/sliding/texture_20_travertino_classico.jpg","points":[[1246,130.5],[1299,128.0],[1299,749.0],[1246,747.5]]},{"id":21,"name":"Taj Mahal","finish":"Honed","thickness":"6 mm","sku":"8000-0599-0","family":"gold","size":"160 × 320 cm","texture":"assets/sliding/texture_21_taj_mahal.jpg","points":[[1299,128.0],[1352,125.5],[1352,750.5],[1299,749.0]]},{"id":22,"name":"Monoforma Storm","finish":"Polished","thickness":"12 mm","sku":"8000-0519-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_22_monoforma_storm.jpg","points":[[1352,125.5],[1405,122.5],[1405,751.5],[1352,750.5]]},{"id":23,"name":"Colorado Lincoln","finish":"Polished","thickness":"12 mm","sku":"8000-0463-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_23_colorado_lincoln.jpg","points":[[1405,122.5],[1460,119.5],[1460,753.5],[1405,751.5]]},{"id":24,"name":"Calacatta Noir","finish":"Satin","thickness":"12 mm","sku":"8000-0476-1","family":"noir","size":"160 × 320 cm","texture":"assets/sliding/texture_24_calacatta_noir.jpg","points":[[1460,119.5],[1515,116.0],[1515,756.0],[1460,753.5]]}]},"B":{"label":"Sliding Bank B","format":"120 × 280 cm","unit":"Mini Slab","count":24,"slabs":[{"id":1,"name":"Lithoform Crosscut Twilight","finish":"Honed","thickness":"6 mm","sku":"8500-0089-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_01.jpg","points":[[104,113.0],[159,116.6],[159,756.5],[104,760.0]]},{"id":2,"name":"Lithoform Veincut Twilight","finish":"Honed","thickness":"6 mm","sku":"8500-0101-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_02.jpg","points":[[159,116.6],[213,119.5],[213,755.0],[159,756.5]]},{"id":3,"name":"Lustra Onyx Feather","finish":"Polished","thickness":"6 mm","sku":"8500-0686-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_03.jpg","points":[[213,119.5],[267,122.5],[267,753.0],[213,755.0]]},{"id":4,"name":"Majesto Arabescato Corchia","finish":"Honed","thickness":"6 mm","sku":"8500-0013-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_04.jpg","points":[[267,122.5],[321,126.0],[321,751.5],[267,753.0]]},{"id":5,"name":"Majesto Atlantic Ocean","finish":"Polished","thickness":"6 mm","sku":"8500-0053-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_05.jpg","points":[[321,126.0],[374,129.0],[374,750.0],[321,751.5]]},{"id":6,"name":"Majesto Bianco Dior","finish":"Polished","thickness":"6 mm","sku":"8500-0046-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_06.jpg","points":[[374,129.0],[426,131.5],[426,748.5],[374,750.0]]},{"id":7,"name":"Majesto Calacatta Borghini","finish":"Honed","thickness":"6 mm","sku":"8500-0033-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_07.jpg","points":[[426,131.5],[478,134.5],[478,747.0],[426,748.5]]},{"id":8,"name":"Majesto Calacatta Corchia","finish":"Polished","thickness":"6 mm","sku":"8500-0018-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_08.jpg","points":[[478,134.5],[529,137.0],[529,746.0],[478,747.0]]},{"id":9,"name":"Serena Pewter","finish":"Honed","thickness":"6 mm","sku":"8500-0074-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_09.jpg","points":[[529,137.0],[579,139.0],[579,745.0],[529,746.0]]},{"id":10,"name":"Majesto Verdi Alpi","finish":"Honed","thickness":"6 mm","sku":"8500-0041-1","family":"green","size":"120 × 280 cm","texture":"assets/sliding/mini_10.jpg","points":[[579,139.0],[630,141.4],[630,742.1],[579,745.0]]},{"id":11,"name":"Majesto Crystal Bianco","finish":"Honed","thickness":"6 mm","sku":"8500-0057-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_11.jpg","points":[[630,141.4],[775,145.0],[775,736.6],[630,742.1]]},{"id":12,"name":"Lustra Onyx Sage","finish":"Polished","thickness":"6 mm","sku":"8500-0064-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_12.jpg","points":[[775,726],[810,724],[810,782],[775,784]]},{"id":13,"name":"Majesto Forge Eleganza","finish":"Honed","thickness":"6 mm","sku":"8500-0039-0","family":"gold","size":"120 × 280 cm","texture":"assets/sliding/mini_13.jpg","points":[[810,724],[839,726],[839,784],[810,782]]},{"id":14,"name":"Majesto Statuario","finish":"Polished","thickness":"6 mm","sku":"8500-0014-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_14.jpg","points":[[839,145.0],[985,141.3],[985,741.9],[839,736.3]]},{"id":15,"name":"Monoforma Moonlight","finish":"Silk","thickness":"6 mm","sku":"8500-0111-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_15.jpg","points":[[985,141.3],[1038,139.0],[1038,745.0],[985,741.9]]},{"id":16,"name":"Serena Valley","finish":"Honed","thickness":"6 mm","sku":"8500-0078-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_16.jpg","points":[[1038,139.0],[1089,137.0],[1089,746.0],[1038,745.0]]},{"id":17,"name":"Lustra Onyx Hazel","finish":"Honed","thickness":"6 mm","sku":"8500-0067-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_17.jpg","points":[[1089,137.0],[1141,135.0],[1141,746.5],[1089,746.0]]},{"id":18,"name":"Lithoform Crosscut Dunes","finish":"Honed","thickness":"6 mm","sku":"8500-0080-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_18.jpg","points":[[1141,135.0],[1194,133.0],[1194,747.0],[1141,746.5]]},{"id":19,"name":"Lithoform Veincut Dunes","finish":"Honed","thickness":"6 mm","sku":"8500-0092-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_19.jpg","points":[[1194,133.0],[1246,130.5],[1246,747.5],[1194,747.0]]},{"id":20,"name":"Majesto Macchia Vecchia","finish":"Polished","thickness":"6 mm","sku":"8500-0042-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_20.jpg","points":[[1246,130.5],[1299,128.0],[1299,749.0],[1246,747.5]]},{"id":21,"name":"Majesto Calacatta Cremo","finish":"Honed","thickness":"6 mm","sku":"8500-0027-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_21.jpg","points":[[1299,128.0],[1352,125.5],[1352,750.5],[1299,749.0]]},{"id":22,"name":"Majesto Oro Noir","finish":"Honed","thickness":"6 mm","sku":"8500-0045-0","family":"noir","size":"120 × 280 cm","texture":"assets/sliding/mini_22.jpg","points":[[1352,125.5],[1405,122.5],[1405,751.5],[1352,750.5]]},{"id":23,"name":"Lustra Onyx Crema","finish":"Honed","thickness":"6 mm","sku":"8500-0063-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_23.jpg","points":[[1405,122.5],[1460,119.5],[1460,753.5],[1405,751.5]]},{"id":24,"name":"Majesto Sahara Noir","finish":"Honed","thickness":"6 mm","sku":"8500-0049-0","family":"noir","size":"120 × 280 cm","texture":"assets/sliding/mini_24.jpg","points":[[1460,119.5],[1515,116.0],[1515,756.0],[1460,753.5]]}]}}; }
+  // ===== showroom registry =====================================================
+  // Everything showroom-specific is reached through these accessors, keyed by
+  // state.showroomId. APS keeps its original literals behind `isAps` guards so
+  // its behaviour is unchanged; the other four read from window.SHOWROOMS +
+  // window.SHOWROOM_DATA (see showrooms.js / tools/build_showroom_data.py).
+  get registry(){ return window.SHOWROOMS || []; }
+  get showroom(){
+    const r=this.registry, id=this.state.showroomId;
+    return r.find(s=>s.id===id) || r[0] || {id:'aps', bespokePlan:true, meta:{}};
+  }
+  get meta(){ return this.showroom.meta || {}; }
+  get isAps(){ return this.showroom.id==='aps'; }
+  get dataGroups(){
+    if(this.isAps) return null;                       // APS synthesises its own, below
+    const d=(window.SHOWROOM_DATA||{})[this.showroom.id];
+    return (d && d.groups) || [];
+  }
+  groupOf(key){ return (this.dataGroups||[]).find(g=>g.key===key) || null; }
+  get planZones(){ return (this.showroom.plan && this.showroom.plan.zones) || []; }
+  zoneOf(id){ return this.planZones.find(z=>z.id===id) || null; }
+  // Products belonging to a zone, in registry-declared group order.
+  zoneProducts(zone){
+    if(!zone || !zone.keys) return [];
+    const out=[];
+    zone.keys.forEach(k=>{ this.products.forEach(p=>{ if(p.group===k) out.push(p); }); });
+    return out;
+  }
+  // Sections that only exist for APS (no photography or 3D rack for the others).
+  get hasGallery(){ return Object.keys(this.ROOM_PHOTOS).length>0; }
+  get hasSliding(){ return !!this.SLIDING_DATA; }
+
+  switchShowroom(id){
+    if(id===this.state.showroomId) return;
+    this._p=null;
+    this.setState({ showroomId:id, section:'overview', sel:null, selected:null, hiFormat:null,
+      openGroups:{}, lightbox:null, galleryRoom:1, galleryPhoto:{}, galleryHover:null,
+      filters:{collection:'All',format:'All',colour:'All',finish:'All',size:'All',room:'All'} });
+    setTimeout(()=>document.querySelector('main')?.scrollTo(0,0),0);
+  }
+
+  get SLIDING_DATA(){ return this.isAps ? this.APS_SLIDING_DATA : null; }
+  get APS_SLIDING_DATA(){ return {"A":{"label":"Sliding Bank A","format":"160 × 320 cm","unit":"Slab","count":24,"slabs":[{"id":1,"name":"Onyx Halo","finish":"Honed","thickness":"12 mm","sku":"8000-0467-1","family":"onyx","size":"160 × 320 cm","texture":"assets/sliding/texture_01_onyx_halo.jpg","points":[[104,113.0],[159,116.6],[159,756.5],[104,760.0]]},{"id":2,"name":"Monoforma Silhouette","finish":"Polished","thickness":"12 mm","sku":"8000-0521-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_02_monoforma_silhouette.jpg","points":[[159,116.6],[213,119.5],[213,755.0],[159,756.5]]},{"id":3,"name":"Armani Noir","finish":"Honed","thickness":"6 mm","sku":"8000-0186-0","family":"noir","size":"160 × 320 cm","texture":"assets/sliding/texture_03_armani_noir.jpg","points":[[213,119.5],[267,122.5],[267,753.0],[213,755.0]]},{"id":4,"name":"Calacatta Carrara","finish":"Honed","thickness":"6 mm","sku":"8000-0046-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_04_calacatta_carrara.jpg","points":[[267,122.5],[321,126.0],[321,751.5],[267,753.0]]},{"id":5,"name":"Fusion White","finish":"Honed","thickness":"6 mm","sku":"8000-0246-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_05_fusion_white.jpg","points":[[321,126.0],[374,129.0],[374,750.0],[321,751.5]]},{"id":6,"name":"Publica Thunder","finish":"Organic Matte","thickness":"6 mm","sku":"8000-0565-0","family":"terrazzo","size":"160 × 320 cm","texture":"assets/sliding/texture_06_publica_thunder.jpg","points":[[374,129.0],[426,131.5],[426,748.5],[374,750.0]]},{"id":7,"name":"Nero Marquina","finish":"Polished","thickness":"6 mm","sku":"8000-0268-1","family":"noir","size":"160 × 320 cm","texture":"assets/sliding/texture_07_nero_marquina.jpg","points":[[426,131.5],[478,134.5],[478,747.0],[426,748.5]]},{"id":8,"name":"Montagna Jade","finish":"Honed","thickness":"6 mm","sku":"8000-0262-0","family":"green","size":"160 × 320 cm","texture":"assets/sliding/texture_08_montagna_jade.jpg","points":[[478,134.5],[529,137.0],[529,746.0],[478,747.0]]},{"id":9,"name":"Serena Flint","finish":"Honed","thickness":"6 mm","sku":"8000-0543-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_09_serena_flint.jpg","points":[[529,137.0],[579,139.0],[579,745.0],[529,746.0]]},{"id":10,"name":"Travertino Titanium","finish":"Grained","thickness":"6 mm","sku":"8000-0538-0","family":"travertine","size":"160 × 320 cm","texture":"assets/sliding/texture_10_travertino_titanium.jpg","points":[[579,139.0],[630,141.4],[630,742.1],[579,745.0]]},{"id":11,"name":"Super White","finish":"Honed","thickness":"6 mm","sku":"8000-0294-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_11_super_white.jpg","points":[[630,141.4],[775,145.0],[775,736.6],[630,742.1]]},{"id":12,"name":"Publica Terrain","finish":"Patinated","thickness":"6 mm","sku":"8000-0562-0","family":"terrazzo","size":"160 × 320 cm","texture":"assets/sliding/texture_12_publica_terrain.jpg","points":[[775,726],[810,724],[810,782],[775,784]]},{"id":13,"name":"Cristallo","finish":"Polished","thickness":"6 mm","sku":"8000-0232-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_13_cristallo.jpg","points":[[810,724],[839,726],[839,784],[810,782]]},{"id":14,"name":"Calacatta Viola","finish":"Polished","thickness":"6 mm","sku":"8000-0048-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_14_calacatta_viola.jpg","points":[[839,145.0],[985,141.3],[985,741.9],[839,736.3]]},{"id":15,"name":"Publica Horizon","finish":"Patinated","thickness":"6 mm","sku":"8000-0560-0","family":"terrazzo","size":"160 × 320 cm","texture":"assets/sliding/texture_15_publica_horizon.jpg","points":[[985,141.3],[1038,139.0],[1038,745.0],[985,741.9]]},{"id":16,"name":"French Vanilla","finish":"Polished","thickness":"6 mm","sku":"8000-0529-0","family":"gold","size":"160 × 320 cm","texture":"assets/sliding/texture_16_french_vanilla.jpg","points":[[1038,139.0],[1089,137.0],[1089,746.0],[1038,745.0]]},{"id":17,"name":"Serena Crater","finish":"Honed","thickness":"6 mm","sku":"8000-0541-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_17_serena_crater.jpg","points":[[1089,137.0],[1141,135.0],[1141,746.5],[1089,746.0]]},{"id":18,"name":"Marina White","finish":"Polished","thickness":"6 mm","sku":"8000-0256-0","family":"calacatta","size":"160 × 320 cm","texture":"assets/sliding/texture_18_marina_white.jpg","points":[[1141,135.0],[1194,133.0],[1194,747.0],[1141,746.5]]},{"id":19,"name":"Lithoform Crosscut Dunes","finish":"Vintage","thickness":"6 mm","sku":"8000-0549-0","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_19_lithoform_crosscut_dunes.jpg","points":[[1194,133.0],[1246,130.5],[1246,747.5],[1194,747.0]]},{"id":20,"name":"Travertino Classico","finish":"Grained","thickness":"6 mm","sku":"8000-0577-0","family":"travertine","size":"160 × 320 cm","texture":"assets/sliding/texture_20_travertino_classico.jpg","points":[[1246,130.5],[1299,128.0],[1299,749.0],[1246,747.5]]},{"id":21,"name":"Taj Mahal","finish":"Honed","thickness":"6 mm","sku":"8000-0599-0","family":"gold","size":"160 × 320 cm","texture":"assets/sliding/texture_21_taj_mahal.jpg","points":[[1299,128.0],[1352,125.5],[1352,750.5],[1299,749.0]]},{"id":22,"name":"Monoforma Storm","finish":"Polished","thickness":"12 mm","sku":"8000-0519-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_22_monoforma_storm.jpg","points":[[1352,125.5],[1405,122.5],[1405,751.5],[1352,750.5]]},{"id":23,"name":"Colorado Lincoln","finish":"Polished","thickness":"12 mm","sku":"8000-0463-1","family":"grey","size":"160 × 320 cm","texture":"assets/sliding/texture_23_colorado_lincoln.jpg","points":[[1405,122.5],[1460,119.5],[1460,753.5],[1405,751.5]]},{"id":24,"name":"Calacatta Noir","finish":"Satin","thickness":"12 mm","sku":"8000-0476-1","family":"noir","size":"160 × 320 cm","texture":"assets/sliding/texture_24_calacatta_noir.jpg","points":[[1460,119.5],[1515,116.0],[1515,756.0],[1460,753.5]]}]},"B":{"label":"Sliding Bank B","format":"120 × 280 cm","unit":"Mini Slab","count":24,"slabs":[{"id":1,"name":"Lithoform Crosscut Twilight","finish":"Honed","thickness":"6 mm","sku":"8500-0089-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_01.jpg","points":[[104,113.0],[159,116.6],[159,756.5],[104,760.0]]},{"id":2,"name":"Lithoform Veincut Twilight","finish":"Honed","thickness":"6 mm","sku":"8500-0101-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_02.jpg","points":[[159,116.6],[213,119.5],[213,755.0],[159,756.5]]},{"id":3,"name":"Lustra Onyx Feather","finish":"Polished","thickness":"6 mm","sku":"8500-0686-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_03.jpg","points":[[213,119.5],[267,122.5],[267,753.0],[213,755.0]]},{"id":4,"name":"Majesto Arabescato Corchia","finish":"Honed","thickness":"6 mm","sku":"8500-0013-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_04.jpg","points":[[267,122.5],[321,126.0],[321,751.5],[267,753.0]]},{"id":5,"name":"Majesto Atlantic Ocean","finish":"Polished","thickness":"6 mm","sku":"8500-0053-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_05.jpg","points":[[321,126.0],[374,129.0],[374,750.0],[321,751.5]]},{"id":6,"name":"Majesto Bianco Dior","finish":"Polished","thickness":"6 mm","sku":"8500-0046-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_06.jpg","points":[[374,129.0],[426,131.5],[426,748.5],[374,750.0]]},{"id":7,"name":"Majesto Calacatta Borghini","finish":"Honed","thickness":"6 mm","sku":"8500-0033-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_07.jpg","points":[[426,131.5],[478,134.5],[478,747.0],[426,748.5]]},{"id":8,"name":"Majesto Calacatta Corchia","finish":"Polished","thickness":"6 mm","sku":"8500-0018-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_08.jpg","points":[[478,134.5],[529,137.0],[529,746.0],[478,747.0]]},{"id":9,"name":"Serena Pewter","finish":"Honed","thickness":"6 mm","sku":"8500-0074-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_09.jpg","points":[[529,137.0],[579,139.0],[579,745.0],[529,746.0]]},{"id":10,"name":"Majesto Verdi Alpi","finish":"Honed","thickness":"6 mm","sku":"8500-0041-1","family":"green","size":"120 × 280 cm","texture":"assets/sliding/mini_10.jpg","points":[[579,139.0],[630,141.4],[630,742.1],[579,745.0]]},{"id":11,"name":"Majesto Crystal Bianco","finish":"Honed","thickness":"6 mm","sku":"8500-0057-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_11.jpg","points":[[630,141.4],[775,145.0],[775,736.6],[630,742.1]]},{"id":12,"name":"Lustra Onyx Sage","finish":"Polished","thickness":"6 mm","sku":"8500-0064-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_12.jpg","points":[[775,726],[810,724],[810,782],[775,784]]},{"id":13,"name":"Majesto Forge Eleganza","finish":"Honed","thickness":"6 mm","sku":"8500-0039-0","family":"gold","size":"120 × 280 cm","texture":"assets/sliding/mini_13.jpg","points":[[810,724],[839,726],[839,784],[810,782]]},{"id":14,"name":"Majesto Statuario","finish":"Polished","thickness":"6 mm","sku":"8500-0014-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_14.jpg","points":[[839,145.0],[985,141.3],[985,741.9],[839,736.3]]},{"id":15,"name":"Monoforma Moonlight","finish":"Silk","thickness":"6 mm","sku":"8500-0111-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_15.jpg","points":[[985,141.3],[1038,139.0],[1038,745.0],[985,741.9]]},{"id":16,"name":"Serena Valley","finish":"Honed","thickness":"6 mm","sku":"8500-0078-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_16.jpg","points":[[1038,139.0],[1089,137.0],[1089,746.0],[1038,745.0]]},{"id":17,"name":"Lustra Onyx Hazel","finish":"Honed","thickness":"6 mm","sku":"8500-0067-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_17.jpg","points":[[1089,137.0],[1141,135.0],[1141,746.5],[1089,746.0]]},{"id":18,"name":"Lithoform Crosscut Dunes","finish":"Honed","thickness":"6 mm","sku":"8500-0080-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_18.jpg","points":[[1141,135.0],[1194,133.0],[1194,747.0],[1141,746.5]]},{"id":19,"name":"Lithoform Veincut Dunes","finish":"Honed","thickness":"6 mm","sku":"8500-0092-0","family":"grey","size":"120 × 280 cm","texture":"assets/sliding/mini_19.jpg","points":[[1194,133.0],[1246,130.5],[1246,747.5],[1194,747.0]]},{"id":20,"name":"Majesto Macchia Vecchia","finish":"Polished","thickness":"6 mm","sku":"8500-0042-0","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_20.jpg","points":[[1246,130.5],[1299,128.0],[1299,749.0],[1246,747.5]]},{"id":21,"name":"Majesto Calacatta Cremo","finish":"Honed","thickness":"6 mm","sku":"8500-0027-1","family":"calacatta","size":"120 × 280 cm","texture":"assets/sliding/mini_21.jpg","points":[[1299,128.0],[1352,125.5],[1352,750.5],[1299,749.0]]},{"id":22,"name":"Majesto Oro Noir","finish":"Honed","thickness":"6 mm","sku":"8500-0045-0","family":"noir","size":"120 × 280 cm","texture":"assets/sliding/mini_22.jpg","points":[[1352,125.5],[1405,122.5],[1405,751.5],[1352,750.5]]},{"id":23,"name":"Lustra Onyx Crema","finish":"Honed","thickness":"6 mm","sku":"8500-0063-0","family":"onyx","size":"120 × 280 cm","texture":"assets/sliding/mini_23.jpg","points":[[1405,122.5],[1460,119.5],[1460,753.5],[1405,751.5]]},{"id":24,"name":"Majesto Sahara Noir","finish":"Honed","thickness":"6 mm","sku":"8500-0049-0","family":"noir","size":"120 × 280 cm","texture":"assets/sliding/mini_24.jpg","points":[[1460,119.5],[1515,116.0],[1515,756.0],[1460,753.5]]}]}}; }
   componentDidUpdate(prev){ this._maybeBuildSliding(); this._maybeLaunch(); }
   _maybeLaunch(){
     if(this.state.view!=='hero'){ if(this._launchTimer){ clearTimeout(this._launchTimer); this._launchTimer=null; } return; }
@@ -595,7 +704,7 @@ class Component extends DCLogic {
     show(0);
   }
   _maybeBuildSliding(){
-    if(this.state.section!=='sliding') return;
+    if(this.state.section!=='sliding' || !this.hasSliding) return;
     const root=document.getElementById('sliding-panels-root');
     if(!root || root.querySelector('svg')) return;
     this._buildSliding(root);
@@ -734,6 +843,7 @@ class Component extends DCLogic {
     ['cristallo','Cristallo_13_Slab_6-12mm_B_1'],
     ['forge eleganza','Forge_Eleganza_20_Slab_6mm_R_1'],
     ['french vanilla','French_Vanilla_35_Slab_6mm_R_1'],
+    ['french vanilia','French_Vanilla_35_Slab_6mm_R_1'], // typo in the Turkuaz BOM ("Vanilia")
     ['fusion white','Fusion_White_27_Slab_6-12mm_B_1'],
     ['gemma bronze','Gemma_Bronze_45_Slab_6-12mm_B_1'],
     ['grigio quarzo','Grigio_Quarzo_21_Slab_6-12mm_B_1'],
@@ -769,7 +879,8 @@ class Component extends DCLogic {
   imgFile(name){ const s=name.toLowerCase().replace(/^majesto\s+/,''); for(const [k,f] of this.IMGMAP){ if(s.indexOf(k)>-1) return f; } return null; }
   bg(p){ const useImg=this.props.showTextures!==false; if(useImg){ const f=this.imgFile(p.n); if(f) return `url('From_website/${f}.jpg') center/cover`; } return this.flatCol(p.cat); }
 
-  get EXTRAS(){ return [
+  get EXTRAS(){ return this.isAps ? this.APS_EXTRAS : []; }
+  get APS_EXTRAS(){ return [
     // Reconciled 2026-07-06 against APS_TemporaryShowroom_BOM_20260609 (sheet APS_Tempry = Floor & Walls).
     // Station numbers below are the room numbers used throughout the BOM (W##/F## codes) and STN ids —
     // previously several rows here were mistagged against an older area numbering (bathroom/meeting-room
@@ -828,7 +939,9 @@ class Component extends DCLogic {
 
   // On-site booth photography, shot 2026-06-16 (JPGs) / 2026-05-06 (HEIC, converted). Filenames carry
   // the room number the camera was standing in (per the source folder Showroom_photoes).
-  get ROOM_PHOTOS(){ return {
+  // Only APS has been photographed; the other four hide the gallery until assets exist.
+  get ROOM_PHOTOS(){ return this.isAps ? this.APS_ROOM_PHOTOS : {}; }
+  get APS_ROOM_PHOTOS(){ return {
     1: [['room1-1c.jpg','1C — Arabescato Corchia bookmatch'],['room1-1c-2.jpg','1C — detail angle'],
         ['room1-prefix-panels.jpg','1A — pre-fix panel combination view'],['room1-corridor.jpg','Corridor view from 1A']],
     2: [['room2-2a.jpg','2A — Lithoform Veincut Vista wall'],['room2-2c.jpg','2C — Calacatta Noir waterfall-on-wall']],
@@ -851,7 +964,8 @@ class Component extends DCLogic {
   // pin doubles as a locator for something already in `products`; `real:false` entries are shown only
   // here and in the room's Furniture group, tagged clearly as non-Anatolia.
   // Source: APS_TemporaryShowroomProject_20251121 PDF (LAY furniture layer + RCP sheet), 2026-07-06 read.
-  get FURNITURE_PINS(){ return {
+  get FURNITURE_PINS(){ return this.isAps ? this.APS_FURNITURE_PINS : {}; }
+  get APS_FURNITURE_PINS(){ return {
     1: [ {label:'Vanity Wash Basin · Pietra Imperiale', dx:0.25, dy:0.48, real:true},
          {label:'Bathtub', dx:0.75, dy:0.52, real:false, note:'Showroom fixture — not an Anatolia product (per APS layout plan, 1C zone)'},
          {label:'Armchair', dx:0.5, dy:0.78, real:false, note:'Showroom furniture — not an Anatolia product (per APS layout plan, 1C/1D zone)'} ],
@@ -875,7 +989,8 @@ class Component extends DCLogic {
   //   {kind:'note', label} — plain caption chip, not clickable (e.g. sample chips, tower).
   // To tag a new photo: add an entry here keyed by its filename; unresolved matches are dropped silently
   // (see resolveTag), so a typo just means the chip doesn't appear rather than a crash.
-  get PHOTO_TAGS(){ return {
+  get PHOTO_TAGS(){ return this.isAps ? this.APS_PHOTO_TAGS : {}; }
+  get APS_PHOTO_TAGS(){ return {
     'room1-1c.jpg': [ {kind:'product', room:1, match:'Arabescato Corchia'} ],
     'room1-1c-2.jpg': [ {kind:'product', room:1, match:'Arabescato Corchia'} ],
     'room1-prefix-panels.jpg': [ {kind:'product', room:1, match:'Pietra Imperiale', fmt:'On Wall'}, {kind:'product', room:1, match:'Pietra Imperiale', fmt:'In Furniture'}, {kind:'furniture', room:1, match:'Bathtub'} ],
@@ -932,25 +1047,52 @@ class Component extends DCLogic {
       onClick, onEnter:()=>this.galleryHoverSet(key), onLeave:()=>this.galleryHoverSet(null) };
   }
 
+  // 9 mm is the porcelain-tile body; 6/12 mm are sintered slab. Matches the old
+  // size-based rule on every APS row, and stays right for the sub-size tiles and
+  // hex mosaics the new showrooms introduce.
+  isTile(th,sz){ return /^9(\.|\s|$)/.test(String(th||'')) || String(sz||'').indexOf('120 × 120')>-1; }
+  matOf(th,sz){ return this.isTile(th,sz) ? 'Rectified Colorsync porcelain tile.' : 'Rectified Colorsync sintered slab.'; }
+
   get products(){
-    if(this._p && this._dataAt===this.state.dataReady) return this._p;
-    const D=window.ANATOLIA_DATA; const out=[]; let i=0;
-    const matOf=(sz)=> sz.indexOf('120 × 120')>-1 ? 'Rectified Colorsync porcelain tile.' : 'Rectified Colorsync sintered slab.';
+    const key=this.state.showroomId+'|'+this.state.dataReady;
+    if(this._p && this._dataAt===key) return this._p;
+    const out=[]; let i=0;
     const push=(o)=>{ out.push(Object.assign({id:'p'+(i++)},o)); };
-    if(D){
-      const mk=(r,fmt,room,size,loc,face)=>{ const [n,f,th,no,cat]=r; push({n,f,th,no,cat,fmt,room,sz:size,loc,face:face||'—',col:this.collection(n),colour:this.colourFam(cat),material:matOf(size),spec:`${size} · ${f} · ${th}`}); };
-      D.sliding160.forEach((r,k)=>mk(r,'Sliding Panel','Room 4','160 × 320 cm','Slab '+(k+1)));
-      D.sliding120.forEach((r,k)=>mk(r,'Sliding Panel','Room 5','120 × 280 cm', r[5]||('Mini Slab '+this.pad(k+1))));
-      D.waterfall.forEach((r,k)=>mk(r,'Waterfall','Room 6','60 × 280 cm', r[5]||('Waterfall Display '+this.pad(k+1))));
-      D.fixed.forEach((r,k)=>{ const panel=Math.floor(k/2)+1; const face=k%2===0?'A (front)':'B (back)'; const size=r[2]==='12 mm'?'162 × 322 cm':'160 × 320 cm'; mk(r,'Pre-fixed Panel','Hall',size,'Panel P'+this.pad(panel)+' · '+face, face); });
-      D.rotating.forEach((r,k)=>mk(r,'Rotating Panel','Room 8','120 × 120 cm', k<10?'Right Unit · '+(k+1):'Left Unit · '+(k-9)));
+    const add=(n,f,th,no,cat,fmt,room,size,loc,extra)=>push(Object.assign({
+      n,f,th,no,cat,fmt,room,sz:size,loc,face:'—',col:this.collection(n),
+      colour:this.colourFam(cat),material:this.matOf(th,size),spec:`${size} · ${f} · ${th}`
+    },extra||{}));
+
+    if(this.isAps){
+      const D=window.ANATOLIA_DATA;
+      if(D){
+        const mk=(r,fmt,room,size,loc,face)=>{ const [n,f,th,no,cat]=r;
+          add(n,f,th,no,cat,fmt,room,size,loc,{face:face||'—'}); };
+        D.sliding160.forEach((r,k)=>mk(r,'Sliding Panel','Room 4','160 × 320 cm','Slab '+(k+1)));
+        D.sliding120.forEach((r,k)=>mk(r,'Sliding Panel','Room 5','120 × 280 cm', r[5]||('Mini Slab '+this.pad(k+1))));
+        D.waterfall.forEach((r,k)=>mk(r,'Waterfall','Room 6','60 × 280 cm', r[5]||('Waterfall Display '+this.pad(k+1))));
+        D.fixed.forEach((r,k)=>{ const panel=Math.floor(k/2)+1; const face=k%2===0?'A (front)':'B (back)'; const size=r[2]==='12 mm'?'162 × 322 cm':'160 × 320 cm'; mk(r,'Pre-fixed Panel','Hall',size,'Panel P'+this.pad(panel)+' · '+face, face); });
+        D.rotating.forEach((r,k)=>mk(r,'Rotating Panel','Room 8','120 × 120 cm', k<10?'Right Unit · '+(k+1):'Left Unit · '+(k-9)));
+      }
+      this.EXTRAS.forEach(e=>{ const [n,size,f,th,no,cat,fmt,station,loc]=e;
+        add(n,f,th,no,cat,fmt,(fmt==='Floor'?'Main Floors':fmt==='Tower'?'Sample Tower':'Station '+station),size,loc,{station}); });
+    } else {
+      // Generated groups: [name, finish, thickness, productNo, cat, loc, size?, fmt?]
+      // — size and fmt fall back to the group's defaults when the row leaves them null.
+      (this.dataGroups||[]).forEach(g=>{
+        (g.rows||[]).forEach(r=>{
+          const [n,f,th,no,cat,loc,sz,fmt]=r;
+          add(n,f,th,no,cat,fmt||g.fmt,g.room,sz||g.size,loc,{group:g.key});
+        });
+      });
     }
-    this.EXTRAS.forEach(e=>{ const [n,size,f,th,no,cat,fmt,station,loc]=e;
-      push({n,f,th,no,cat,fmt,room:(fmt==='Floor'?'Main Floors':fmt==='Tower'?'Sample Tower':'Station '+station),sz:size,loc,face:'—',station,col:this.collection(n),colour:this.colourFam(cat),material:matOf(size),spec:`${size} · ${f} · ${th}`}); });
-    this._p=out; this._dataAt=this.state.dataReady; return out;
+    this._p=out; this._dataAt=key; return out;
   }
   byRoom(room){ return this.products.filter(p=>p.room===room); }
+  // APS only — the LAYOUT below is that booth's measured panel grid. The other
+  // showrooms' library panels are single-faced and list normally.
   fixedPanels(){
+    if(!this.isAps) return [];
     const hall=this.products.filter(p=>p.fmt==='Pre-fixed Panel');
     // Spatial layout read straight from the architectural PDF (page 2, LAY). Each entry is
     // [frontBomIndex, backBomIndex] into the BOM 'fixed' list (= hall order). The BOM is authored in
@@ -989,12 +1131,14 @@ class Component extends DCLogic {
     }
   }
 
-  get SYS(){ return [
+  get SYS(){ return this.isAps ? this.APS_SYS : []; }
+  get STN(){ return this.isAps ? this.APS_STN : []; }
+  get APS_SYS(){ return [
     // Sliding banks sit INSIDE their area (4 & 5), drawn as angled V-slats hanging from the top.
     {id:'s160', label:'Sliding Bank A', sub:'160 × 320 · Area 4', fmt:'Sliding Panel', room:'Room 4', x:16, y:5, w:26, h:14},
     {id:'s120', label:'Sliding Bank B', sub:'120 × 280 · Area 5', fmt:'Sliding Panel', room:'Room 5', x:58, y:5, w:26, h:14}
   ]; }
-  get STN(){ return [
+  get APS_STN(){ return [
     // Real space 2900 × 1343.8 cm (46.3% aspect). Each wing = OUTER column (445 cm = 15.3%) + INNER column.
     // Horizontal: L-out 0–15.3 | L-in 15.3–43.1 | corridor 43.1–56.9 | R-in 56.9–84.7 | R-out 84.7–100.
     // Vertical bands: top 0–27.4 | middle 27.4–72.6 | bottom 72.6–100. Inner columns' middle = pre-fix panels.
@@ -1033,6 +1177,15 @@ class Component extends DCLogic {
   viewSelOnPlan(){
     const p=this.products.find(x=>x.id===this.state.selected); if(!p) return;
     let sel=null;
+    if(!this.isAps){
+      // Generic showrooms: every product carries the data-group it came from, and
+      // each plan zone declares the groups it holds.
+      const z=this.planZones.find(zn=>(zn.keys||[]).indexOf(p.group)>-1);
+      if(z) sel={type:z.type,key:z.id};
+      this.setState({section:'floorplan', selected:null, hiFormat:p.fmt, sel, openGroups:{}});
+      setTimeout(()=>document.querySelector('main')?.scrollTo(0,0),0);
+      return;
+    }
     if(p.fmt==='Pre-fixed Panel'){ const fp=this.fixedPanels().findIndex(pl=>(pl.front&&pl.front.id===p.id)||(pl.back&&pl.back.id===p.id)); if(fp>=0) sel={type:'panel',key:fp}; }
     else if(p.room==='Room 4') sel={type:'system',key:'s160'};
     else if(p.room==='Room 5') sel={type:'system',key:'s120'};
@@ -1057,7 +1210,28 @@ class Component extends DCLogic {
     v.deselect=()=>this.deselect();
     v.gridCols=this.props.density==='Compact'?'repeat(auto-fill,minmax(180px,1fr))':'repeat(auto-fill,minmax(232px,1fr))';
 
-    const navDef=[['overview','Overview',P.length],['gallery','Gallery',P.length],['floorplan','Floor Plan',this.STN.length],['sliding','Sliding Panels',48],['beyond','Beyond','']];
+    // ===== showroom identity =====
+    const meta=this.meta, isAps=this.isAps, zones=this.planZones;
+    v.meta=meta; v.metaName=meta.name||''; v.metaTagline=meta.tagline||'';
+    v.metaPlace=[meta.city,meta.region].filter(Boolean).filter((x,i,a)=>a.indexOf(x)===i).join(' · ');
+    v.metaPlaceArea=[v.metaPlace, meta.area].filter(Boolean).join(' · ');
+    v.planCaption=meta.planCaption||''; v.planBlurb=meta.blurb||''; v.metaSource=meta.source||'';
+    v.sidebarNote=meta.sidebarNote||''; v.sidebarPlace=meta.sidebarPlace||''; v.sidebarAccent=meta.sidebarAccent||'';
+    v.heroStyle=meta.hero
+      ? `position:absolute;inset:0;background-image:url('${meta.hero}');background-size:cover;background-position:center 40%`
+      : `position:absolute;inset:0;background:radial-gradient(120% 150% at 78% 0%,rgba(160,126,90,.34),transparent 58%),linear-gradient(120deg,#1d1d20,#2b2823 62%,#3a342b)`;
+    v.showroomList=this.registry.map(s=>{ const on=s.id===st.showroomId; const m=s.meta||{};
+      return { id:s.id, name:m.name||s.id, city:[m.city,m.stage].filter(Boolean).join(' · '), active:on,
+        onClick:()=>this.switchShowroom(s.id),
+        style:`position:relative;display:block;width:100%;text-align:left;background:${on?'rgba(160,126,90,.14)':'none'};border:none;cursor:pointer;font-family:inherit;padding:9px 30px 9px 30px;color:${on?'#FAF8F4':'rgba(250,248,244,.46)'};transition:color .3s,background .3s`,
+        bar:`position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:${on?'22px':'0px'};background:${accent};transition:height .3s`,
+        nameStyle:`display:block;font-size:12px;letter-spacing:.06em;line-height:1.2`,
+        cityStyle:`display:block;font-size:9px;letter-spacing:.18em;text-transform:uppercase;margin-top:3px;color:${on?accent:'rgba(250,248,244,.3)'}` }; });
+
+    const planCount=isAps?this.STN.length:zones.filter(z=>z.type!=='muted').length;
+    const navDef=[['overview','Overview',P.length],['gallery','Gallery',P.length],['floorplan','Floor Plan',planCount]];
+    if(this.hasSliding) navDef.push(['sliding','Sliding Panels',P.filter(p=>p.fmt==='Sliding Panel').length]);
+    navDef.push(['beyond','Beyond','']);
     v.navItems=navDef.map(([id,label,count])=>{ const active=st.section===id; return { label,count,onClick:()=>this.go(id),
       style:`position:relative;display:flex;align-items:center;gap:14px;background:none;border:none;cursor:pointer;font-family:inherit;padding:13px 30px;color:${active?'#FAF8F4':'rgba(250,248,244,.5)'};transition:color .3s`,
       bar:`position:absolute;left:0;top:50%;transform:translateY(-50%);width:3px;height:${active?'20px':'0px'};background:${accent};transition:height .3s` }; });
@@ -1070,7 +1244,11 @@ class Component extends DCLogic {
         onHi:()=>this.toggleHi(f),
         legendStyle2:`display:flex;flex-direction:column;align-items:flex-start;gap:7px;background:${on?'#1A1A1C':'#FAF8F4'};color:${on?'#FAF8F4':'#1A1A1C'};border:none;cursor:pointer;font-family:inherit;padding:10px 10px;transition:background .3s,color .3s` }; });
 
-    v.statCards=[ {value:P.length,label:'Surfaces catalogued'},{value:FMT.length,label:'Display formats'},{value:this.STN.length,label:'Booth stations'},{value:new Set(P.map(p=>p.col)).size,label:'Collections'} ];
+    v.statCards=[ {value:P.length,label:'Surfaces catalogued'},
+      {value:new Set(P.map(p=>p.fmt)).size,label:'Display formats used'},
+      {value:planCount,label:isAps?'Booth stations':'Plan zones'},
+      {value:new Set(P.map(p=>p.col)).size,label:'Collections'} ];
+    v.hasGallery=this.hasGallery; v.noGallery=!this.hasGallery; v.formatsUsed=new Set(P.map(p=>p.fmt)).size;
 
     // Booth photography, grouped by the room the camera was standing in — an interactive room-by-room
     // gallery: a room rail + one scroll-snapped panel per room, each with a stage image, a filmstrip of
@@ -1123,6 +1301,53 @@ class Component extends DCLogic {
 
     // ===== FLOOR PLAN =====
     const litFmt=(f)=> !hi || f===hi;
+    v.isFloorAps=isAps; v.isFloorGeneric=!isAps;
+
+    // --- generic plan: zones straight off the registry -------------------------
+    // One absolutely-positioned box per zone, same active / hiFormat behaviour as
+    // the APS stations. `art` only changes the fill so a sliding bank still reads
+    // as slats and a floor field as a grid.
+    { const plan=this.showroom.plan||{aspect:50,zones:[]};
+      // Lighter than the APS bespoke fills — these boxes carry a caption, so the
+      // texture has to sit behind readable text rather than dominate it.
+      const ART={
+        slats:'repeating-linear-gradient(65deg,#d3ccc0 0 5px,#8f8779 5px 9px)',
+        rack:'repeating-linear-gradient(90deg,#c4bcae 0 2px,#FAF8F4 2px 8px)',
+        grid:'repeating-linear-gradient(0deg,transparent 0 11%,rgba(26,26,28,.06) 11% calc(11% + 1px)),repeating-linear-gradient(90deg,transparent 0 14%,rgba(26,26,28,.06) 14% calc(14% + 1px))',
+        discs:'radial-gradient(circle 13px at 24% 74%,#5e6f5c 99%,transparent 0),radial-gradient(circle 13px at 50% 74%,#5e6f5c 99%,transparent 0),radial-gradient(circle 13px at 76% 74%,#5e6f5c 99%,transparent 0)'
+      };
+      v.planAspect=`position:relative;width:100%;padding-bottom:${plan.aspect||50}%;background:#EDE9E2;border:1px solid rgba(26,26,28,.18)`;
+      v.planEntrance=`position:absolute;left:${plan.entrance==null?50:plan.entrance}%;bottom:-2px;transform:translateX(-50%);font-size:8px;letter-spacing:.3em;text-transform:uppercase;color:#9a948a;z-index:2`;
+      v.planBands=(plan.bands||[]).map(b=>({ label:b.label,
+        style:`position:absolute;left:0;top:${b.y}%;font-size:8.5px;letter-spacing:.26em;text-transform:uppercase;color:#9a948a;white-space:nowrap` }));
+      v.zones=zones.map(z=>{
+        const muted=z.type==='muted';
+        const acc=ACC[z.fmt]||'#9a948a';
+        const lit=muted?true:litFmt(z.fmt);
+        const active=!muted&&st.sel&&st.sel.type===z.type&&st.sel.key===z.id;
+        const count=muted?0:this.zoneProducts(z).length;
+        const textured=!muted&&!active&&!!z.art&&z.art!=='plain';
+        // A textured fill needs an opaque colour beneath it; a selected zone is
+        // filled with the accent and carries light text, so it takes neither the
+        // texture nor the caption plate (white-on-white was invisible).
+        const fill = muted   ? 'background:rgba(26,26,28,.045)'
+                   : active  ? `background:${acc}`
+                   : textured? `background:${ART[z.art]};background-color:#FAF8F4`
+                             : 'background:rgba(250,248,244,.95)';
+        const txt=muted?'#b3ada3':(active?'#FAF8F4':(lit?'#1A1A1C':'#b3ada3'));
+        const txt2=muted?'#c3bdb3':(active?'rgba(250,248,244,.72)':(lit?'#6E6A62':'#bdb7ad'));
+        return { label:z.label, sub:z.sub||'', count:count||'', txt, txt2, muted,
+          capStyle:`display:inline-block;padding:${textured?'3px 6px':'0'};background:${textured?'rgba(250,248,244,.9)':'transparent'};max-width:100%`,
+          style:`position:absolute;left:${z.x}%;top:${z.y}%;width:${z.w}%;height:${z.h}%;`+
+            `border:${active?`2px solid ${acc}`:`1px ${muted?'dashed':'solid'} ${lit?'rgba(26,26,28,.28)':'rgba(26,26,28,.12)'}`};`+
+            `${fill};opacity:${lit?1:.4};`+
+            `${muted?'':'cursor:pointer;'}padding:8px 9px;display:flex;flex-direction:column;`+
+            `transition:all .4s;overflow:hidden;z-index:${muted?2:4}`,
+          dot:`position:absolute;right:7px;bottom:7px;width:8px;height:8px;background:${acc};opacity:${muted||active?0:1}`,
+          onClick:(e)=>{ if(e&&e.stopPropagation)e.stopPropagation(); if(!muted) this.pick(z.type,z.id); } };
+      });
+    }
+
     const fAct=st.sel&&st.sel.type==='floor';
     v.floor={ txt:fAct?'#3f463a':'#9a948a',
       // Central corridor pass-through = the porcelain walkway. Narrow aisle so the panel banks
@@ -1185,6 +1410,8 @@ class Component extends DCLogic {
     // felt arbitrary with a generic glyph. The data (FURNITURE_PINS) stays wired into each room's
     // Furniture group in the side panel below; only the on-plan markers are switched off.
 
+    // The legend's Clear button was styled but never bound — it had no handler.
+    v.clearHi=()=>this.clearHi();
     v.clearHiStyle=`cursor:pointer;background:none;border:none;font-family:inherit;font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:${hi?accent:'rgba(26,26,28,.3)'}`;
 
     // contextual panel
@@ -1192,7 +1419,39 @@ class Component extends DCLogic {
     const listItem=(p,n0)=>({ n:p.n, sub:`${p.col} · ${p.f} · ${p.th}`, n0:(n0||''), open:()=>this.openDetail(p.id),
       idx:`flex:none;width:18px;text-align:right;font-size:9px;color:#9a948a;font-variant-numeric:tabular-nums`,
       thumb:`flex:none;width:30px;height:30px;background:${bg(p)}` });
-    if(sel){
+    if(sel && !isAps){
+      // Generic showrooms: the selection is a plan zone, and the zone declares
+      // which data groups it holds. 'system' / 'floor' read as one flat run;
+      // 'station' splits into expandable buckets.
+      const z=this.zoneOf(sel.key); const items=this.zoneProducts(z);
+      const zfmt=(z&&z.fmt)||(items[0]&&items[0].fmt)||'On Wall';
+      ctx.chip=`flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:${ACC[zfmt]};padding:7px`;
+      ctx.icon=this.icon(zfmt);
+      ctx.title=(z&&z.label)||''; ctx.sub=((z&&z.sub)?z.sub+' · ':'')+items.length+' surfaces';
+      if(z && z.type==='station'){
+        ctx.isGrouped=true;
+        // One format across a long run (the sub-size boards) is better read by
+        // location — "Subsize Board 8" and its five tile sizes — than by format.
+        const oneFmt=new Set(items.map(p=>p.fmt)).size===1;
+        const byLoc=oneFmt && items.length>12;
+        const buckets=new Map();
+        items.forEach(p=>{ const k=byLoc?String(p.loc||'').split(' · ')[0]:p.fmt;
+          if(!buckets.has(k)) buckets.set(k,[]); buckets.get(k).push(p); });
+        ctx.groups=[...buckets.entries()].map(([label,list])=>{
+          const gk=this.state.showroomId+'-'+sel.key+'-'+label; const open=!!st.openGroups[gk];
+          const gfmt=list[0].fmt;
+          return { key:gk, label, count:list.length, open, caret:open?'−':'+',
+            onToggle:()=>this.toggleGroup(gk),
+            chip:`flex:none;width:26px;height:26px;display:flex;align-items:center;justify-content:center;background:${ACC[gfmt]};padding:5px`,
+            icon:this.icon(gfmt),
+            items:list.map(p=>listItem(p,'')) };
+        });
+      } else {
+        ctx.isList=true;
+        const numbered=(z&&z.keys||[]).some(k=>{ const g=this.groupOf(k); return g&&g.numbered; });
+        ctx.items=items.map((p,k)=>listItem(p, numbered?this.pad(k+1):''));
+      }
+    } else if(sel){
       if(sel.type==='panel'){
         const pl=this.fixedPanels()[sel.key]||{}; ctx.isPanel=true;
         ctx.chip=`flex:none;width:34px;height:34px;display:flex;align-items:center;justify-content:center;background:${ACC['Pre-fixed Panel']};padding:7px`;
@@ -1248,6 +1507,9 @@ class Component extends DCLogic {
       }
     }
     v.ctx=ctx;
+    v.ctxHint=isAps
+      ? 'Click a sliding bank or the waterfall to read its product run. Hover a centre panel for its two faces. Click a station for its setting.'
+      : 'Click a bank or library to read its product run, or a room for its walls, counters and cubes. Use the legend to illuminate one format.';
 
     const dsel=P.find(p=>p.id===st.selected);
     v.selOpen=!!dsel;
@@ -1261,16 +1523,17 @@ class Component extends DCLogic {
           {k:'Colour Family',v:dsel.colour},{k:'Finish',v:dsel.f},
           {k:'Size',v:dsel.sz},{k:'Thickness',v:dsel.th},
           {k:'Face / Cut',v:dsel.face},{k:'Collection',v:dsel.col},
-          {k:'Product No.',v:dsel.no},{k:'Material',v:dsel.sz.indexOf('120 × 120')>-1?'Porcelain':'Sintered Slab'}
+          {k:'Product No.',v:dsel.no},{k:'Material',v:this.isTile(dsel.th,dsel.sz)?'Porcelain':'Sintered Slab'}
         ] };
     } else v.sel={specs:[]};
 
     v.beyondCards=[
       {tag:'Locked',title:'Live Inventory Sync',desc:'Bind each surface to real-time stock and block availability across the network.'},
       {tag:'Locked',title:'Sample Request Tracking',desc:'Let specifiers request chips from the gallery and follow fulfilment end to end.'},
-      {tag:'Locked',title:'Multi-Showroom Switching',desc:'One manager, many floors — compare how a collection merchandises city to city.'},
+      {tag:'Live',title:'Multi-Showroom Switching',desc:'One manager, many floors — Aliağa, Manisa, Bursa, Ankara and Istanbul, switched from the sidebar.'},
       {tag:'Locked',title:'A/B Merchandising Tests',desc:'Trial alternate placements and formats, then measure dwell and request lift.'}
-    ];
+    ].map(b=>Object.assign(b,{ tagStyle:`position:absolute;top:30px;right:30px;font-size:9px;letter-spacing:.2em;text-transform:uppercase;padding:4px 9px;`+
+      (b.tag==='Live'?`color:#161617;background:${accent};font-weight:700`:`color:#b8b2a8;border:1px solid rgba(26,26,28,.16)`) }));
     return v;
   }
 }

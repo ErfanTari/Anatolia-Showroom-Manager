@@ -1,22 +1,50 @@
 # Anatolia Showroom Manager
 
-**APS Factory Temporary Showroom — Aliağa, İzmir, Türkiye**
-**Anatolia × AETERNA · 380 m²**
+**Live site:** https://erfantari.github.io/Anatolia-Showroom-Manager/
 
-An interactive single-file web dashboard that catalogues every surface, display format, and booth station of the APS temporary showroom. It combines a filterable product gallery, a clickable schematic floor plan, and a full detail modal — all driven from the BOM data file.
+**Five showrooms · Türkiye**
+
+An interactive single-file web dashboard that catalogues every surface, display format and
+zone of Anatolia's showrooms. It combines a filterable product gallery, a clickable schematic
+floor plan and a full detail modal — all driven from the BOM data files.
+
+Pick a showroom from the top of the sidebar; every section rebinds to it.
+
+| # | Showroom | Place | Stage | Surfaces |
+|---|---|---|---|---|
+| 1 | APS Temporary Showroom | Aliağa · İzmir | Installed | 174 |
+| 2 | Öz Yapı Showroom | Manisa | Built | 103 |
+| 3 | Ekinox Showroom | Bursa | Built | 70 |
+| 4 | Ark Yapı · Banyo Marka | Ankara | BOM only | 60 |
+| 5 | Turkuaz Seba Central | İstanbul | Concept | 91 |
+
+Only APS has booth photography and the 3D sliding-panel rack, so the **Gallery photo strip**
+and **Sliding Panels** section appear for it alone; the other four hide them until assets exist.
 
 ---
 
 ## Quick Start
 
-Open `Showroom Manager.dc.html` in any modern browser. No build step, no server required — all logic is self-contained in the file. `showroom-data.js` and `support.js` must be in the same directory.
+Open `Showroom Manager.dc.html` in any modern browser. No build step, no server required — all
+logic is self-contained in the file. Everything below must sit alongside it.
 
 ```
 Showroom_Main_repo/
 ├── Showroom Manager.dc.html   ← open this
-├── showroom-data.js           ← BOM data (auto-generated)
 ├── support.js                 ← DC framework runtime
-└── From_website/              ← 52 product images
+├── showrooms.js               ← showroom registry (meta + floor-plan zones)
+├── showroom-data.js           ← APS BOM data
+├── data/
+│   ├── showroom-manisa.js     ← generated from the BOMs
+│   ├── showroom-ekinox.js
+│   ├── showroom-ankara.js
+│   └── showroom-turkuaz.js
+├── tools/
+│   ├── build_showroom_data.py ← BOM .xlsx  →  data/showroom-*.js
+│   ├── build_showroom_docs.py ← BOM .xlsx  →  "Showroom Data.md" tables
+│   └── check_showrooms.js     ← headless smoke test (node tools/check_showrooms.js)
+├── two new showrooms/         ← the four source BOMs + drawings
+└── From_website/              ← 53 product images
 ```
 
 ---
@@ -26,16 +54,20 @@ Showroom_Main_repo/
 ### Hero
 Full-screen entry screen with a Ken Burns background. Click **Enter the Showroom** to proceed to the app.
 
+### Showroom Switcher
+The five showrooms sit at the top of the sidebar, active one accented. Switching resets the
+section to Overview and clears filters, selection and highlight — nothing leaks between floors.
+
 ### Overview
-- Summary stats: total surfaces, display formats, booth stations, collections
+- Summary stats: total surfaces, display formats used, plan zones (booth stations on APS), collections
 - Format taxonomy grid — click any format to jump straight to a filtered gallery
-- Collection bar chart and display-system / station index (click a row to highlight it on the floor plan)
+- Booth photography, room by room (APS only; the others show what is still missing and where it goes)
 
 ### Gallery
 Filterable product grid. Filters: Collection, Format, Colour Family, Finish, Size, Location. Each card shows the product photo (from `From_website/`), name, collection, and spec line. Click any card to open the **Detail Modal** with full product specs, format chip, location, and a *Locate on Floor Plan* button.
 
 ### Floor Plan
-Schematic top-down view of the 380 m² booth. Interactive elements:
+Schematic top-down view. **APS** keeps its hand-measured drawing:
 - **Sliding Banks A & B** — click to list all slabs in that bank
 - **Waterfall** — click to list all 21 cascade displays
 - **Fixed Panel Library** — click any vertical line to read that panel's A/B faces
@@ -43,16 +75,35 @@ Schematic top-down view of the 380 m² booth. Interactive elements:
 - **Rotating Units** — click to list the two swivel tile displays
 - **Main Floors** — click to list all porcelain floor products
 - **Stations 01–08** — click to list all surfaces staged in that station vignette
-- **Format Legend** — click any format chip to highlight only that format across the entire plan
+
+The **other four** render generically from `showrooms.js`:
+- **System zones** (sliding banks, libraries, waterfalls, rotating runs) — click for a flat,
+  numbered product run
+- **Station zones** (rooms, cube sets, sub-size boards) — click for expandable buckets, grouped
+  by format, or by location when one format runs long (the ten Turkuaz sub-size boards)
+- **Floor zones** — click to list the floor fields
+- **Muted zones** — stairs, partner wings, concept areas with no Anatolia BOM rows; drawn dashed
+  and not clickable
+- **Ankara** additionally shows GF / mezzanine band labels, since its plan comes from location
+  codes rather than a drawing
+
+**Format Legend** — click any format chip to highlight only that format across the plan;
+**Clear** resets it. Works on all five.
+
+### Sliding Panels (APS only)
+Interactive 3D-style rack of both sliding banks — hover a panel to reveal its full slab face,
+click to lock it. Hidden for showrooms without `SLIDING_DATA`.
 
 ### Beyond
-Roadmap panel listing locked future capabilities: live inventory sync, sample request tracking, multi-showroom switching, A/B merchandising tests.
+Roadmap panel. **Multi-Showroom Switching is now live**; live inventory sync, sample request
+tracking and A/B merchandising tests remain locked.
 
 ---
 
-## Booth Layout
+## Booth Layout — APS (Aliağa)
 
 The showroom reads as **two mirrored C / reverse-C wings** around a **central display island**.
+Layouts for the other four are described in `Showroom Data.md`.
 
 ```
 ┌──────────────────── 29 m ────────────────────┐
@@ -102,7 +153,7 @@ The showroom reads as **two mirrored C / reverse-C wings** around a **central di
 
 ## Product Images
 
-Gallery card backgrounds and floor-plan texture previews all load from `From_website/`. The folder contains **52 JPEGs** sourced directly from the Anatolia website, ensuring colour-accurate, high-resolution representations.
+Gallery card backgrounds and floor-plan texture previews all load from `From_website/`. The folder contains **53 JPEGs** sourced directly from the Anatolia website, ensuring colour-accurate, high-resolution representations.
 
 Products without a matching image (Publica variants, Lithoform Twilight, Lustra Onyx, Ceppo di Gre, Terrazzo Delicato, Serena Dusk/Pewter/Valley) fall back to a flat colour swatch derived from their colour family.
 
@@ -110,8 +161,8 @@ Products without a matching image (Publica variants, Lithoform Twilight, Lustra 
 
 ## Data Files
 
-### `showroom-data.js`
-Auto-generated from **APS BOM 2026-06-09**. Exports `window.ANATOLIA_DATA` with four arrays:
+### `showroom-data.js` (APS)
+Auto-generated from **APS BOM 2026-06-09**. Exports `window.ANATOLIA_DATA` with five arrays:
 
 | Key | Contents |
 |---|---|
@@ -125,11 +176,59 @@ Each entry is `[name, finish, thickness, productNo, colourCategory, locationLabe
 
 Station vignette products, floor tiles, the tower finishes board, and waterfall-on-wall installations are hard-coded in the `EXTRAS` array inside the HTML logic and do not need to be regenerated from the BOM.
 
-### `Showroom Data.md`
-Human-readable single source of truth. Contains the full product list for every display system and station, the panel-pair table for the Fixed Panel Library, and notes on the booth structure. **Edit this file first** when the BOM changes, then regenerate `showroom-data.js`.
+### `data/showroom-<id>.js` (Manisa · Ekinox · Ankara · Turkuaz)
+**Generated — do not hand-edit.** Each sets `window.SHOWROOM_DATA['<id>'] = { groups: [...] }`,
+where a group is `{ key, label, fmt, room, size, numbered, rows }` and each row is the 8-tuple
 
-### `APS_TemproraryShowroom_BOM_20260609.xlsx`
-Master BOM spreadsheet (latest revision: 2026-06-09). Source for `showroom-data.js`.
+```
+[name, finish, thickness, productNo, colourCategory, location, size, fmt]
+```
+
+`size` and `fmt` are `null` when the group default applies — mixed groups (a bathroom's walls
+plus its vanity, a sub-size board's four tile formats) carry them per row.
+
+Regenerate with:
+
+```sh
+python3 tools/build_showroom_data.py           # writes data/showroom-*.js
+python3 tools/build_showroom_data.py --check   # verify row counts, write nothing
+python3 tools/build_showroom_docs.py           # refresh the tables in "Showroom Data.md"
+```
+
+The build script asserts an expected row count per group, so a silent change in a workbook
+fails loudly instead of quietly shifting the dashboard.
+
+### `tools/check_showrooms.js`
+Headless smoke test — `node tools/check_showrooms.js`, no dependencies. Runs the component
+logic for all five showrooms and checks that every template binding resolves, every data group
+is claimed by exactly one plan zone, no two labelled zones overlap, every zone click fills the
+context panel, *Locate on Floor Plan* finds a target for every product, and switching showrooms
+doesn't leak the memoised products array. Run it after touching `showrooms.js` or the data.
+
+### `showrooms.js`
+The showroom registry: `window.SHOWROOMS`, one entry per floor.
+
+- `meta` — every identity string the UI shows (name, partner, city, area, stage, tagline,
+  floor-plan blurb and caption, sidebar lines, hero image, source documents).
+- `plan` — the schematic floor plan: `aspect`, optional `bands`, and `zones` in percentage
+  coordinates. A zone is `{ id, type, keys, label, sub, fmt, art, x, y, w, h }`, where `type`
+  is `system` (flat numbered run), `station` (grouped by format), `floor`, or `muted`
+  (drawn but not clickable), and `keys` names the data groups the zone contains.
+- APS carries `bespokePlan: true` — its floor plan is the hand-measured drawing built into
+  the HTML and is rendered by its own branch, untouched.
+
+> The four new plans are **schematic**: zone shapes are proportional reads of the PDFs, not
+> survey geometry. Rebuild any of them with the `showroom-floor-plan` skill against the LAY
+> sheet when true dimensions are needed.
+
+### `Showroom Data.md`
+Human-readable reference for all five showrooms. The APS section is hand-written; the four
+new sections sit between `<!-- BEGIN/END GENERATED SHOWROOM TABLES -->` and are produced by
+`tools/build_showroom_docs.py`, so they cannot drift from the JS the dashboard loads.
+
+### BOM spreadsheets
+`APS_TemproraryShowroom_BOM_20260609.xlsx` (APS) and the four workbooks in
+`two new showrooms/`. These are the single source of truth — everything else is derived.
 
 ---
 
@@ -163,10 +262,30 @@ Source upload bundle used to seed the dashboard. Contains the two PDFs above, th
 
 ## Updating the Dashboard
 
-**When the BOM changes:**
-1. Update `Showroom Data.md` with the new product placement.
-2. Regenerate `showroom-data.js` from the BOM (or hand-edit the four arrays to match).
-3. Add any new product images to `From_website/` and add a matching entry to `IMGMAP` inside the `<script>` block in `Showroom Manager.dc.html`.
+**When a BOM changes (Manisa · Ekinox · Ankara · Turkuaz):**
+1. Drop the new workbook into `two new showrooms/` and point `BOOKS` in
+   `tools/build_showroom_data.py` at it.
+2. Run `python3 tools/build_showroom_data.py --check`. If a group's row count moved, update
+   `EXPECTED` in the script *after* confirming the change is real.
+3. Run `python3 tools/build_showroom_data.py` then `python3 tools/build_showroom_docs.py`.
+4. Add any new product images to `From_website/` plus a matching `IMGMAP` entry.
+
+**When the APS BOM changes:**
+1. Update `Showroom Data.md` (section 1) with the new product placement.
+2. Regenerate `showroom-data.js` from the BOM (or hand-edit the five arrays to match).
+3. Station vignette products, floors, the tower and waterfall-on-wall installations live in
+   the `APS_EXTRAS` getter inside the HTML.
+
+**When adding a sixth showroom:**
+1. Add a builder to `tools/build_showroom_data.py` returning a list of groups, register it in
+   `BOOKS` / `BUILDERS` / `EXPECTED`, and run the script.
+2. Add a `<script src="./data/showroom-<id>.js">` line to the `<helmet>` block in the HTML.
+3. Append an entry to `window.SHOWROOMS` in `showrooms.js` with `meta` and `plan.zones`.
+   Every data group must be claimed by exactly one non-muted zone.
+4. Add a blurb to `BLURBS` in `tools/build_showroom_docs.py` and regenerate the docs.
+
+No change to the HTML logic is needed — the switcher, stats, gallery, floor plan, context
+panel and *Locate on Floor Plan* are all driven from the registry.
 
 **When adding a product image:**
 - Place the file in `From_website/` (JPEG, any resolution — the browser scales it).
@@ -198,7 +317,9 @@ Source upload bundle used to seed the dashboard. Contains the two PDFs above, th
 ## Technical Notes
 
 - **Framework**: The `.dc.html` format uses a proprietary `DCLogic` base class (provided by `support.js`). `renderVals()` returns a flat object of template bindings; `{{ expr }}` interpolations in the HTML are resolved by the runtime. No external dependencies are bundled.
-- **State**: Held in `this.state` — `view` (hero/app), `section` (overview/gallery/floorplan/beyond), `filters`, `selected` (open detail ID), `hiFormat` (highlighted format on plan), `sel` (active floor-plan selection).
-- **Products array**: Built once and memoised in `this._p`. Combines BOM arrays from `showroom-data.js` with the hard-coded `EXTRAS` array. Total ~170 surfaces.
+- **State**: Held in `this.state` — `view` (hero/app), `showroomId` (which showroom is active), `section` (overview/gallery/floorplan/sliding/beyond), `filters`, `selected` (open detail ID), `hiFormat` (highlighted format on plan), `sel` (active floor-plan selection).
+- **Showroom accessors**: `showroom` / `meta` / `isAps` / `dataGroups` / `planZones` / `zoneProducts()` resolve everything showroom-specific from `state.showroomId`. APS-only data lives behind `APS_*` getters (`APS_EXTRAS`, `APS_SYS`, `APS_STN`, `APS_ROOM_PHOTOS`, `APS_PHOTO_TAGS`, `APS_FURNITURE_PINS`, `APS_SLIDING_DATA`).
+- **Products array**: Built once per showroom and memoised in `this._p`, keyed on `showroomId|dataReady`. APS combines `window.ANATOLIA_DATA` with `APS_EXTRAS`; the others walk `window.SHOWROOM_DATA[id].groups`. Every product carries `group` (its data group) so `Locate on Floor Plan` can find its zone.
+- **Data loading**: the data files are appended to `<head>` by the helmet and therefore load asynchronously and out of order. `componentDidMount` polls until the registry and every showroom it names have arrived before setting `dataReady`.
 - **Image path**: `From_website/<filename>.jpg` — relative to the HTML file location.
 - **No build/bundler**: Safe to edit the HTML directly and reload in the browser.

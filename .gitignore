@@ -9,3 +9,10 @@ uploads/
 
 # Raw source superseded by assets/launch/
 Tuscano_rosso_product lunch/
+
+# Python bytecode from tools/
+__pycache__/
+*.pyc
+
+# Local AI-tool settings (machine-specific)
+.claude/
