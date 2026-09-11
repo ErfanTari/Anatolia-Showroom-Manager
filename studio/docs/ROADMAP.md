@@ -8,7 +8,7 @@
 - Review tabs for repetition, exposure concerns, justified placements, unrepresented catalogue designs and rotating-panel color order.
 - Deterministic replacement, new-product, color-order and explicit fixture-move proposals; current/proposed 3D comparison.
 - Merch release checks; tracked order/preparation/installation/verification tasks; evidence and removed-material destination; audit events.
-- Shared Python domain layer, CLI and a draft-only MCP adapter. Public read-only review on GitHub Pages.
+- Shared Python domain layer, CLI and a draft-only MCP adapter. Publication-ready read-only snapshot. GitHub Pages currently shares the generic process sketch; full-data publication awaits explicit approval.
 
 ## Next increment: confirm the operating pilot
 

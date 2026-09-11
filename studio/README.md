@@ -2,7 +2,7 @@
 
 APS pilot: one placement database, a production-face 3D model, deterministic refresh proposals, and a work board that records installation evidence.
 
-[Open the published review](https://erfantari.github.io/Anatolia-Showroom-Manager/studio/web/) · [Team decisions](docs/TEAM_DECISIONS.md) · [Process sketch](docs/process.svg)
+[Open the local application](http://127.0.0.1:8765/studio/web/) · [Public process sketch](https://erfantari.github.io/Anatolia-Showroom-Manager/showroom-process/) · [Team decisions](docs/TEAM_DECISIONS.md) · [Process sketch](docs/process.svg)
 
 ## Start the working application
 
@@ -14,7 +14,7 @@ python3 studio/backend/server.py --port 8765
 
 Open **http://127.0.0.1:8765/studio/web/**. Python 3.10+ and a browser with WebGL are sufficient. Three.js is bundled locally. The server binds to this computer only.
 
-The header says **SQLite connected** when forms save to the database. GitHub Pages displays a **read-only review snapshot**: 3D navigation, map highlights and saved proposal comparisons work there; SQLite writes require the local application. Publishing does not create a hosted database service.
+The header says **SQLite connected** when forms save to the database. The prepared static version displays a **read-only review snapshot**: 3D navigation, map highlights and saved proposal comparisons work there; SQLite writes require the local application. Publishing does not create a hosted database service. Only the generic process sketch is currently public. Publication of the full Studio data and production-face assets awaits explicit approval for this public repository.
 
 ## What to try
 
