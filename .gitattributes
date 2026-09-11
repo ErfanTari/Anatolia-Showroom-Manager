@@ -1,0 +1,2 @@
+# Preserve faithful CSV source grids, including CRLF and meaningful cell whitespace.
+*.csv -text whitespace=-blank-at-eol

@@ -16,3 +16,13 @@ __pycache__/
 
 # Local AI-tool settings (machine-specific)
 .claude/
+
+# Local source-review renders, runtime links and browser-check captures
+/tmp/
+
+# Local operating files and workbook locks
+~$*
+*.sqlite-wal
+*.sqlite-shm
+*.sqlite-journal
+/studio/data/backups/

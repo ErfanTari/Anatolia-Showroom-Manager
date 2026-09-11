@@ -1,0 +1,195 @@
+﻿base_revision,id,room,title,type,locked,width_mm,height_mm,visibility_tier,visibility_score,visibility_basis,intentional_repeat
+1,APS-R1-FLOOR,1,Bathroom floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R2-FLOOR,2,Living space floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-FLOOR,3,Meeting room floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R4-FLOOR,4,Slab gallery floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R5-FLOOR,5,Mini slab gallery floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-FLOOR,6,Waterfall gallery floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R7-FLOOR,7,Kitchen floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-FLOOR,8,Tile library floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FLOOR-4.95,0,Fixed gallery floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FLOOR-16.5,0,Fixed gallery floor,floor,1,1198,1198,commercial,30,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R4-SL-01-front,4,Sliding panel 1 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-02-front,4,Sliding panel 2 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-03-front,4,Sliding panel 3 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-04-front,4,Sliding panel 4 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-05-front,4,Sliding panel 5 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-06-front,4,Sliding panel 6 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-07-front,4,Sliding panel 7 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-08-front,4,Sliding panel 8 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-09-front,4,Sliding panel 9 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-10-front,4,Sliding panel 10 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-11-front,4,Sliding panel 11 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-12-front,4,Sliding panel 12 · front,sliding,0,1600,3200,prime,85,Proposed first-presented face at the mirrored bank opening; confirm closed-bank presentation order.,0
+1,APS-R4-SL-13-front,4,Sliding panel 13 · front,sliding,0,1600,3200,prime,85,Proposed first-presented face at the mirrored bank opening; confirm closed-bank presentation order.,0
+1,APS-R4-SL-14-front,4,Sliding panel 14 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-15-front,4,Sliding panel 15 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-16-front,4,Sliding panel 16 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-17-front,4,Sliding panel 17 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-18-front,4,Sliding panel 18 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-19-front,4,Sliding panel 19 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-20-front,4,Sliding panel 20 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-21-front,4,Sliding panel 21 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-22-front,4,Sliding panel 22 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-23-front,4,Sliding panel 23 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R4-SL-24-front,4,Sliding panel 24 · front,sliding,0,1600,3200,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-01-front,5,Sliding panel 1 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-02-front,5,Sliding panel 2 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-03-front,5,Sliding panel 3 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-04-front,5,Sliding panel 4 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-05-front,5,Sliding panel 5 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-06-front,5,Sliding panel 6 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-07-front,5,Sliding panel 7 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-08-front,5,Sliding panel 8 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-09-front,5,Sliding panel 9 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-10-front,5,Sliding panel 10 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-11-front,5,Sliding panel 11 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-12-front,5,Sliding panel 12 · front,sliding,0,1200,2800,prime,85,Proposed first-presented face at the mirrored bank opening; confirm closed-bank presentation order.,0
+1,APS-R5-SL-13-front,5,Sliding panel 13 · front,sliding,0,1200,2800,prime,85,Proposed first-presented face at the mirrored bank opening; confirm closed-bank presentation order.,0
+1,APS-R5-SL-14-front,5,Sliding panel 14 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-15-front,5,Sliding panel 15 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-16-front,5,Sliding panel 16 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-17-front,5,Sliding panel 17 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-18-front,5,Sliding panel 18 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-19-front,5,Sliding panel 19 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-20-front,5,Sliding panel 20 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-21-front,5,Sliding panel 21 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-22-front,5,Sliding panel 22 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-23-front,5,Sliding panel 23 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-R5-SL-24-front,5,Sliding panel 24 · front,sliding,0,1200,2800,secondary,35,"Inside the sliding bank; accessible after pull-out, not assumed visible when closed.",0
+1,APS-H-FX-01-front,0,Fixed panel 01 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-01-back,0,Fixed panel 01 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-02-front,0,Fixed panel 02 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-02-back,0,Fixed panel 02 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-03-front,0,Fixed panel 03 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-03-back,0,Fixed panel 03 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-04-front,0,Fixed panel 04 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-04-back,0,Fixed panel 04 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-05-front,0,Fixed panel 05 · front,fixed,0,1600,3200,prime,92,Central gallery face oriented towards the entrance route; sightline survey still required.,0
+1,APS-H-FX-05-back,0,Fixed panel 05 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-06-front,0,Fixed panel 06 · front,fixed,0,1600,3200,prime,92,Central gallery face oriented towards the entrance route; sightline survey still required.,1
+1,APS-H-FX-06-back,0,Fixed panel 06 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-07-front,0,Fixed panel 07 · front,fixed,0,1600,3200,prime,92,Central gallery face oriented towards the entrance route; sightline survey still required.,1
+1,APS-H-FX-07-back,0,Fixed panel 07 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-08-front,0,Fixed panel 08 · front,fixed,0,1600,3200,prime,92,Central gallery face oriented towards the entrance route; sightline survey still required.,0
+1,APS-H-FX-08-back,0,Fixed panel 08 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-09-front,0,Fixed panel 09 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-09-back,0,Fixed panel 09 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-10-front,0,Fixed panel 10 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-10-back,0,Fixed panel 10 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-11-front,0,Fixed panel 11 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-11-back,0,Fixed panel 11 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-12-front,0,Fixed panel 12 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-12-back,0,Fixed panel 12 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-13-front,0,Fixed panel 13 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-13-back,0,Fixed panel 13 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-14-front,0,Fixed panel 14 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-14-back,0,Fixed panel 14 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-15-front,0,Fixed panel 15 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-15-back,0,Fixed panel 15 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-16-front,0,Fixed panel 16 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-16-back,0,Fixed panel 16 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-17-front,0,Fixed panel 17 · front,fixed,0,1600,3200,prime,92,Central gallery face oriented towards the entrance route; sightline survey still required.,0
+1,APS-H-FX-17-back,0,Fixed panel 17 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-18-front,0,Fixed panel 18 · front,fixed,0,1600,3200,prime,92,Central gallery face oriented towards the entrance route; sightline survey still required.,0
+1,APS-H-FX-18-back,0,Fixed panel 18 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,1
+1,APS-H-FX-19-front,0,Fixed panel 19 · front,fixed,0,1600,3200,prime,92,Central gallery face oriented towards the entrance route; sightline survey still required.,0
+1,APS-H-FX-19-back,0,Fixed panel 19 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,1
+1,APS-H-FX-20-front,0,Fixed panel 20 · front,fixed,0,1600,3200,prime,92,Central gallery face oriented towards the entrance route; sightline survey still required.,0
+1,APS-H-FX-20-back,0,Fixed panel 20 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-21-front,0,Fixed panel 21 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-21-back,0,Fixed panel 21 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-22-front,0,Fixed panel 22 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-22-back,0,Fixed panel 22 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-23-front,0,Fixed panel 23 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-23-back,0,Fixed panel 23 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-24-front,0,Fixed panel 24 · front,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-H-FX-24-back,0,Fixed panel 24 · back,fixed,0,1600,3200,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-01-front,6,Waterfall 1 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-02-front,6,Waterfall 2 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-03-front,6,Waterfall 3 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-04-front,6,Waterfall 4 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-05-front,6,Waterfall 5 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-06-front,6,Waterfall 6 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-07-front,6,Waterfall 7 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-08-front,6,Waterfall 8 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-09-front,6,Waterfall 9 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-10-front,6,Waterfall 10 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-11-front,6,Waterfall 11 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-12-front,6,Waterfall 12 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-13-front,6,Waterfall 13 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-14-front,6,Waterfall 14 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-15-front,6,Waterfall 15 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-16-front,6,Waterfall 16 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-17-front,6,Waterfall 17 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-18-front,6,Waterfall 18 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-19-front,6,Waterfall 19 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-20-front,6,Waterfall 20 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-WF-21-front,6,Waterfall 21 · front,waterfall,0,600,2800,secondary,45,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-RT-1-1-front,8,Rotating carrier 1 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-1-1-back,8,Rotating carrier 1 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-1-2-front,8,Rotating carrier 2 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-1-2-back,8,Rotating carrier 2 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-1-3-front,8,Rotating carrier 3 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-1-3-back,8,Rotating carrier 3 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-1-4-front,8,Rotating carrier 4 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-1-4-back,8,Rotating carrier 4 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-1-5-front,8,Rotating carrier 5 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-1-5-back,8,Rotating carrier 5 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-1-front,8,Rotating carrier 1 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-1-back,8,Rotating carrier 1 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-2-front,8,Rotating carrier 2 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-2-back,8,Rotating carrier 2 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-3-front,8,Rotating carrier 3 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-3-back,8,Rotating carrier 3 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-4-front,8,Rotating carrier 4 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-4-back,8,Rotating carrier 4 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-5-front,8,Rotating carrier 5 · front,rotating,0,1200,1200,secondary,55,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R8-RT-2-5-back,8,Rotating carrier 5 · back,rotating,0,1200,1200,secondary,30,Front carrier face or reverse side; exposure depends on operation.,0
+1,APS-R3-APP-14,3,Meeting room · W3A,application,1,1600,3200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-APP-15,3,"Meeting room · W3D, Statuario",application,1,1600,3200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-APP-16,3,Meeting room · second Statuario source,application,1,1600,3200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R2-APP-10,2,Living space · W2A,application,1,1600,3200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R2-APP-11,2,Living space · Calacatta Noir wall,application,1,1200,2800,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R1-APP-7,1,Bathroom · W1A,application,1,1600,3200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R1-APP-8,1,Bathroom · W1D,application,1,1600,3200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R4-APP-18,4,Slab gallery · Foresta wall,application,1,1600,3200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R6-APP-26,6,Waterfall gallery · Corchia wall,application,1,1200,2800,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R7-APP-27,7,Kitchen · W7C,application,1,600,2800,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-APP-28,8,Tile library · Gemma Bronze,application,1,1600,3200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-APP-17,3,Oro Noir · meeting tabletop,application,1,1250,2800,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R2-APP-13,2,Travertino Titanium · fireplace hearth,application,1,1620,3220,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R2-APP-12,2,Travertino Titanium · fireplace surround,application,1,1600,3200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R1-APP-9,1,Pietra Imperiale · bathroom vanity,application,1,1620,3220,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R7-KITCHEN-TOP,7,Verdi Alpi · island and counter,furniture,1,,,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R4-SAMPLE-TOWER,4,Sample tower · 75-chip capacity,tower,1,,,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-SAMPLE-0,3,Taj Mahal sample board,sample,1,95,134,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-SAMPLE-1,3,Taj Mahal sample board,sample,1,95,134,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-SAMPLE-2,3,Taj Mahal sample board,sample,1,95,134,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-SAMPLE-3,3,Lithoform Crosscut Coast sample board,sample,1,95,134,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-SAMPLE-4,3,Lithoform Crosscut Coast sample board,sample,1,95,134,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-SAMPLE-5,3,Lithoform Crosscut Coast sample board,sample,1,95,134,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-SAMPLE-6,3,Travertino Classico sample board,sample,1,95,134,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-SAMPLE-7,3,Publica Terrain sample board,sample,1,95,134,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R3-SAMPLE-8,3,Monoforma Moonlight sample board,sample,1,95,134,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R5-SUB-0,5,Taj Mahal · 120 x 280 cm,subsize,1,1200,2800,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R5-SUB-1,5,Taj Mahal · 60 x 120 cm,subsize,1,600,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R5-SUB-2,5,Taj Mahal · 120 x 120 cm,subsize,1,1200,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R5-SUB-3,5,"Taj Mahal · 2"" Hex Mosaic",subsize,1,,,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R5-SUB-4,5,Taj Mahal · 60 x 60 cm,subsize,1,600,600,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R5-SUB-5,5,Taj Mahal · 30 x 60 cm,subsize,1,300,600,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R5-SUB-6,5,Taj Mahal · 90 x 90 cm,subsize,1,900,900,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-0,8,W8B · Lithoform Crosscut Vista,subsize,1,1200,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-1,8,W8B · Lithoform Crosscut Twilight,subsize,1,1200,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-2,8,W8C · Lithoform Crosscut Coast,subsize,1,1200,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-3,8,W8C · Lithoform Crosscut Dunes,subsize,1,1198,1198,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-4,8,W8C · Lithoform Veincut Coast,subsize,1,600,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-5,8,W8C · Lithoform Veincut Dunes,subsize,1,600,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-6,8,W8C · Lithoform Veincut Vista,subsize,1,600,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-7,8,W8C · Lithoform Veincut Twilight,subsize,1,600,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-8,8,W8C · Serena Shale,subsize,1,1200,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-9,8,W8C · Serena Valley,subsize,1,1200,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-10,8,W8C · Serena Crater,subsize,1,1198,1198,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-11,8,W8C · Serena Dusk,subsize,1,1200,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-12,8,W8D · Serena Pewter,subsize,1,1200,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0
+1,APS-R8-SUB-13,8,W8D · Serena Flint,subsize,1,1200,1200,secondary,50,Accessible on a guided showroom visit; provisional map classification.,0

@@ -1,0 +1,13 @@
+﻿base_revision,id,team,question,proposed_answer,answer,status,owner,evidence
+1,Q01,Sales,"Which products are Hit, in which market, and until when?",Oro Noir and Tuscano Burgundy are Hit examples; add market and effective dates.,,open,,
+1,Q02,Sales,"Which sales metric should influence priority, and over what period?",Showroom/region sales and margin as a limited secondary input; preserve launch exploration.,,open,,
+1,Q03,Sales,"What is the released SKU, finish, launch date and stock for each proposed new product?",Confirm Tuscano Burgundy and Architeq candidates before ordering.,,open,,
+1,Q04,Merch,Which designs and finishes must every APS visit expose?,Maximize distinct designs in movable displays. Mark must-have designs explicitly.,,open,,
+1,Q05,Merch,"When is a repeat useful, and how many are allowed?",Retain documented bookmatch; prefer a new finish or format to an exact repeat.,,open,,
+1,Q06,Merch,Which color groups and order should each family use?,"Draft: family, warm/neutral subgroup, then light to dark. Confirm Architeq and Serena ranks.",,open,,
+1,Q07,Merch,"Which slots count as prime, secondary and commercial exposure?",Review the proposed map overlay and closed-bank front positions.,,open,,
+1,Q08,Merch,"Who can release changes, with what move/budget limit?",Merch releases work. Designers/agents propose. Showroom managers record actual completion.,,open,,
+1,Q09,Interior Design,"What are approved fixture sizes, thickness/load limits and travel envelopes?","Supply versioned supplier CAD/GLB and dimensioned constraints, including 6/9/12 mm compatibility.",,open,,
+1,Q10,Interior Design,"Which routes, services, sightlines and fixed anchors must remain clear?",Mark verified keep-outs and minimum clearances on the APS plan. Current map limits are draft.,,open,,
+1,Q11,Interior Design,What defines Anatolia identity in a live room or display run?,"Provide three approved and three rejected examples covering density, color balance, lighting and furniture.",,open,,
+1,Q12,Merch + Showroom,"Who orders, prepares, moves and verifies each item, and what proves completion?",Use a role-owned task with receipt/preparation/installation evidence and disposition of removed material.,,open,,

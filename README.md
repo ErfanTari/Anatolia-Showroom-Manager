@@ -2,6 +2,10 @@
 
 **Live site:** https://erfantari.github.io/Anatolia-Showroom-Manager/
 
+**APS Showroom Studio:** [Open the interactive review](https://erfantari.github.io/Anatolia-Showroom-Manager/studio/web/) · [Project guide](studio/README.md) · [12 team decisions](studio/docs/TEAM_DECISIONS.md) · [Process sketch](studio/docs/process.svg).
+
+The new `studio/` application connects all 194 APS slots to one SQLite placement record, adds production faces, visibility and duplication review, deterministic proposals, CSV exchange and installation tasks. For saving changes, run `Start_APS_Simulation.command` and open `http://127.0.0.1:8765/studio/web/`. GitHub Pages provides a read-only review snapshot.
+
 **Five showrooms · Türkiye**
 
 An interactive single-file web dashboard that catalogues every surface, display format and

@@ -1,0 +1,34 @@
+import {createRequire}from'node:module';
+import path from'node:path';
+import {homedir}from'node:os';
+const require=createRequire(import.meta.url);
+const runtime=process.env.STUDIO_NODE_MODULES||path.join(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
+const {chromium}=require(require.resolve('playwright',{paths:[runtime]}));
+import fs from'node:fs/promises';
+import assert from'node:assert/strict';
+const url=process.env.STUDIO_URL||'http://127.0.0.1:8765/studio/web/';
+const browser=await chromium.launch({headless:true,...(process.env.STUDIO_CHROMIUM?{executablePath:process.env.STUDIO_CHROMIUM}:{})});
+await fs.mkdir('tmp/source-review',{recursive:true});
+const page=await browser.newPage({viewport:{width:1600,height:1050},deviceScaleFactor:1});
+const errors=[],failed=[];page.on('pageerror',e=>{errors.push(e.message);console.log('ERROR',e.message)});page.on('response',r=>{if(r.status()>=400)failed.push(r.status()+' '+r.url())});
+try{
+await page.goto(url,{waitUntil:'networkidle'});await page.waitForFunction(()=>window.APS_SIMULATION?.ready,{},{timeout:30000});await page.waitForTimeout(1800);
+assert.equal(await page.evaluate(()=>APS_SIMULATION.slotCount),194);
+const assignments=await page.evaluate(()=>APS_SIMULATION.getAssignments());
+const expected=await page.evaluate(()=>STUDIO.getState().placements);
+for(const a of assignments)assert.equal(a.variant_id||null,expected.find(x=>x.slot_id===a.slot_id).variant_id);
+await page.screenshot({path:'tmp/source-review/studio-overview.png'});
+await page.locator('#mapOverlay').selectOption('visibility');assert.ok(await page.evaluate(()=>APS_SIMULATION.getOverlayCount())>100);
+await page.getByRole('button',{name:'Plan',exact:true}).click();await page.waitForTimeout(500);await page.screenshot({path:'tmp/source-review/studio-visibility.png'});
+await page.locator('[data-screen=review]').click();assert.ok(await page.locator('.review-row').count()>20);await page.screenshot({path:'tmp/source-review/studio-review.png'});
+await page.locator('[data-action=review-filter][data-id=good]').click();assert.ok(await page.locator('.review-row').count()>0);
+await page.locator('[data-screen=work]').click();assert.ok(await page.locator('.proposal-card').count()>=3);await page.screenshot({path:'tmp/source-review/studio-work.png'});
+await page.locator('[data-action=preview]').first().click();await page.locator('#proposalBanner').waitFor({state:'visible',timeout:30000});await page.waitForTimeout(1000);await page.screenshot({path:'tmp/source-review/studio-proposal.png'});
+await page.locator('[data-action=current]').click();await page.locator('#proposalBanner').waitFor({state:'hidden'});await page.waitForTimeout(1500);await page.evaluate(()=>APS_SIMULATION.selectSlot('APS-R8-RT-1-1-front'));
+await page.getByRole('button',{name:'Pull out & tilt',exact:true}).click();assert.equal(await page.evaluate(()=>APS_SIMULATION.getFixtureState('APS-R8-RT-1-1').target),1);await page.waitForTimeout(1200);await page.screenshot({path:'tmp/source-review/studio-rotating.png'});
+await page.locator('[data-screen=data]').click();assert.equal(await page.locator('.question-card').count(),12);
+await page.locator('[data-screen=process]').click();assert.equal(await page.locator('.flow-step').count(),6);await page.screenshot({path:'tmp/source-review/studio-process.png'});
+await page.setViewportSize({width:390,height:844});await page.screenshot({path:'tmp/source-review/studio-mobile.png'});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);
+console.log(JSON.stringify({url,slots:assignments.length,productionPlacements:assignments.filter(x=>x.texture?.includes('assets/faces')).length,errors,failed}));
+}finally{await browser.close();}

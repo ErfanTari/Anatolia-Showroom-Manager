@@ -1,0 +1,5 @@
+﻿base_revision,id,scenario_id,title,kind,owner,due_date,stage,slot_id,variant_id,requires_order,evidence,disposition,dependencies_json,details_json,updated_at
+1,SETUP-01,,Confirm prime locations and color order,collect_input,Merch,,to_do,,,0,,,[],{},2026-09-10T17:12:48.000Z
+1,SETUP-02,,Supply fixture limits and measured keep-outs,collect_input,Interior Design,,to_do,,,0,,,[],{},2026-09-10T17:12:48.000Z
+1,SETUP-03,,"Confirm Tuscano Burgundy SKUs, availability and launch status",collect_input,Sales / Product,,to_do,,,0,,,[],{},2026-09-10T17:12:48.000Z
+1,SETUP-04,,Verify W9F items and exact kitchen SKU,collect_input,Showroom manager,,to_do,,,0,,,[],{},2026-09-10T17:12:48.000Z

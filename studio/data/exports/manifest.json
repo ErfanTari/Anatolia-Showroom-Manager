@@ -1,0 +1,48 @@
+{
+  "source": "../showroom.sqlite",
+  "revision": 1,
+  "encoding": "UTF-8 with BOM",
+  "units": "millimetres, degrees",
+  "tables": [
+    {
+      "name": "products",
+      "rows": 108,
+      "columns": 12
+    },
+    {
+      "name": "variants",
+      "rows": 1118,
+      "columns": 10
+    },
+    {
+      "name": "slots",
+      "rows": 194,
+      "columns": 12
+    },
+    {
+      "name": "fixtures",
+      "rows": 103,
+      "columns": 12
+    },
+    {
+      "name": "rules",
+      "rows": 10,
+      "columns": 10
+    },
+    {
+      "name": "questions",
+      "rows": 12,
+      "columns": 9
+    },
+    {
+      "name": "placements",
+      "rows": 194,
+      "columns": 8
+    },
+    {
+      "name": "tasks",
+      "rows": 4,
+      "columns": 16
+    }
+  ]
+}

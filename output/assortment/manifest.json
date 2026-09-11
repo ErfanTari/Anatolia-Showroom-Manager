@@ -1,0 +1,83 @@
+{
+  "source_workbook": "/Users/erfan.tari/Projects/Showroom/products /Assortment confirmation list with names 260618_1.xlsx",
+  "source_sha256": "2cc900a5614745f6810c51c1f41c90933c106b802dac566e893cae19709db01f",
+  "export_date": "2026-09-09",
+  "encoding": "UTF-8 with BOM",
+  "delimiter": ",",
+  "formula_policy": "Source cached values; exact original formulas preserved in formula_metadata.json. No recalculation or source editing.",
+  "sheets": [
+    {
+      "sheet": "Names",
+      "csv": "tabs/01_Names.csv",
+      "rows": 79,
+      "columns": 19,
+      "source_state": "hidden",
+      "nonempty_rows": 79
+    },
+    {
+      "sheet": "12mm",
+      "csv": "tabs/02_12mm.csv",
+      "rows": 73,
+      "columns": 17,
+      "source_state": "visible",
+      "nonempty_rows": 73
+    },
+    {
+      "sheet": "6mm",
+      "csv": "tabs/03_6mm.csv",
+      "rows": 72,
+      "columns": 17,
+      "source_state": "visible",
+      "nonempty_rows": 72
+    },
+    {
+      "sheet": "Subsize",
+      "csv": "tabs/04_Subsize.csv",
+      "rows": 68,
+      "columns": 19,
+      "source_state": "visible",
+      "nonempty_rows": 68
+    },
+    {
+      "sheet": "Mosaic",
+      "csv": "tabs/05_Mosaic.csv",
+      "rows": 56,
+      "columns": 15,
+      "source_state": "hidden",
+      "nonempty_rows": 54
+    },
+    {
+      "sheet": "Sheet4",
+      "csv": "tabs/06_Sheet4.csv",
+      "rows": 33,
+      "columns": 6,
+      "source_state": "hidden",
+      "nonempty_rows": 20
+    },
+    {
+      "sheet": "Sheet3",
+      "csv": "tabs/07_Sheet3.csv",
+      "rows": 9,
+      "columns": 14,
+      "source_state": "hidden",
+      "nonempty_rows": 9
+    },
+    {
+      "sheet": "Sheet2",
+      "csv": "tabs/08_Sheet2.csv",
+      "rows": 1,
+      "columns": 1,
+      "source_state": "hidden",
+      "nonempty_rows": 0
+    },
+    {
+      "sheet": "Sheet1",
+      "csv": "tabs/09_Sheet1.csv",
+      "rows": 1,
+      "columns": 1,
+      "source_state": "hidden",
+      "nonempty_rows": 0
+    }
+  ],
+  "normalized_option_rows": 1191
+}

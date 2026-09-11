@@ -1,0 +1,11 @@
+﻿base_revision,id,name,kind,strength,owner,enabled,parameters_json,status,rationale
+1,R01,Protect live installations,locked,hard,Merch,1,{},confirmed,User: live rooms and furniture stay fixed during routine refresh.
+1,R02,Fit the display format,format,hard,Merch + Interior Design,1,"{""nominal_tolerance_mm"": 25}",draft,Whole panels require matching nominal format; waterfall may use a verified cut from a larger slab.
+1,R03,Exclude discontinued products,lifecycle,hard,Merch,1,{},confirmed,A discontinued product cannot be proposed for a new installation.
+1,R04,Add missing designs first,coverage,soft,Merch,1,"{""weight"": 100}",confirmed,User: use scarce movable slots to broaden the range.
+1,R05,Reduce repeated finishes,duplicate,soft,Merch,1,"{""weight"": 35, ""allow_intentional_bookmatch"": true}",confirmed,Repeats can remain for bookmatch or a distinct useful finish/application.
+1,R06,Give Hit products prime exposure,hit_visibility,soft,Merch,1,"{""weight"": 65, ""minimum_score"": 80}",draft,User examples: Oro Noir and Tuscano Burgundy. Visibility tiers need a Merch/site review.
+1,R07,Keep color families together,color_adjacency,soft,Merch,1,"{""weight"": 25}",draft,Group family/temperature and order light to dark. Initial ranks are image-derived suggestions.
+1,R08,Minimize disruption,change_cost,soft,Merch,1,"{""weight"": 12, ""max_changes"": 6}",draft,Prefer a product swap within an existing compatible fixture before moving its frame.
+1,R09,Protect the central route,geometry,hard,Merch + Interior Design,1,"{""route_x_min_mm"": 13900, ""route_x_max_mm"": 15100, ""minimum_gap_mm"": 100}",draft,"Illustrative keep-out strip, not an accessibility/building-code dimension. Design must supply verified geometry."
+1,R10,Release only complete work packages,release,hard,Merch,1,"{""require_sku_for_orders"": true, ""require_lifecycle_for_orders"": true, ""require_geometry_review_for_moves"": true}",confirmed,A visual proposal may contain missing data. Ordering/installing must expose and resolve those gaps.

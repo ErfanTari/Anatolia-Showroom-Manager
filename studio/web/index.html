@@ -1,0 +1,52 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>APS — Anatolia Showroom Studio</title>
+  <link rel="stylesheet" href="styles.css"><link rel="stylesheet" href="studio.css">
+  <script type="importmap">{"imports":{"three":"./vendor/three.module.min.js"}}</script>
+</head>
+<body>
+  <header>
+    <a class="brand" href="../../Showroom%20Manager.dc.html" title="Open the existing showroom manager">anatolia<span>SHOWROOM STUDIO</span></a>
+    <div class="project"><b>APS Temporary Showroom</b><span>İzmir, Türkiye <i></i> APS pilot · source & simulation</span></div>
+    <div class="header-actions"><span class="baseline" id="connectionState">Loading source…</span><button id="evidenceButton">Source library ↗</button></div>
+  </header>
+  <main>
+    <aside class="navigation">
+      <div class="eyebrow">SHOWROOMS</div>
+      <label class="sr-only" for="showroomSelect">Selected showroom</label><select id="showroomSelect"><option value="APS">APS Temporary</option><option value="legacy">Other showrooms ↗</option></select>
+      <div class="showroom-meta">İzmir, Türkiye<br><span>8 spaces · 194 display slots</span></div>
+      <nav class="studio-nav" aria-label="Showroom workspaces">
+        <button data-screen="simulation" class="active"><span>◈</span> Simulation</button>
+        <button data-screen="review"><span>◎</span> Placement review <i id="reviewBadge"></i></button>
+        <button data-screen="work"><span>▤</span> Work plan</button>
+        <button data-screen="data"><span>▦</span> Data & guidelines</button>
+        <button data-screen="process"><span>⇢</span> How it works</button>
+      </nav>
+      <div class="nav-bottom"><div class="eyebrow">APS / PILOT 02</div><p>One placement record.<br>From product planning to a verified installation.</p><a href="../README.md">Project guide ↗</a><small id="revisionStamp"></small></div>
+    </aside>
+    <section class="workspace" aria-label="Interactive showroom">
+      <div class="room-strip" aria-label="Rooms in APS"><button id="wholeRoom" class="room active"><span class="room-number">⌂</span><span><b>All spaces</b></span></button><div id="rooms"></div></div>
+      <div class="viewbar"><div class="segmented" aria-label="Camera mode"><button data-view="orbit" class="active">3D overview</button><button data-view="plan">Plan</button><button data-view="walk">Eye level</button></div><div class="view-toggles"><label><input type="checkbox" id="wallsToggle" checked> Walls</label><label><input type="checkbox" id="labelsToggle" checked> Labels</label><select id="mapOverlay" aria-label="Map highlight"><option value="none">Natural materials</option><option value="visibility">Visibility tiers</option><option value="duplicates">Repeated designs</option><option value="review">Review needed</option><option value="good">Good placements</option></select><button id="resetCamera" title="Reset camera">↺</button></div></div>
+      <div id="viewport"><div id="loading"><span class="loader"></span><b>Building the APS showroom</b><small>Loading materials and display fixtures…</small></div><div id="sceneError" hidden></div></div>
+      <div id="mapLegend" hidden></div><div id="proposalBanner" hidden></div><div id="roomCaption"><span class="eyebrow">APS / TEMPORARY SHOWROOM</span><h1>One space. Every surface.</h1><p>Explore the current collection in context.</p></div>
+      <div class="canvas-actions"><button id="previousObject" title="Previous display">←</button><button id="nextObject" title="Next display">Next display →</button><button id="comparePhoto">Room photograph ↗</button></div>
+      <div class="statusbar"><span id="cameraHelp">Drag to orbit · Right-drag to pan · Scroll to zoom · Click a surface</span><span id="selectionStatus">Source-backed materials · Approximate geometry</span></div>
+    </section>
+    <aside class="inspector">
+      <div class="inspector-tabs"><button data-tab="selected" class="active">Inspect</button><button data-tab="products">Find material</button></div>
+      <section id="selectedPanel"><div id="emptySelection"><div class="eyebrow">MATERIALS, IN CONTEXT</div><h2>Take a closer look.</h2><p>Select any tile, slab or furniture surface to see its product, finish and source.</p><img src="references/room3-oro-noir-table.jpg" alt="Oro Noir table in the APS meeting room"><button class="primary" id="visitTable">Explore the Oro Noir table ↗</button><div class="guide"><b>A working spatial model</b><p>Pull out a sliding panel, tilt a rotating display or inspect the two faces of a fixed panel.</p><p>Use a local material study to compare a different product in the same position.</p></div></div><div id="selectionDetail" hidden></div></section>
+      <section id="productsPanel" hidden><label class="search-label" for="productSearch">Search APS products or portfolio</label><input id="productSearch" type="search" placeholder="Product, SKU, finish…" autocomplete="off"><div class="search-filters"><button data-catalog="installed" class="active">APS BOM</button><button data-catalog="portfolio">Assortment</button></div><div id="searchCount"></div><div id="productResults"></div></section>
+    </aside>
+    <section id="studioPanel" hidden aria-live="polite"></section>
+  </main>
+  <dialog id="editDialog"><div class="dialog-heading"><h2 id="editTitle">Update record</h2><button id="closeEdit" aria-label="Close form">×</button></div><div id="editBody"></div><div id="editError" role="alert"></div></dialog>
+
+  <dialog id="evidence"><div class="dialog-heading"><div><div class="eyebrow">DRAWINGS · PRODUCTS · PHOTOGRAPHS</div><h2>The source library</h2></div><button data-close="evidence" aria-label="Close source library">×</button></div><div class="evidence-layout"><nav id="evidenceNav"></nav><section><h3 id="evidenceTitle"></h3><p id="evidenceDescription"></p><div id="evidenceContent"></div></section></div></dialog>
+  <dialog id="photoDialog"><div class="dialog-heading"><div><div class="eyebrow">INSTALLED REFERENCE</div><h2 id="photoTitle"></h2></div><button data-close="photoDialog" aria-label="Close photograph">×</button></div><img id="photoImage" alt="APS installed showroom reference"></dialog>
+  <dialog id="studyDialog"><div class="dialog-heading"><div><div class="eyebrow">LOCAL MATERIAL STUDY</div><h2>Try a different surface</h2></div><button data-close="studyDialog" aria-label="Close material study">×</button></div><p>This study changes the preview only. Installation status and the source BOM stay intact. Product compatibility has not been approved.</p><label for="studySearch">Choose an APS material</label><input id="studySearch" type="search" placeholder="Search name or SKU"><div id="studyResults"></div><div class="dialog-footer"><button id="clearStudy">Clear all studies</button><button id="exportStudy" class="primary">Export study JSON ↓</button></div></dialog>
+  <div id="toast" role="status"></div>
+  <script type="module" src="app.js"></script><script type="module" src="studio.js"></script>
+</body>
+</html>

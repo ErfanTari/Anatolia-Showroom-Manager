@@ -1,0 +1,32 @@
+{
+  "xlsx_product_rows": 188,
+  "csv_rows": 197,
+  "groups": {
+    "sliding160": 24,
+    "sliding120": 24,
+    "waterfall": 21,
+    "rotating": 20,
+    "fixed": 46,
+    "floor": 5,
+    "application": 39,
+    "samples": 9
+  },
+  "assortment_tabs": 9,
+  "assortment_options": 1191,
+  "formula_cells": 57,
+  "legacy_invalid_product_images": 57,
+  "missing_textures": [
+    {
+      "id": "APS-APS_Tempry-043",
+      "name": "Lustra Onyx Sage (Olive)"
+    },
+    {
+      "id": "APS-APS_Tempry-044",
+      "name": "Lustra Onyx Hazel (Taupe)"
+    },
+    {
+      "id": "APS-APS_Tempry-045",
+      "name": "Lustra Onyx Crema (Ivory)"
+    }
+  ]
+}
