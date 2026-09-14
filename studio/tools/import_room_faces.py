@@ -41,6 +41,7 @@ def main():
                 dest=ROOT/'web/assets/faces'/(key+'.webp')
                 digest=hashlib.sha256(source.read_bytes()).hexdigest()
                 if not dest.exists()or hashlib.sha256(dest.read_bytes()).hexdigest()!=digest:shutil.copy2(source,dest)
+                dest.chmod(0o644)
                 with Image.open(dest)as im:
                     width,height=im.size;im=im.convert('RGB');im.thumbnail((32,32));rgb=[round(x)for x in ImageStat.Stat(im).mean[:3]]
                 face=dict(id='FACE-'+key,design_id=design,width_mm=round(size['width']*10),height_mm=round(size['height']*10),face_index=index+1,path='assets/faces/'+dest.name,source_kind='production marketing derivative',source_relative=relative,pixel_width=width,pixel_height=height,sha256=digest,rgb=rgb,installed_face_verified=False,available_faces=size['faceCount'])

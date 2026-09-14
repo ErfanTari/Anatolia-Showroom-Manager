@@ -8,7 +8,7 @@
 - Review tabs for repetition, exposure concerns, justified placements, unrepresented catalogue designs and rotating-panel color order.
 - Deterministic replacement, new-product, color-order and explicit fixture-move proposals; current/proposed 3D comparison.
 - Merch release checks; tracked order/preparation/installation/verification tasks; evidence and removed-material destination; audit events.
-- Shared Python domain layer, CLI and a draft-only MCP adapter. GitHub Pages serves the Studio as a read-only snapshot alongside the generic process sketch; operating writes use the local API.
+- Shared Python domain layer, CLI and a draft-only MCP adapter. A complete read-only Studio snapshot is prepared; public upload is blocked by automatic approval review pending explicit approval for the catalogue, placements and production previews. The generic process sketch is already public. Operating writes use the local API.
 
 ## Next increment: confirm the operating pilot
 
