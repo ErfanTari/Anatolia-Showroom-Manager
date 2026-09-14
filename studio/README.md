@@ -2,7 +2,7 @@
 
 APS pilot: one placement database, a production-face 3D model, deterministic refresh proposals, and a work board that records installation evidence.
 
-[Open the local application](http://127.0.0.1:8765/studio/web/) · [Public process sketch](https://erfantari.github.io/Anatolia-Showroom-Manager/showroom-process/) · [Team decisions](docs/TEAM_DECISIONS.md)
+[Online 3D review](https://erfantari.github.io/Anatolia-Showroom-Manager/studio/web/) · [Open the local application](http://127.0.0.1:8765/studio/web/) · [Process sketch](https://erfantari.github.io/Anatolia-Showroom-Manager/showroom-process/) · [Team decisions](docs/TEAM_DECISIONS.md)
 
 ## Start the working application
 
@@ -14,7 +14,7 @@ python3 studio/backend/server.py --port 8765
 
 Open **http://127.0.0.1:8765/studio/web/**. Python 3.10+ and a browser with WebGL are sufficient. Three.js is bundled locally. The server binds to this computer only.
 
-The header says **SQLite connected** when forms save to the database. The prepared static version displays a **read-only review snapshot**: 3D navigation, map highlights and saved proposal comparisons work there; SQLite writes require the local application. Publishing does not create a hosted database service. The local release includes this pilot's placement database, exported snapshot and small production-face assets; shared-drive print originals remain on the drive. Automatic approval review blocked the public upload on 14 September 2026 pending explicit approval for these data and assets at this public repository. Only the generic process sketch is currently public.
+The header says **SQLite connected** when forms save to the database. The GitHub Pages version displays a **read-only review snapshot**: 3D navigation, map highlights and saved proposal comparisons work there; SQLite writes require the local application. Publishing does not create a hosted database service. The approved public release includes this pilot's placement database, exported snapshot and 765 small production-face assets; shared-drive print originals remain on the drive. Access is currently public. Authentication and protected hosting are planned for a later increment.
 
 ## What to try
 

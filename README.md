@@ -2,9 +2,9 @@
 
 **Live site:** https://erfantari.github.io/Anatolia-Showroom-Manager/
 
-**APS Showroom Studio:** [Open the local Studio](http://127.0.0.1:8765/studio/web/) · [Public process sketch](https://erfantari.github.io/Anatolia-Showroom-Manager/showroom-process/) · [Project guide](studio/README.md) · [12 team decisions](studio/docs/TEAM_DECISIONS.md).
+**APS Showroom Studio:** [Online 3D review](https://erfantari.github.io/Anatolia-Showroom-Manager/studio/web/) · [Open the local Studio](http://127.0.0.1:8765/studio/web/) · [Project guide](studio/README.md) · [12 team decisions](studio/docs/TEAM_DECISIONS.md).
 
-The new `studio/` application connects all 194 APS slots to one SQLite placement record, adds 765 production-face previews, visibility and duplication review, deterministic proposals, CSV exchange and installation tasks. Room tiles use varied production faces at product scale. The full Studio release is complete locally, with a read-only snapshot ready for publication. Automatic approval review blocked the public upload pending explicit approval for the catalogue, placements and production previews; only the generic process sketch is currently public. Run `Start_APS_Simulation.command` and open `http://127.0.0.1:8765/studio/web/` to use the Studio. The older five-showroom catalogue is documented below.
+The new `studio/` application connects all 194 APS slots to one SQLite placement record, adds 765 production-face previews, visibility and duplication review, deterministic proposals, CSV exchange and installation tasks. Room tiles use varied production faces at product scale. The online Studio is a public, read-only review snapshot. Run `Start_APS_Simulation.command` and open `http://127.0.0.1:8765/studio/web/` to save changes through the local application. Authentication is planned for a later increment. The older five-showroom catalogue is documented below.
 
 **Five showrooms · Türkiye**
 
