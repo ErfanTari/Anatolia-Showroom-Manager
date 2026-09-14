@@ -1,0 +1,31 @@
+import {createRequire}from'node:module';
+import path from'node:path';
+import {homedir}from'node:os';
+const require=createRequire(import.meta.url);
+const runtime=process.env.STUDIO_NODE_MODULES||path.join(homedir(),'.cache/codex-runtimes/codex-primary-runtime/dependencies/node/node_modules');
+const {chromium}=require(require.resolve('playwright',{paths:[runtime]}));
+import fs from'node:fs/promises';
+import assert from'node:assert/strict';
+const url=process.env.STUDIO_URL||'http://127.0.0.1:8765/studio/web/';
+const browser=await chromium.launch({headless:true,...(process.env.STUDIO_CHROMIUM?{executablePath:process.env.STUDIO_CHROMIUM}:{})});
+await fs.mkdir('tmp/source-review',{recursive:true});
+const page=await browser.newPage({viewport:{width:1600,height:1050}});const errors=[],failed=[];
+page.on('pageerror',e=>errors.push(e.message));page.on('response',r=>{if(r.status()>=400)failed.push(r.status()+' '+r.url())});
+try{
+ await page.goto(url,{waitUntil:'networkidle'});await page.waitForFunction(()=>window.APS_SIMULATION?.getTiling);
+ const data=await page.evaluate(()=>({slots:APS_SIMULATION.slotCount,tiling:APS_SIMULATION.getTiling('APS-R2-FLOOR'),assignments:APS_SIMULATION.getAssignments()}));
+ assert.equal(data.slots,194);assert.equal(data.tiling.face_count,20);assert.equal(data.tiling.tile_count,24);assert.equal(data.tiling.illustrative_cut,false);
+ const baseline=await page.evaluate(()=>STUDIO.getState().placements);for(const a of data.assignments)assert.equal(a.variant_id||null,baseline.find(b=>b.slot_id===a.slot_id).variant_id);
+ await page.locator('[data-room="2"]').click();await page.locator('[data-view=plan]').click();await page.locator('#wallsToggle').uncheck();await page.waitForTimeout(800);await page.screenshot({path:'tmp/source-review/room2-varied-floor.png'});
+ await page.evaluate(()=>{APS_SIMULATION.selectSlot('APS-R2-FLOOR');APS_SIMULATION.setOverlay('review',['APS-R2-FLOOR']);});await page.getByRole('button',{name:'Visual material study',exact:true}).click();await page.locator('#studySearch').fill('Arabescato Corchia');await page.locator('[data-study-record]').first().click();
+ assert.equal(await page.evaluate(()=>APS_SIMULATION.getOverlayCount()),await page.evaluate(()=>APS_SIMULATION.getTiling('APS-R2-FLOOR').tile_count));
+ await page.getByRole('button',{name:'Restore this surface',exact:true}).click();assert.deepEqual(await page.evaluate(()=>window.APS_SIMULATION?.getTiling('APS-R2-FLOOR')),data.tiling);
+ assert.equal(await page.evaluate(()=>APS_SIMULATION.getOverlayCount()),data.tiling.tile_count);
+ await page.evaluate(async()=>{const s=STUDIO.getState(),p=s.scenarios.find(p=>p.mode==='new_product');await APS_SIMULATION.applySnapshot(s,p);await APS_SIMULATION.applySnapshot(s);});assert.deepEqual(await page.evaluate(()=>window.APS_SIMULATION?.getTiling('APS-R2-FLOOR')),data.tiling);
+ await page.locator('[data-room="2"]').click();await page.locator('[data-view=orbit]').click();await page.locator('#wallsToggle').check();await page.waitForTimeout(1800);await page.screenshot({path:'tmp/source-review/room2-varied-faces.png'});
+ const floors=await page.evaluate(()=>STUDIO.getState().slots.filter(s=>s.type==='floor').map(s=>({id:s.id,...APS_SIMULATION.getTiling(s.id)})));
+ assert.ok(floors.every(f=>f.face_count>1));assert.equal(await page.evaluate(()=>window.APS_SIMULATION?.getTiling('APS-R2-APP-11').face_count),4);
+ await page.reload({waitUntil:'networkidle'});await page.waitForFunction(()=>window.APS_SIMULATION?.getTiling);assert.deepEqual(await page.evaluate(()=>window.APS_SIMULATION?.getTiling('APS-R2-FLOOR')),data.tiling);
+ await page.setViewportSize({width:390,height:844});await page.locator('[data-room="2"]').click();await page.waitForTimeout(1200);await page.screenshot({path:'tmp/source-review/room-faces-mobile.png'});assert.ok(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1));
+ assert.deepEqual(errors,[]);assert.deepEqual(failed,[]);console.log(JSON.stringify({slots:data.slots,floors:floors.map(({tiles,...f})=>f),errors,failed}));
+}finally{await browser.close();}

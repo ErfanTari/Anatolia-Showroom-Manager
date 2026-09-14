@@ -4,7 +4,8 @@ import { OrbitControls } from './vendor/OrbitControls.js';
 const $=s=>document.querySelector(s), $$=s=>[...document.querySelectorAll(s)];
 const escape=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 import {state,recordFor,replaceState} from './state.js';
-const source={...state.source,records:state.source.records.map(r=>{const d=recordFor(r.sku?'SKU-'+r.sku:'SOURCE-'+r.id);return {...r,texture:d?.texture||r.texture,texture_crop:d?d.texture_crop:r.texture_crop,texture_note:d?.texture_note||r.texture_note};})};
+import {facePool,tileLayout} from './tile-layout.js';
+const source={...state.source,records:state.source.records.map(r=>{const d=recordFor(r.sku?'SKU-'+r.sku:'SOURCE-'+r.id);return {...r,product_id:d?.product_id,texture:d?.texture||r.texture,texture_crop:d?d.texture_crop:r.texture_crop,texture_note:d?.texture_note||r.texture_note};})};
 const manifest={...state.showrooms[0].geometry,fixtures:state.fixtures.map(f=>({...f.extra,x:f.x_mm/1000,z:f.z_mm/1000,yaw:f.yaw_deg,width:f.width_mm/1000,height:f.height_mm/1000}))};
 const portfolio=state.portfolio;
 const records=new Map(source.records.map(r=>[r.id,r]));
@@ -15,7 +16,7 @@ const studies=new Map();
 let selected=null, activeRoom=0, view='orbit', catalog='installed', targetCamera=null;
 const container=$('#viewport');
 const scene=new THREE.Scene();scene.background=new THREE.Color('#eae9e2');
-const camera=new THREE.PerspectiveCamera(42,1,.05,250);
+const camera=new THREE.PerspectiveCamera(42,1,.1,150);
 let renderer;
 try{renderer=new THREE.WebGLRenderer({antialias:true,powerPreference:'high-performance'});}catch(error){
   $('#loading').hidden=true;$('#sceneError').hidden=false;$('#sceneError').textContent='The 3D view needs WebGL. Open this page in a browser with graphics acceleration enabled. Source files and CSV exports remain available.';throw error;
@@ -60,7 +61,63 @@ function rod(a,b,r=.025,mat=metal,parent=building){const p=new THREE.Vector3(...
 function register(id,recordId,room,title,meta={}){if(slots.has(id))return slots.get(id);const a=state.placements.find(a=>a.slot_id===id);const row=state.slots.find(s=>s.id===id);if(!row)throw Error('Geometry has an unregistered slot: '+id);const s={id,recordId:a?.variant_id,record:records.get('PLACEMENT-'+id),room,title:row.title,meshes:[],...meta};slots.set(id,s);return s;}
 function bind(mesh,slot){const current=mesh.material;const m=material(slot.record).clone();if(current.map?.repeat&&(current.map.repeat.x!==1||current.map.repeat.y!==1)&&m.map){m.map=m.map.clone();m.map.repeat.copy(current.map.repeat);m.map.wrapS=m.map.wrapT=THREE.RepeatWrapping;}m.side=current.side;mesh.material=m;mesh.userData.slotId=slot.id;slot.meshes.push(mesh);pickable.push(mesh);return mesh;}
 function appliedBox(w,h,d,x,y,z,slot,parent=building){return bind(box(w,h,d,x,y,z,material(slot.record),parent),slot);}
-function surface(w,h,x,y,z,slot,yaw=0,parent=walls,repeat=false){const m=plane(w,h,x,y,z,material(slot.record,repeat?w/(slot.record?.width_m||1.6):1,repeat?h/(slot.record?.height_m||3.2):1),parent);m.rotation.y=yaw;return bind(m,slot);}
+function surface(w,h,x,y,z,slot,yaw=0,parent=walls,repeat=false){if(repeat)return tiledSurface(w,h,x,y,z,slot,yaw,parent,false);const m=plane(w,h,x,y,z,material(slot.record,repeat?w/(slot.record?.width_m||1.6):1,repeat?h/(slot.record?.height_m||3.2):1),parent);m.rotation.y=yaw;return bind(m,slot);}
+function tiledSurface(w,h,x,y,z,slot,yaw,parent,isFloor){
+  const group=new THREE.Group();group.position.set(x,y,z);
+  if(isFloor)group.rotation.x=-Math.PI/2;else group.rotation.y=yaw;
+  parent.add(group);slot.tiledSurfaces??=[];
+  const surface={key:`${slot.id}:${slot.tiledSurfaces.length}`,width:w,height:h,group,isFloor,slot,tiles:[]};
+  slot.tiledSurfaces.push(surface);rebuildTiles(surface,slot.record);return group;
+}
+function rebuildTiles(surface,record){
+  const {group,slot,key,width,height,isFloor}=surface;
+  for(const mesh of [...group.children]){
+    const index=pickable.indexOf(mesh);if(index>=0)pickable.splice(index,1);
+    mesh.geometry.dispose();if(mesh.userData.grout)mesh.material.dispose();group.remove(mesh);
+  }
+  slot.meshes=slot.meshes.filter(m=>m.userData.tiledSurface!==key);
+  const gap=isFloor?.002:.003;
+  const pool=facePool(record,state.faces);
+  surface.tiles=tileLayout({width,height,tileWidth:(record?.width_m||1.2)+gap,tileHeight:(record?.height_m||1.2)+gap,faces:pool,seed:key,preferredFace:record?.face_id});
+  // Grout occupies only the joints. A near-coplanar full backing plane fights
+  // with tile depth at overview distances and produces moving stripe artifacts.
+  const joints=[];
+  const joint=(x,y,w,h)=>{if(w<=0||h<=0)return;const l=-width/2+x,r=l+w,t=height/2-y,b=t-h;joints.push(l,t,0,l,b,0,r,t,0,r,t,0,l,b,0,r,b,0);};
+  for(const tile of surface.tiles){
+    const faceRecord=tile.face?{...record,texture:tile.face.data.path,texture_crop:null,face_id:tile.face.id}:record;
+    const gx=Math.min(gap/2,tile.width/3),gy=Math.min(gap/2,tile.height/3);
+    const geometry=new THREE.PlaneGeometry(tile.width-gx*2,tile.height-gy*2);
+    joint(tile.x,tile.y,gx,tile.height);joint(tile.x+tile.width-gx,tile.y,gx,tile.height);
+    joint(tile.x+gx,tile.y,tile.width-gx*2,gy);joint(tile.x+gx,tile.y+tile.height-gy,tile.width-gx*2,gy);
+    const uv=geometry.attributes.uv,[x,y,w,h]=tile.crop;
+    for(let i=0;i<uv.count;i++)uv.setXY(i,x+uv.getX(i)*w,1-y-h+uv.getY(i)*h);
+    const mesh=new THREE.Mesh(geometry,material(faceRecord));mesh.receiveShadow=true;mesh.castShadow=!isFloor;
+    mesh.position.set(-width/2+tile.x+tile.width/2,height/2-tile.y-tile.height/2,0);
+    mesh.userData={slotId:slot.id,tiledSurface:key,faceId:tile.face_id};
+    group.add(mesh);slot.meshes.push(mesh);pickable.push(mesh);
+  }
+  const groutGeometry=new THREE.BufferGeometry();groutGeometry.setAttribute('position',new THREE.Float32BufferAttribute(joints,3));groutGeometry.computeVertexNormals();
+  const grout=new THREE.Mesh(groutGeometry,plain('#babbb0'));grout.receiveShadow=true;grout.userData.grout=true;group.add(grout);
+}
+function paintSlot(slot,record){
+  for(const mesh of slot.meshes){
+    if(mesh.userData.tiledSurface)continue;
+    const previous=mesh.material,m=material(record).clone();m.side=previous.side;
+    if(previous.map?.repeat&&(previous.map.repeat.x!==1||previous.map.repeat.y!==1)&&m.map){
+      m.map=m.map.clone();m.map.repeat.copy(previous.map.repeat);m.map.wrapS=m.map.wrapT=THREE.RepeatWrapping;
+    }
+    mesh.material=m;delete mesh.userData.baselineMaterial;previous.dispose();
+  }
+  for(const surface of slot.tiledSurfaces||[])rebuildTiles(surface,record);
+}
+function tilingInfo(slot){
+  const tiles=(slot.tiledSurfaces||[]).flatMap(s=>s.tiles);
+  return {tile_count:tiles.length,face_count:new Set(tiles.map(t=>t.face_id).filter(Boolean)).size,illustrative_cut:tiles.some(t=>t.illustrative_cut)};
+}
+function tilingNote(slot){
+  const info=tilingInfo(slot);if(!info.tile_count)return '';
+  return `<div class="source-note"><b>Room surface · ${info.face_count||1} face${info.face_count>1?'s':''} / ${info.tile_count} tiles</b>${info.face_count?'Production grain direction is retained. Face arrangement is a repeatable preview.':'Source preview repeated at product scale; the production face pack is not supplied.'}${info.illustrative_cut?'<br>Visual cuts from larger production faces; the exact tile-face pack is not supplied.':''}</div>`;
+}
 function sourceRecord(row){return `APS-APS_Tempry-${String(row).padStart(3,'0')}`;}
 function appSlot(row,room,title){return register(`APS-R${room}-APP-${row}`,sourceRecord(row),room,title,{type:'application',source:'APS BOM · APS_Tempry',uncertainty:'Surface extents reconstructed from the APS drawing and room photographs.'});}
 function label(text,x,z,scale=1){
@@ -74,16 +131,12 @@ const courtyard=box(4,.025,13.438,14.5,-.02,6.719,plain('#d4d6c9'));
 for(const room of manifest.rooms){
   const [x1,z1,x2,z2]=room.bounds,w=x2-x1,d=z2-z1;
   const s=register(`APS-R${room.id}-FLOOR`,sourceRecord(room.floor_row),room.id,`${room.name} floor`,{type:'floor',uncertainty:'Zone boundary traced from floor plan; texture is representative.'});
-  const m=plane(w,d,(x1+x2)/2,.014,(z1+z2)/2,material(s.record,w/(s.record?.width_m||1.2),d/(s.record?.height_m||1.2)));m.rotation.x=-Math.PI/2;bind(m,s);
-  // Fine joints are explicit geometry so the tile scale is readable in the model.
-  const tile=s.record?.width_m||1.2;
-  for(let x=x1+tile;x<x2-.05;x+=tile)box(.009,.006,d,x,.018,(z1+z2)/2,plain('#a3a597'));
-  for(let z=z1+tile;z<z2-.05;z+=tile)box(w,.006,.009,(x1+x2)/2,.018,z,plain('#a0a194'));
+  tiledSurface(w,d,(x1+x2)/2,.014,(z1+z2)/2,s,0,building,true);
   label(`${String(room.id).padStart(2,'0')}  ${room.name.toUpperCase()}`,(x1+x2)/2,(z1+z2)/2);
 }
 for(const [x1,x2] of [[4.95,12.5],[16.5,24.05]]){
-  const m=plane(x2-x1,6.082,(x1+x2)/2,.014,6.719,material(records.get(sourceRecord(2)),(x2-x1)/1.198,6.082/1.198));m.rotation.x=-Math.PI/2;
-  bind(m,register(`APS-H-FLOOR-${x1}`,sourceRecord(2),0,'Fixed gallery floor',{type:'floor'}));
+  const s=register(`APS-H-FLOOR-${x1}`,sourceRecord(2),0,'Fixed gallery floor',{type:'floor'});
+  tiledSurface(x2-x1,6.082,(x1+x2)/2,.014,6.719,s,0,building,true);
 }
 label('ANATOLIA  /  APS',14.5,12.4,.85);
 // Back and end walls; entrance edge is cut away for legibility.
@@ -132,9 +185,9 @@ for(const x of[17.95,22.6]){
 
 // Live installations: explicit records for floors, wall surfaces, fabricated objects.
 surface(4.35,3.18,2.33,1.6,.175,appSlot(14,3,'Meeting room · W3A'),0,walls,true);
-surface(6.3,3.18,.175,1.6,3.35,appSlot(15,3,'Meeting room · W3D, Statuario'),Math.PI/2,walls,true);
+surface(4.7,3.18,.175,1.6,2.55,appSlot(15,3,'Meeting room · W3D, Statuario'),Math.PI/2,walls,true);
 surface(4.35,2.87,2.33,1.46,6.61,appSlot(14,3,'Meeting room · W3C'),Math.PI,walls,true);
-surface(1.6,3.18,.184,1.6,5.7,appSlot(16,3,'Meeting room · second Statuario source'),Math.PI/2);
+surface(1.6,3.18,.175,1.6,5.7,appSlot(16,3,'Meeting room · second Statuario source'),Math.PI/2);
 surface(4.35,2.87,2.33,1.46,6.82,appSlot(10,2,'Living space · W2A'),0,walls,true);
 surface(6.3,3.18,.175,1.6,10.04,appSlot(10,2,'Living space · W2D'),Math.PI/2,walls,true);
 surface(4.35,2.8,2.33,1.5,13.25,appSlot(11,2,'Living space · Calacatta Noir wall'),Math.PI,walls,true);
@@ -198,7 +251,7 @@ source.records.filter(r=>r.group==='samples').forEach((r,i)=>{const s=register(`
 
 // Subsize composition: each source row remains separately selectable.
 const taj=source.records.filter(r=>r.location==='W5C');
-taj.forEach((r,i)=>{const s=register(`APS-R5-SUB-${i}`,r.id,5,`Taj Mahal · ${r.size}`,{type:'subsize',uncertainty:'Individual product sizes from BOM; composition scaled into the wall zone from photos.'});let dims=[[1.2,2.8],[.6,1.2],[1.2,1.2],[.30,.30],[.6,.6],[.3,.6],[.9,.9]][i];let pos=[[19.45,1.5],[20.45,2.30],[21.05,.78],[20.08,.85],[21.15,2.55],[20.37,1.18],[21.13,1.88]][i];surface(dims[0],dims[1],pos[0],pos[1],3.448,s,Math.PI);});
+taj.forEach((r,i)=>{const s=register(`APS-R5-SUB-${i}`,r.id,5,`Taj Mahal · ${r.size}`,{type:'subsize',uncertainty:'Individual product sizes from BOM; illustrative composition spaced to avoid overlapping samples.'});let dims=[[1.2,2.8],[.6,1.2],[1.2,1.2],[.30,.30],[.6,.6],[.3,.6],[.9,.9]][i];let pos=[[19.4,1.5],[20.4,2.0],[20.7,.7],[21.55,1.1],[21.1,2.7],[21.65,2.7],[21.25,1.85]][i];surface(dims[0],dims[1],pos[0],pos[1],3.448,s,Math.PI);});
 const sub=source.records.filter(r=>r.group==='application'&&r.source_row>=29&&r.source_row<=42);
 sub.forEach((r,i)=>{const s=register(`APS-R8-SUB-${i}`,r.id,8,`${r.location} · ${r.name}`,{type:'subsize',uncertainty:'BOM products/sizes; display composition approximated from the room photograph.'});const col=i%7,row=Math.floor(i/7);surface(.75,1.0,17.55+col*.9,.68+row*1.14,13.24,s,Math.PI);});
 
@@ -238,13 +291,13 @@ function effectiveRecord(s){return records.get(studies.get(s.id))||s.record;}
 function select(slot,focus=false){
   selected=slot;$('#emptySelection').hidden=true;$('#selectionDetail').hidden=false;activateTab('selected');renderSelection();
   if(slot.fixture?.definition.type==='rotating')slot.fixture.face=slot.face;
-  if(focus){const p=new THREE.Vector3();slot.meshes[0]?.getWorldPosition(p);if(slot.meshes[0]){const box3=new THREE.Box3().setFromObject(slot.meshes[0]);const size=box3.getSize(new THREE.Vector3()).length();cameraTo([p.x+Math.max(2.4,size*.8),p.y+Math.max(2.3,size*.5),p.z+Math.max(3,size*.8)],[p.x,p.y,p.z]);}}
+  if(focus){const p=new THREE.Vector3();if(slot.meshes[0]){const box3=new THREE.Box3();slot.meshes.forEach(m=>box3.expandByObject(m));box3.getCenter(p);const size=box3.getSize(new THREE.Vector3()).length();cameraTo([p.x+Math.max(2.4,size*.8),p.y+Math.max(2.3,size*.5),p.z+Math.max(3,size*.8)],[p.x,p.y,p.z]);}}
   $('#selectionStatus').textContent=slot.id;
 }
 function renderSelection(){
   if(!selected)return;const s=selected,r=effectiveRecord(s),room=manifest.rooms.find(x=>x.id===s.room),f=s.fixture,study=studies.has(s.id);
   const geoNote=s.uncertainty||'Reconstructed source model; geometry remains approximate.';
-  $('#selectionDetail').innerHTML=`<div class="eyebrow">${escape(s.title)}</div>${study?'<span class="study-badge">LOCAL STUDY · SOURCE BASELINE RETAINED</span>':''}<div class="material-preview">${r?.texture?`<img src="${escape(preview(r))}" alt="${escape(r.name)} product design">`:''}<span class="tag">${escape(r?.finish||'CAPACITY / GEOMETRY REFERENCE')}</span></div><h2 class="detail-name">${escape(r?.name||s.title)}</h2><div class="sku">${escape(r?.sku||'Exact SKU not supplied')}</div><div class="facts"><div class="fact"><small>Product size</small><b>${escape(r?.size||'75 chip capacity')}</b></div><div class="fact"><small>Thickness</small><b>${escape(r?.thickness||'Not specified')}</b></div><div class="fact"><small>Space</small><b>${room?`${s.room} · ${escape(room.name)}`:'Fixed gallery'}</b></div><div class="fact"><small>Surface</small><b>${escape(s.face||s.type)}</b></div></div><div class="actions">${f&&['sliding','rotating'].includes(s.type)?`<button id="operateFixture" class="primary">${f.target>0?'Return to rack':s.type==='sliding'?'Pull out panel':'Pull out & tilt'}</button>`:''}${f?.definition.back?'<button id="otherFace">View other face</button>':''}<button id="focusSurface">Focus ↗</button></div>${r?.texture?'<button class="small-button" id="studyMaterial">Visual material study</button>':''}<button class="small-button" id="placementActions">Placement & observation actions →</button>${study?'<button class="small-button" id="resetSurface">Restore this surface</button>':''}<div class="source-note"><b>${r?.source_sheet==='Photo reference'?'Photo / user identification':'Source evidence'}</b>${escape(r?.source_workbook||'APS BOM hardware list')}<br>${escape(r?.source_sheet||'APS_Tempry')}${r?.source_row?` · row ${escape(r.source_row)}`:''}<br>${escape(s.source||'APS drawing + supplied room photo')}<a href="#" id="inspectEvidence">Open source library ↗</a></div><div class="source-note warning"><b>Model confidence</b>${escape(geoNote)}${r?.texture_note?`<br>${escape(r.texture_note)}.`:''}</div>${r?.notes?`<details><summary>Original source notes</summary><p style="font-size:10px;white-space:pre-line">${escape(r.notes)}</p></details>`:''}${room?`<img class="detail-photo" id="selectionPhoto" src="references/${room.photo}" alt="Installed ${escape(room.name)} reference"><button class="small-button" id="selectionPhotoButton">Compare installed photograph ↗</button>`:''}`;
+  $('#selectionDetail').innerHTML=`<div class="eyebrow">${escape(s.title)}</div>${study?'<span class="study-badge">LOCAL STUDY · SOURCE BASELINE RETAINED</span>':''}<div class="material-preview">${r?.texture?`<img src="${escape(preview(r))}" alt="${escape(r.name)} product design">`:''}<span class="tag">${escape(r?.finish||'CAPACITY / GEOMETRY REFERENCE')}</span></div><h2 class="detail-name">${escape(r?.name||s.title)}</h2><div class="sku">${escape(r?.sku||'Exact SKU not supplied')}</div><div class="facts"><div class="fact"><small>Product size</small><b>${escape(r?.size||'75 chip capacity')}</b></div><div class="fact"><small>Thickness</small><b>${escape(r?.thickness||'Not specified')}</b></div><div class="fact"><small>Space</small><b>${room?`${s.room} · ${escape(room.name)}`:'Fixed gallery'}</b></div><div class="fact"><small>Surface</small><b>${escape(s.face||s.type)}</b></div></div><div class="actions">${f&&['sliding','rotating'].includes(s.type)?`<button id="operateFixture" class="primary">${f.target>0?'Return to rack':s.type==='sliding'?'Pull out panel':'Pull out & tilt'}</button>`:''}${f?.definition.back?'<button id="otherFace">View other face</button>':''}<button id="focusSurface">Focus ↗</button></div>${r?.texture?'<button class="small-button" id="studyMaterial">Visual material study</button>':''}<button class="small-button" id="placementActions">Placement & observation actions →</button>${study?'<button class="small-button" id="resetSurface">Restore this surface</button>':''}${tilingNote(s)}<div class="source-note"><b>${r?.source_sheet==='Photo reference'?'Photo / user identification':'Source evidence'}</b>${escape(r?.source_workbook||'APS BOM hardware list')}<br>${escape(r?.source_sheet||'APS_Tempry')}${r?.source_row?` · row ${escape(r.source_row)}`:''}<br>${escape(s.source||'APS drawing + supplied room photo')}<a href="#" id="inspectEvidence">Open source library ↗</a></div><div class="source-note warning"><b>Model confidence</b>${escape(geoNote)}${r?.texture_note?`<br>${escape(r.texture_note)}.`:''}</div>${r?.notes?`<details><summary>Original source notes</summary><p style="font-size:10px;white-space:pre-line">${escape(r.notes)}</p></details>`:''}${room?`<img class="detail-photo" id="selectionPhoto" src="references/${room.photo}" alt="Installed ${escape(room.name)} reference"><button class="small-button" id="selectionPhotoButton">Compare installed photograph ↗</button>`:''}`;
   $('#placementActions').onclick=()=>window.dispatchEvent(new CustomEvent('studio:slot',{detail:s.id}));
   $('#operateFixture')?.addEventListener('click',()=>{operate(f);renderSelection();});
   $('#otherFace')?.addEventListener('click',()=>{const next=f.slots.find(x=>x.id!==s.id);select(next);if(s.type==='rotating'&&f.target){const p=new THREE.Vector3();f.group.getWorldPosition(p);cameraTo([p.x+2.4,3.9,p.z-4],[p.x,1.2,p.z-.9]);}else focusFace(next);});
@@ -254,7 +307,7 @@ function renderSelection(){
   $('#inspectEvidence').onclick=e=>{e.preventDefault();openEvidence(s.type==='fixed'?'fixed':s.type==='waterfall'?'waterfall':s.type==='rotating'?'rotating':s.type==='sliding'?'sliding':'plan');};
   $('#selectionPhoto')?.addEventListener('click',()=>showPhoto(s.room));$('#selectionPhotoButton')?.addEventListener('click',()=>showPhoto(s.room));
 }
-function focusFace(s){const mesh=s.meshes[0];if(!mesh)return;const p=new THREE.Vector3();mesh.getWorldPosition(p);const normal=new THREE.Vector3(0,0,1).transformDirection(mesh.matrixWorld);if(s.type==='floor')normal.set(0,1,0);const distance=['fixed','sliding','waterfall'].includes(s.type)?5.1:3.6;const c=p.clone().addScaledVector(normal,distance);c.y=Math.max(c.y,p.y+1.15);cameraTo(c.toArray(),p.toArray());}
+function focusFace(s){const mesh=s.meshes[0];if(!mesh)return;const p=new THREE.Vector3(),bounds=new THREE.Box3();s.meshes.forEach(m=>bounds.expandByObject(m));bounds.getCenter(p);const normal=new THREE.Vector3(0,0,1).transformDirection(mesh.matrixWorld);if(s.type==='floor')normal.set(0,1,0);const distance=s.type==='floor'?Math.max(6,bounds.getSize(new THREE.Vector3()).length()):['fixed','sliding','waterfall'].includes(s.type)?5.1:3.6;const c=p.clone().addScaledVector(normal,distance);c.y=Math.max(c.y,p.y+1.15);cameraTo(c.toArray(),p.toArray());}
 function operate(f){
   const open=f.target===0;
   // A single extended carrier per bank keeps the preview legible.
@@ -286,8 +339,8 @@ function renderSearch(){const q=$('#productSearch').value.toLowerCase().trim();
 }
 function renderStudy(){const q=$('#studySearch').value.toLowerCase().trim();const seen=new Set();const rows=[...records.values()].filter(r=>{if(!r.texture||seen.has(r.sku||r.name)||!matches(r,q))return false;seen.add(r.sku||r.name);return true;});$('#studyResults').innerHTML=rows.slice(0,80).map(r=>`<button class="product-row" data-study-record="${r.id}"><img loading="lazy" src="${escape(preview(r))}" alt=""><span><b>${escape(r.name)}</b><small>${escape(r.sku)} · ${escape(r.finish)} · ${escape(r.size)}</small></span></button>`).join('');$$('[data-study-record]').forEach(b=>b.onclick=()=>{applyStudy(selected,records.get(b.dataset.studyRecord));$('#studyDialog').close();renderSelection();toast('Material study applied to this surface. Export JSON to retain it.');});}
 $('#studySearch').oninput=renderStudy;
-function applyStudy(s,r){studies.set(s.id,r.id);for(const mesh of s.meshes){mesh.userData.baselineMaterial??=mesh.material;const m=material(r).clone();m.side=mesh.material.side;mesh.material=m;}}
-function restore(s){studies.delete(s.id);for(const mesh of s.meshes){if(mesh.userData.baselineMaterial){mesh.material=mesh.userData.baselineMaterial;delete mesh.userData.baselineMaterial;}}}
+function applyStudy(s,r){studies.set(s.id,r.id);paintSlot(s,r);window.APS_SIMULATION.setOverlay(overlaySelection.mode,overlaySelection.onlyIds);}
+function restore(s){studies.delete(s.id);paintSlot(s,s.record);window.APS_SIMULATION.setOverlay(overlaySelection.mode,overlaySelection.onlyIds);}
 $('#clearStudy').onclick=()=>{for(const id of [...studies.keys()])restore(slots.get(id));renderSelection();toast('All surfaces restored to the source baseline.');};
 $('#exportStudy').onclick=()=>{const data={schema_version:1,showroom_id:'APS',kind:'unapproved_visual_material_study',base_source_sha256:source.sha256,created_at:new Date().toISOString(),changes:[...studies].map(([id,recordId])=>({slot_id:id,baseline_record_id:slots.get(id).recordId,proposed_record_id:recordId,proposed_sku:records.get(recordId).sku})),limitations:['No compatibility, stock, lifecycle or Merch-priority validation has been performed.','This file does not update installation status.']};const url=URL.createObjectURL(new Blob([JSON.stringify(data,null,2)],{type:'application/json'}));const a=document.createElement('a');a.href=url;a.download='APS-material-study.json';a.click();setTimeout(()=>URL.revokeObjectURL(url),1000);};
 
@@ -328,8 +381,9 @@ requestAnimationFrame(tick);$('#loading').hidden=true;
 // Read-only diagnostic surface for source/slot checks and local smoke validation.
 window.APS_SIMULATION={ready:true,sourceRecordCount:source.records.length,fixtureCount:fixtures.size,slotCount:slots.size,fixtureTypes:manifest.fixtures.reduce((o,f)=>(o[f.type]=(o[f.type]||0)+1,o),{}),getStudy:()=>[...studies],getSelected:()=>selected?.id,selectSlot:id=>{const s=slots.get(id);if(s)select(s,true);},getUnplaced:()=>source.records.filter(r=>![...slots.values()].some(s=>s.recordId===r.id)).map(r=>({id:r.id,name:r.name,location:r.location})),getFixtureState:id=>{const f=fixtures.get(id);return f?{open:f.open,target:f.target}:null;}};
 
-const baseMaterials=new Map();
+let overlaySelection={mode:'none',onlyIds:null};
 window.APS_SIMULATION.setOverlay=(mode='none',onlyIds=null)=>{
+  overlaySelection={mode,onlyIds};
   for(const item of overlayItems){scene.remove(item.helper);item.helper.geometry.dispose();item.helper.material.dispose();}overlayItems.length=0;
   const issues=new Map(state.review.issues.map(i=>[i.slot_id,i.level]));const good=new Set(state.review.good.map(i=>i.slot_id));
   const duplicate=new Set(state.review.issues.filter(i=>i.code==='duplicate').map(i=>i.slot_id));
@@ -344,11 +398,11 @@ window.APS_SIMULATION.setOverlay=(mode='none',onlyIds=null)=>{
   return overlayItems.length;
 };
 window.APS_SIMULATION.applySnapshot=async(newState,proposal=null)=>{
-  replaceState(newState);studies.clear();
+  window.APS_SIMULATION.setOverlay('none');replaceState(newState);studies.clear();
   const changes=proposal?.changes||[];
   for(const a of state.placements){const slot=slots.get(a.slot_id);if(!slot)continue;const ch=changes.find(x=>x.kind==='placement'&&x.slot_id===a.slot_id);const r=recordFor(ch?.variant_id||a.variant_id,ch?.face_id||a.face_id);slot.record=r;slot.recordId=r?.id;
     if(r){records.set(r.id,r);if(r.texture&&!imageSources.has(imageKey(r))){const im=new Image();im.src=r.texture;try{await im.decode();imageSources.set(imageKey(r),im);}catch{}}}
-    for(const mesh of slot.meshes){const m=material(r).clone();m.side=mesh.material.side;if(mesh.material.map?.repeat&&(mesh.material.map.repeat.x!==1||mesh.material.map.repeat.y!==1)&&m.map){m.map=m.map.clone();m.map.repeat.copy(mesh.material.map.repeat);m.map.wrapS=m.map.wrapT=THREE.RepeatWrapping;}mesh.material=m;delete mesh.userData.baselineMaterial;}
+    paintSlot(slot,r);
   }
   for(const f of state.fixtures){const object=fixtures.get(f.id);if(!object)continue;const ch=changes.find(x=>x.kind==='fixture'&&x.fixture_id===f.id);const pos=ch?.to||f;object.group.position.set(pos.x_mm/1000,0,pos.z_mm/1000);object.group.rotation.y=THREE.MathUtils.degToRad(pos.yaw_deg);}
   renderSelection();window.APS_SIMULATION.setOverlay(proposal?'proposal':'none',proposal?changes.flatMap(x=>x.slot_id?[x.slot_id]:state.slots.filter(s=>s.fixture_id===x.fixture_id).map(s=>s.id)):null);
@@ -358,3 +412,23 @@ window.APS_SIMULATION.getOverlayCount=()=>overlayItems.length;
 window.dispatchEvent(new Event('studio:ready'));
 
 window.APS_SIMULATION.getFixturePosition=id=>{const f=fixtures.get(id);return f?{x_mm:f.group.position.x*1000,z_mm:f.group.position.z*1000,yaw_deg:THREE.MathUtils.radToDeg(f.group.rotation.y)}:null;};
+
+window.APS_SIMULATION.getTiling=id=>{const s=slots.get(id);return s?{...tilingInfo(s),tiles:(s.tiledSurfaces||[]).flatMap(t=>t.tiles.map(c=>({surface:t.key,row:c.row,col:c.col,face_id:c.face_id,crop:c.crop,illustrative_cut:c.illustrative_cut})))}:null;};
+
+window.APS_SIMULATION.getRenderSurfaces=()=>{
+  scene.updateMatrixWorld(true);const planes=[],tiled=[];
+  scene.traverse(mesh=>{if(!mesh.isMesh||mesh.geometry.type!=='PlaneGeometry')return;
+    const p=mesh.geometry.attributes.position;
+    planes.push({id:mesh.id,slot_id:mesh.userData.slotId||null,points:[0,1,3,2].map(i=>new THREE.Vector3().fromBufferAttribute(p,i).applyMatrix4(mesh.matrixWorld).toArray())});
+  });
+  for(const slot of slots.values())for(const surface of slot.tiledSurfaces||[]){
+    let tileArea=0,groutArea=0;
+    for(const mesh of surface.group.children){
+      if(!mesh.userData.grout){tileArea+=mesh.geometry.parameters.width*mesh.geometry.parameters.height;continue;}
+      const p=mesh.geometry.attributes.position;
+      for(let i=0;i<p.count;i+=3){const a=new THREE.Vector3().fromBufferAttribute(p,i),b=new THREE.Vector3().fromBufferAttribute(p,i+1),c=new THREE.Vector3().fromBufferAttribute(p,i+2);groutArea+=b.sub(a).cross(c.sub(a)).length()/2;}
+    }
+    tiled.push({key:surface.key,area:surface.width*surface.height,tile_area:tileArea,grout_area:groutArea});
+  }
+  return {planes,tiled};
+};

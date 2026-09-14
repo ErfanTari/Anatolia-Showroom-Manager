@@ -50,11 +50,29 @@ PDF is useful evidence. Preserve it with filename, revision and page references,
 
 ## Face import performed for this pilot
 
-The preferred drive already contains WebP derivatives in `Marketing_Faces/___Low_resolution__Site/Textures`. The importer reads up to three faces per source format, preserves aspect ratio, records the source-relative path and SHA-256, and copies only the browser assets. It collected 660 marketing derivatives plus three bounded original-file derivatives (663 total). Marketing derivatives are generally 720 px on the long edge; the three original derivatives are at most 1,024 px.
+The preferred drive already contains WebP derivatives in `Marketing_Faces/___Low_resolution__Site/Textures`. The initial importer read up to three faces per source format, preserving aspect ratio, source-relative path and SHA-256. It collected 660 marketing derivatives plus three bounded original-file derivatives (663 total). The room-face expansion added another 102 files and refreshed three existing files from the supplied drive, bringing the registry to **765 previews**. Marketing derivatives are generally 720 px on the long edge; the three original derivatives are at most 1,024 px. These small files are sufficient for the current room preview, so larger print assets are unnecessary.
 
 Original fallbacks covered Arabescato Vagli, Calacatta Carrara and Calacatta Viola. Twelve fallback attempts were left unresolved: several originals are multi-gigabyte PSB files or lack an unambiguous standalone face; a Picasso candidate failed the single-slab aspect-ratio check. Full print originals were not imported. `sources/face-register.json` retains the gaps and source-relative evidence.
 
-155 assigned presentations have a production preview; 38 retain source previews. Preview F001/F002 numbering is a derivative sequence, not a certified factory face ID. The chosen image is not proof of the exact installed face, finish or cut. Floors repeat at source tile scale; furniture UVs and cut locations remain illustrative. Do not generate artificial veins as a substitute for production faces.
+155 assigned presentations have a production preview; 38 retain source previews. Preview F001/F002 numbering is a derivative sequence, not a certified factory face ID. The chosen image is not proof of the exact installed face, finish or cut. Furniture UVs and cut locations remain illustrative. Do not generate artificial veins as a substitute for production faces.
+
+### Room face distribution
+
+`tools/import_room_faces.py` reads the supplied site's product manifest and imports the complete available sets for formats used by room floors and live walls. It updates the face registry and derived snapshot without editing placements or their source revision. Run it with Python and Pillow while the Marketing_Faces drive is mounted. `sources/room-face-sets.json` records the selected sets. The initial importer is a bootstrap tool; use the room importer for subsequent room-face refreshes.
+
+The renderer resolves the assigned product from SQLite, selects its closest containing production format, then builds individual tiles at the variant's dimensions. It treats nominal 1200 mm faces as compatible with 1198 mm tiles, clips edge tiles, retains grain direction, balances face usage and avoids adjacent repeats when alternatives exist. The layout is seeded by the surface ID, so reloads and returning from proposal/material studies restore the same pattern. Each tile still selects the original placement slot; visual tiles do not inflate product coverage or slot counts.
+
+| APS floor | Production face set | Preview treatment |
+|---|---|---|
+| Living space — Calacatta Noir | 20 faces, 120 × 120 cm | All 20 distributed across 24 full/edge tiles |
+| Bathroom — Arabescato Corchia | 20 faces, 120 × 120 cm | Square production faces, with edge cuts |
+| Meeting room — Ceppo Di Gre | 20 faces, 120 × 120 cm | Square production faces, with edge cuts |
+| Galleries/library — Serena Crater | 10 faces, 120 × 280 cm | Illustrative square cuts from larger faces |
+| Kitchen — Lithoform Crosscut Dunes | 10 faces, 120 × 280 cm | Illustrative square cuts from larger faces |
+
+Serena's supplied 90 × 90 face is not stretched to 120 × 120. Larger-face cuts are identified in the inspector until exact square tile packs are supplied. Pre-color-match archive faces are excluded from these pools. Wide tiled walls also vary their faces; individual display panels, intended bookmatch pairs and fabricated furniture retain their assigned previews. The arrangement is representative, not a reconstruction of the exact installed face sequence.
+
+Grout geometry occupies only the joints, without a near-coplanar backing sheet beneath the tile faces. The two Statuario wall-source regions are partitioned, and the illustrative Taj Mahal sample composition has gaps between all seven formats. `tests/render-depth.mjs` audits coplanar presentation overlaps and tile/grout coverage so these rendering artifacts do not recur. These geometry corrections retain the product assignments and do not certify the as-built sample arrangement.
 
 ## Operating safeguards and limits
 

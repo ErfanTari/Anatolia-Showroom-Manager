@@ -1,0 +1,86 @@
+{
+  "sets": [
+    {
+      "design": "arabescato-corchia",
+      "format": "120x120",
+      "faces": 20
+    },
+    {
+      "design": "arabescato-corchia",
+      "format": "160x320",
+      "faces": 8
+    },
+    {
+      "design": "calacatta-corchia",
+      "format": "120x280",
+      "faces": 10
+    },
+    {
+      "design": "calacatta-noir",
+      "format": "120x120",
+      "faces": 20
+    },
+    {
+      "design": "calacatta-noir",
+      "format": "120x280",
+      "faces": 10
+    },
+    {
+      "design": "ceppo-di-gre",
+      "format": "120x120",
+      "faces": 20
+    },
+    {
+      "design": "foresta",
+      "format": "160x320",
+      "faces": 8
+    },
+    {
+      "design": "gemma-bronze",
+      "format": "162x322",
+      "faces": 2
+    },
+    {
+      "design": "lithoform-crosscut-dunes",
+      "format": "120x280",
+      "faces": 10
+    },
+    {
+      "design": "oro-noir",
+      "format": "162x322",
+      "faces": 2
+    },
+    {
+      "design": "pietra-imperiale",
+      "format": "160x320",
+      "faces": 8
+    },
+    {
+      "design": "serena-crater",
+      "format": "120x280",
+      "faces": 10
+    },
+    {
+      "design": "statuario",
+      "format": "162x322",
+      "faces": 2
+    },
+    {
+      "design": "travertino-classico",
+      "format": "120x280",
+      "faces": 8
+    },
+    {
+      "design": "travertino-titanium",
+      "format": "160x320",
+      "faces": 6
+    },
+    {
+      "design": "travertino-titanium",
+      "format": "162x322",
+      "faces": 2
+    }
+  ],
+  "layout_policy": "Deterministic per-tile distribution, no mirroring or rotation; larger-face crops are illustrative.",
+  "placements_changed": false
+}

@@ -4,11 +4,11 @@
 
 - APS 3D scene: eight rooms, 194 selectable slots, source photographs, fixed/sliding/rotating/waterfall displays and fabricated-furniture representations.
 - SQLite-driven placements and fixture positions; human CSV exchange with revision validation; product/rule/question forms; direct manager observations.
-- Production-face registry and visible fallback provenance; 663 small previews, with 155 installed presentations matched.
+- Production-face registry and visible fallback provenance; 765 small previews, with 155 installed presentations matched. Tiled rooms vary production faces with stable layouts and physically scaled cuts.
 - Review tabs for repetition, exposure concerns, justified placements, unrepresented catalogue designs and rotating-panel color order.
 - Deterministic replacement, new-product, color-order and explicit fixture-move proposals; current/proposed 3D comparison.
 - Merch release checks; tracked order/preparation/installation/verification tasks; evidence and removed-material destination; audit events.
-- Shared Python domain layer, CLI and a draft-only MCP adapter. Publication-ready read-only snapshot. GitHub Pages currently shares the generic process sketch; full-data publication awaits explicit approval.
+- Shared Python domain layer, CLI and a draft-only MCP adapter. GitHub Pages serves the Studio as a read-only snapshot alongside the generic process sketch; operating writes use the local API.
 
 ## Next increment: confirm the operating pilot
 

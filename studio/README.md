@@ -2,7 +2,7 @@
 
 APS pilot: one placement database, a production-face 3D model, deterministic refresh proposals, and a work board that records installation evidence.
 
-[Open the local application](http://127.0.0.1:8765/studio/web/) · [Public process sketch](https://erfantari.github.io/Anatolia-Showroom-Manager/showroom-process/) · [Team decisions](docs/TEAM_DECISIONS.md) · [Process sketch](docs/process.svg)
+[Open the local application](http://127.0.0.1:8765/studio/web/) · [Online review](https://erfantari.github.io/Anatolia-Showroom-Manager/studio/web/) · [Public process sketch](https://erfantari.github.io/Anatolia-Showroom-Manager/showroom-process/) · [Team decisions](docs/TEAM_DECISIONS.md)
 
 ## Start the working application
 
@@ -14,11 +14,11 @@ python3 studio/backend/server.py --port 8765
 
 Open **http://127.0.0.1:8765/studio/web/**. Python 3.10+ and a browser with WebGL are sufficient. Three.js is bundled locally. The server binds to this computer only.
 
-The header says **SQLite connected** when forms save to the database. The prepared static version displays a **read-only review snapshot**: 3D navigation, map highlights and saved proposal comparisons work there; SQLite writes require the local application. Publishing does not create a hosted database service. Only the generic process sketch is currently public. Publication of the full Studio data and production-face assets awaits explicit approval for this public repository.
+The header says **SQLite connected** when forms save to the database. The GitHub Pages version displays a **read-only review snapshot**: 3D navigation, map highlights and saved proposal comparisons work there; SQLite writes require the local application. Publishing does not create a hosted database service. The repository includes this pilot's placement database, exported snapshot and small production-face assets; shared-drive print originals remain on the drive.
 
 ## What to try
 
-1. In **Simulation**, select APS and use its room sub-tabs. Select a surface to inspect its product and production-face evidence. Pull out sliding panels and tilt rotating panels.
+1. In **Simulation**, select APS and use its room sub-tabs. Select a surface to inspect its product and production-face evidence. Room floors and tiled walls distribute different production faces at product scale; the Living space floor uses all 20 supplied Calacatta Noir 120 × 120 faces. Pull out sliding panels and tilt rotating panels.
 2. Choose **Visibility tiers** to review proposed prime, secondary and commercial locations. Compare the classification with the actual entrance route.
 3. In **Placement review**, inspect repeated designs, exposure concerns, justified bookmatch pairs, missing designs and rotating-panel color order. Highlight any finding on the map.
 4. In **Work plan**, compare the Tuscano Burgundy proposal or generate a broader-coverage refresh. Live installations and furniture stay protected. Proposals do not change the reported installation.
@@ -31,7 +31,7 @@ The header says **SQLite connected** when forms save to the database. The prepar
 - `data/exports/` contains eight CSV exchange tables. `base_revision` protects against importing an old file over newer work. Placement imports create proposals.
 - `web/data/state.json` is a derived publication snapshot. The renderer resolves every selectable slot through the database's placement records. Frame positions also come from the database.
 - `sources/` retains the initial APS migration evidence and face manifest. It is not a second editable placement source.
-- `web/assets/faces/` holds 663 browser-sized production previews for 57 design identities. 155 of the 193 assigned presentations currently match one. Others retain source previews; exact installed face identity remains unverified.
+- `web/assets/faces/` holds 765 browser-sized production previews for 57 design identities. 155 of the 193 assigned presentations currently match one. Room surfaces use complete available face sets, with larger-format cuts labeled in the inspector. Others retain source previews; exact installed face identity and arrangement remain unverified.
 
 Tuscano Burgundy is the current name; Tuscano Rosso is an alias. Prime/Commercial positioning is separate from the Hit flag. Merch has authority above showroom management. The system and agents may independently create proposals; Merch controls work release.
 
@@ -51,6 +51,14 @@ studio/
 ```sh
 # Validate the rule/workflow behavior without changing the real database
 python3 -m unittest discover -s studio/tests -v
+
+# Check deterministic room tiling, face selection and edge cuts
+node studio/tests/tile-layout.mjs
+
+# Browser checks against the running local application (requires Playwright)
+node studio/tests/browser.mjs
+node studio/tests/room-faces.mjs
+node studio/tests/render-depth.mjs
 
 # Inspect current findings
 python3 studio/backend/cli.py evaluate
